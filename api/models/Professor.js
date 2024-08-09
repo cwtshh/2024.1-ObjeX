@@ -9,7 +9,11 @@ const ProfessorSchema = new Schema(
             unique: true
         },
         senha: String,
-        turma: String,
+        turma: {
+            type: Schema.Types.ObjectId,
+            ref: 'Turma',
+            default: null
+        },
         role: {
             type: String,
             enum: ['professor', 'admin'],
