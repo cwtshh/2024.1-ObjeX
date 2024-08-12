@@ -1,0 +1,12 @@
+@api_url = http://localhost:3001
+
+## reg base admin
+POST {{api_url}}/professor/register/tmp HTTP/1.1
+Content-Type: application/json
+
+{
+    "nome": "admin",
+    "email": "admin@admin.com",
+    "senha": "admin@objex",
+    "role": "admin"
+}

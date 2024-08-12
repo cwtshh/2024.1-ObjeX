@@ -2,10 +2,10 @@ const express = require('express');
 const router = express();
 
 router.get('/', (req, res) => {
-    res.send('RECEBA');
+    res.send('API Funcionando');
 });
-router.get('/test', (req, res) => {
-    res.send('Teste');
-})
+
+router.use('/professor', require('./ProfessorRoutes'));
+
 
 module.exports = router;
