@@ -1,3 +1,4 @@
+name: objex-api
 services:
   api:
     container_name: api
