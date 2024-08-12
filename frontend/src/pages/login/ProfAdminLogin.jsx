@@ -30,7 +30,7 @@ const ProfAdminLogin = () => {
     <div>
         <NavBarLoginAdmin />
 
-        <div className='flex p-6 text-center justify-center'>
+        <div className='p-6 flex items-center justify-center'>
           <div className='card bg-base-100 w-96 shadow-xl'>
             <div className='card-body items-center text-center'>
               <h2 className='text-xl font-bold'>Login</h2>

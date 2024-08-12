@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express();
 
-// controllers
-const {
-    authenticate_token,
-    register_prof_admin,
-    login_prof_admin
-} = require('../controller/ProfessorController');
+// services
+const { authenticate_token } = require("../services/ProfessorAdmin/AunthenticateToken");
+const  register_prof_admin  = require("../services/ProfessorAdmin/RegisterProfAdmin");
+const  login_prof_admin  = require("../services/ProfessorAdmin/LoginProfAdmin");
 
 // middlewares
 const {
