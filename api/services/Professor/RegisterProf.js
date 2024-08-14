@@ -1,19 +1,48 @@
 const Professor = require("../../models/Professor");
 const bcrypt = require("bcryptjs");
-const  generate_token = require("./GenerateToken");
+const auto_generate_password = require("../../middlewares/PasswordGenerator");
+const generate_token = require("./GenerateToken");
 const send_mail = require("../../middlewares/SendMail");
-
-
 
 const register_prof = async(req, res) => {
     // recebe os dados da requisiçao
-    const { nome, email, senha } = req.body;
+    const { nome, email } = req.body;
 
     // verifica se o email já está cadastrado
     if(await Professor.findOne({ email })) return res.status(400).json({
         error: 'Email já cadastrado'
     });
+
+    // gera uma senha
+    const senha = auto_generate_password();
     
+    // define o assunto do email automático
+    const subject = 'ObjeX - Cadastro Automático'
+
+    // define o texto do email
+    const text = `
+        <h2>Olá, ${nome}!</h2>
+        <h3>Você foi cadastrado no sistema ObjeX. Seguem seus dados de login:</h3>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Senha:</strong> ${senha}</p>
+        <p>Recomendamos que você altere sua senha após o primeiro login.</p>
+        <p>Atenciosamente,</p>
+        <p>Equipe ObjeX</p>
+    `
+
+    let mail_message = ""
+
+    // tenta enviar o email
+    try {
+        await send_mail(email, subject, text);
+
+        mail_message = `Email enviado com sucesso para: ${email}`;
+    } catch(error){
+        return res.status(500).json({
+            error_message: 'Erro ao cadastrar professor - Falha ao enviar email: ', error
+        });
+    }
+
     // criptografa a senha
     const hash = await bcrypt.genSalt();
     const pass_hash = await bcrypt.hash(senha, hash);
@@ -31,17 +60,12 @@ const register_prof = async(req, res) => {
         error: 'Erro ao cadastrar professor'
     });
 
-  
     // gera um token para o professor
     const token = generate_token(new_prof._id);
 
-    const subject = 'ObjeX - Cadastro Automático'
-    const text = `Olá, ${new_prof.nome}! Você foi cadastrado no sistema ObjeX.\nSeguem seus dados de login:\nEmail: ${new_prof.email}\n Senha: ${senha}\n`
-
-    send_mail(new_prof.email, subject, text);
-
     // retorna o token e os dados do professor
     return res.status(201).json({
+        mail_message,
         token,
         user: {
             id: new_prof._id,
@@ -49,10 +73,7 @@ const register_prof = async(req, res) => {
             email: new_prof.email,
             role: new_prof.role
         },
-        
     });
 }; 
-
-
 
 module.exports = register_prof;

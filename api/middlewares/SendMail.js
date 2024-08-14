@@ -1,15 +1,13 @@
 const nodemailer = require('nodemailer');
-const email = process.env.nodemailer_email;
-const pass = process.env.nodemailer_pass;
+const email = process.env.NODEMAILER_MAIL;
+const pass = process.env.NODEMAILER_PASS;
 
-
-const send_mail = (receiver, subject, text) => {
-
+const send_mail = async (receiver, subject, text) => {
   const mailOptions = {
-    from: process.env.nodemailer_email,
+    from: email,
     to: receiver,
     subject: subject,
-    text: text,
+    html: text,
   }
 
   const transporter = nodemailer.createTransport({
@@ -20,14 +18,18 @@ const send_mail = (receiver, subject, text) => {
         pass: pass,
     }
   });
-  transporter.sendMail(mailOptions, (error, info) => {
-    if(error) {
-        console.log(error);
-    } else {
-        console.log('Email enviado: ' + info.response);
-    }
-  });
+  
+  try {
+    let info = await transporter.sendMail(mailOptions);
 
+    console.log('Email enviado: ' + info.response);
+
+    return info;
+  } catch(error){
+    console.log('Falha ao enviar email: ' + error);
+    
+    throw error;
+  }
 }
 
 module.exports = send_mail;
