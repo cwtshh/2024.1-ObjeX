@@ -6,6 +6,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/professor', require('./ProfessorRoutes'));
+router.use('/turma', require('./TurmaRoutes'));
 
 
 module.exports = router;
