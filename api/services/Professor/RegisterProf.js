@@ -6,7 +6,7 @@ const send_mail = require("../../middlewares/SendMail");
 
 const register_prof = async(req, res) => {
     // recebe os dados da requisiçao
-    const { nome, email } = req.body;
+    const { nome, email, id_turma } = req.body;
 
     // verifica se o email já está cadastrado
     if(await Professor.findOne({ email })) return res.status(400).json({
@@ -52,6 +52,7 @@ const register_prof = async(req, res) => {
         nome,
         email,
         senha: pass_hash,
+        turma: id_turma,
         role: 'professor'
     });
 
@@ -71,6 +72,7 @@ const register_prof = async(req, res) => {
             id: new_prof._id,
             nome: new_prof.nome,
             email: new_prof.email,
+            turma: new_prof.turma,
             role: new_prof.role
         },
     });

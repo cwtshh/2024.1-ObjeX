@@ -28,7 +28,10 @@ const login_prof = async(req, res) => {
             id: prof._id,
             nome: prof.nome,
             email: prof.email,
-            role: prof.role
+            turma: prof.turma,
+            role: prof.role,
+            created: prof.createdAt,
+            updated: prof.updatedAt
         }
     });
 }
