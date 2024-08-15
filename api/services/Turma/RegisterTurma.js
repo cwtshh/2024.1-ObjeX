@@ -15,7 +15,7 @@ const register_turma = async(req, res) => {
         horario,
         professor
     });
-
+    
     // verifica se a turma foi cadastrada
     if(!new_turma) return res.status(500).json({
         error: 'Erro ao cadastrar turma.'

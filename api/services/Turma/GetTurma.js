@@ -1,4 +1,3 @@
-const express = require('express')
 const Turma = require("../../models/Turma");
 
 const get_turmas = async (req,res) => {
