@@ -15,4 +15,17 @@ const ProfessorCreateValidation = () => {
     ]
 };
 
-module.exports = ProfessorCreateValidation;
+const ProfessorDeleteValidation = () => {
+    return [
+        body('id')
+            .isString()
+            .withMessage("O ID é obrigatório")
+            .isLength({ min: 24})
+            .withMessage("O ID deve ter no mínimo 24 caracteres"),
+    ]
+};
+
+module.exports = {
+    ProfessorCreateValidation,
+    ProfessorDeleteValidation
+};

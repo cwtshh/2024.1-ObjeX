@@ -21,15 +21,15 @@ const register_prof = async(req, res) => {
 
     // define o texto do email
     const text = `
-        <h2>Olá, ${nome}!</h2>
-        <h3>Você foi cadastrado no sistema ObjeX. Seguem seus dados de login:</h3>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Senha:</strong> ${senha}</p>
-        <p>Recomendamos que você altere sua senha após o primeiro login.</p>
-        <p>Atenciosamente,</p>
-        <p>Equipe ObjeX</p>
+        <p style="font-size:17px; color: black">Olá, ${nome}!</p>
+        <p style="font-size:16px; color: black">Você foi cadastrado no sistema ObjeX. Seguem seus dados de login:</p>
+        <p style="font-size:16px; color: black"><strong>Email:</strong> ${email}</p>
+        <p style="font-size:16px; color: black"><strong>Senha:</strong> ${senha}</p>
+        <p style="font-size:16px; color: black">Recomendamos que você altere sua senha após o primeiro login.</p>
+        <p style="font-size:16px; color: black">Atenciosamente,</p>
+        <p style="font-size:16px; color: black">Equipe ObjeX.</p>
     `
-
+    
     let mail_message = ""
 
     // tenta enviar o email
