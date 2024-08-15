@@ -2,7 +2,9 @@ name: objex-api
 services:
   api:
     container_name: api
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     restart: always
     env_file:
       - .env
