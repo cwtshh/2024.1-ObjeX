@@ -1,5 +1,5 @@
 const Aluno = require("../../models/Aluno");
-const authenticate_token = require('./AuntheticateToken');
+const authenticate_token_aluno = require('./AuntheticateToken');
 const jwt = require('jsonwebtoken');
 const aluno_secret = process.env.aluno_secret;
 

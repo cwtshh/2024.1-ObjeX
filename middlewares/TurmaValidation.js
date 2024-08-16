@@ -16,8 +16,6 @@ const TurmaValidation = () => {
     ]
 };
 
-
 module.exports = {
     TurmaValidation
 }
-
