@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Build the React application
-RUN vite build --mode production
+RUN vite build
 
 # Stage 2: Serve the React application
 FROM nginx:alpine
