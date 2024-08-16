@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
-const secret = process.env.prof_secret;
+const secret = process.env.aluno_secret;
 
-const authenticate_token_adm = (req, res, next) => {
+const authenticate_token_aluno = (req, res, next) => {
     const auth_header = req.headers.authorization;
     const token = auth_header && auth_header.split(' ')[1];
     if(!token) return res.status(401).send({ error: 'Token não fornecido' });
@@ -12,4 +12,4 @@ const authenticate_token_adm = (req, res, next) => {
     });
 };
 
-module.exports = authenticate_token_adm;
+module.exports = authenticate_token_aluno;

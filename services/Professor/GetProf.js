@@ -1,7 +1,7 @@
 const Professor = require("../../models/Professor");
 
 const get_prof = async(req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
 
     // procura um professor pelo id
     await Professor.findById(id)
