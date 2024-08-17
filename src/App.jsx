@@ -4,6 +4,7 @@ import ProfAdminLogin from './pages/login/ProfAdminLogin'
 import './App.css'
 import ProtectedRoute from './components/protected-route/ProtectedRoute'
 import AdminDashboard from './pages/dashboard/AdminDashboard'
+import ProfLogin from './pages/login/ProfLogin'
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           {/* Rotas de professor */}
           <Route path='/login/professor' element={<h1>Login Professor</h1>} />
           <Route path='/login/admin' element={<ProfAdminLogin />} />
+          <Route path='/login' element={<ProfLogin />} />
           <Route path='/professor/admin/dashboard' element={<ProtectedRoute roles={['admin']} component={AdminDashboard} />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
