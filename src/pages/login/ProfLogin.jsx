@@ -26,6 +26,10 @@ const ProfLogin = () => {
     alert('Email ou senha incorretos');
   }
 
+  const handleForgot = async() => {
+    alert('Esqueceu a senha?');
+  }
+
   return (
     <div>
       <NavBarLoginAdmin />
@@ -39,10 +43,10 @@ const ProfLogin = () => {
         
       <div className='pl-20 pr-20 pt-[100px] flex items-center justify-center'>
         <div className="card bg-base-100 shadow-2xl">
-          <div className="card-body rounded-t-xl w-1/8 h-[74px] items-center justify-center bg-base-content ">
+          <div className="card-body rounded-t-xl w-full h-[74px] items-center justify-center bg-base-content ">
             <h2 className='text-2xl font-medium text-base-100'>Login Professor</h2>
           </div>
-          <div className="card-body pl-[35px] pt-[35px] rounded-b-xl w-1/8 h-1/4 bg-base-100">
+          <div className="card-body pl-[35px] pt-[35px] rounded-b-xl w-full h-1/4 bg-base-100">
             <form onSubmit={handleSubmit} className='flex flex-col'>
               <h2 className='text-xl font-medium text-primary-content mb-2'>Email</h2>
               <label className="input bg-base-300 flex items-center gap-2 ">
@@ -72,7 +76,7 @@ const ProfLogin = () => {
                 </svg>
                 <input onChange={e => setSenha(e.target.value)} type="password" className="grow pl-2" placeholder="senha" />
               </label>
-              <a href='' className='text-accent mt-2 mb-[35px] w-1/2'>Esqueceu a senha?</a>
+              <a href='' onClick={handleForgot} className='text-accent mt-2 mb-[35px] w-1/2'>Esqueceu a senha?</a>
               <button type='submit' className='btn btn-primary font-medium w-1/2 h-[55px] self-center'>Logar</button>
             </form>
           </div>

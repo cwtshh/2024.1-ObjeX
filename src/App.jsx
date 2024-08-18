@@ -16,9 +16,9 @@ function App() {
         <Routes>
           <Route path='/' element={<Navigate to='/login/admin' />} />
           {/* Rotas de professor */}
-          <Route path='/login/professor' element={<h1>Login Professor</h1>} />
+          <Route path='/login/professor' element={<ProfLogin />} />
+          <Route path='/professor/dashboard' element={<AdminDashboard />} /> // TODO mudar para ProfessorDashboard depois
           <Route path='/login/admin' element={<ProfAdminLogin />} />
-          <Route path='/login' element={<ProfLogin />} />
           <Route path='/professor/admin/dashboard' element={<AdminDashboard />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
