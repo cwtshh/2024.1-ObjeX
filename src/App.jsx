@@ -19,7 +19,7 @@ function App() {
           <Route path='/login/professor' element={<h1>Login Professor</h1>} />
           <Route path='/login/admin' element={<ProfAdminLogin />} />
           <Route path='/login' element={<ProfLogin />} />
-          <Route path='/professor/admin/dashboard' element={<ProtectedRoute roles={['admin']} component={AdminDashboard} />} />
+          <Route path='/professor/admin/dashboard' element={<AdminDashboard />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
         </Routes>
