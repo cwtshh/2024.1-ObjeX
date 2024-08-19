@@ -5,6 +5,7 @@ import './App.css'
 import ProtectedRoute from './components/protected-route/ProtectedRoute'
 import AdminDashboard from './pages/dashboard/AdminDashboard'
 import ProfLogin from './pages/login/ProfLogin'
+import ListaGrupos from './pages/lista-grupos/lista'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path='/professor/dashboard' element={<AdminDashboard />} /> // TODO mudar para ProfessorDashboard depois
           <Route path='/login/admin' element={<ProfAdminLogin />} />
           <Route path='/professor/admin/dashboard' element={<AdminDashboard />} />
+          <Route path='/professor/admin/Grupos' element={<ListaGrupos />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
         </Routes>
