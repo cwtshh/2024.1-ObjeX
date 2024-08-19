@@ -6,11 +6,10 @@ import ProtectedRoute from './components/protected-route/ProtectedRoute'
 import AdminDashboard from './pages/dashboard/AdminDashboard'
 import ProfLogin from './pages/login/ProfLogin'
 import ListaGrupos from './pages/lista-grupos/lista'
+import ProfessorDashboard from './pages/dashboard/ProfessorDashboard'
 
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
       <BrowserRouter>
@@ -19,7 +18,7 @@ function App() {
           {/* Rotas de professor */}
           <Route path='/login/professor' element={<ProfLogin />} />
           <Route path='/login/admin' element={<ProfAdminLogin />} />
-          <Route path='/professor/dashboard' element={<AdminDashboard />} /> // TODO mudar para ProfessorDashboard depois
+          <Route path='/professor/dashboard' element={<ProfessorDashboard />} /> // TODO mudar para ProfessorDashboard depois
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/admin/Grupos' element={<ListaGrupos />} />
           {/* Rotas de aluno */}
