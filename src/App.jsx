@@ -18,10 +18,10 @@ function App() {
           <Route path='/' element={<Navigate to='/login/admin' />} />
           {/* Rotas de professor */}
           <Route path='/login/professor' element={<ProfLogin />} />
-          <Route path='/professor/dashboard' element={<AdminDashboard />} /> // TODO mudar para ProfessorDashboard depois
           <Route path='/login/admin' element={<ProfAdminLogin />} />
-          <Route path='/professor/admin/dashboard' element={<AdminDashboard />} />
-          <Route path='/professor/admin/Grupos' element={<ListaGrupos />} />
+          <Route path='/professor/dashboard' element={<AdminDashboard />} /> // TODO mudar para ProfessorDashboard depois
+          <Route path='/admin/dashboard' element={<AdminDashboard />} />
+          <Route path='/admin/Grupos' element={<ListaGrupos />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
         </Routes>
