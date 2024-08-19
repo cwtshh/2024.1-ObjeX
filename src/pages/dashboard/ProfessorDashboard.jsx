@@ -1,8 +1,68 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
 import SideBar from '../../components/sidebar/SideBar';
+import { ALUNO_ENDPOINT, GRUPO_ENDPOINT, MONITOR_ENDPOINT, TURMA_ENDPOINT, PROFESSOR_ENDPOINT } from "../../util/constants";
+import axios from "axios";
+import { useAuth } from '../../context/AuthContext';
 
 const ProfessorDashboard = () => {
+  const { token } = useAuth();
+
+  const [alunos, setAlunos] = useState([]);
+  const [turma, setTurma] = useState([]);
+  const [grupos, setGrupos] = useState([]);
+  const [monitores, setMonitores] = useState([]);
+
+  useEffect(() => {
+    // Pegando alunos do banco de dados
+    axios.get(`${ALUNO_ENDPOINT}/`, {
+      headers: {
+        'Authorization': `Bearer ${token}` // TODO api Alunos tá aceitando só token aluno, arrumar no backend
+      }
+    }).then((response) => {
+      console.log(response.data);
+      setAlunos(response.data);
+    }).catch((error) => {
+      console.error(error);
+    });
+
+    // Pegando turmas do banco de dados
+    axios.get(`${TURMA_ENDPOINT}/`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((response) => {
+      console.log(response.data);
+      setTurma(response.data.turmas);
+    }).catch((error) => {
+      console.error(error);
+    });
+
+    // Pegando grupos do banco de dados
+    axios.get(`${GRUPO_ENDPOINT}/`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((response) => {
+      console.log(response.data);
+      setGrupos(response.data);
+    }).catch((error) => {
+      console.error(error);
+    });
+
+    // Pegando monitores do banco de dados // TODO fazer endpoints de monitores
+    axios.get(`${MONITOR_ENDPOINT}/`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((response) => {
+      console.log(response.data);
+      setMonitores(response.data);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }, []);
+
   return (
     <div>
 
@@ -37,7 +97,7 @@ const ProfessorDashboard = () => {
 
                     <div className="flex justify-between ml-[25px]">
                       <p className="text-2xl mt-[10px]">Alunos</p>
-                      <p className="text-5xl mr-[10px]">364</p>
+                      <p className="text-5xl mr-[10px]">{alunos.length}</p>
       
                     </div>
                   </div>
@@ -63,7 +123,7 @@ const ProfessorDashboard = () => {
 
                     <div className="flex justify-between ml-[25px]">
                       <p className="text-2xl mt-[10px]">Turmas</p>
-                      <p className="text-5xl mr-[10px]">26</p>
+                      <p className="text-5xl mr-[10px]">{turma.length}</p>
       
                     </div>
                   </div>
@@ -87,7 +147,7 @@ const ProfessorDashboard = () => {
 
                     <div className="flex justify-between ml-[25px]">
                       <p className="text-2xl mt-[10px]">Monitores</p>
-                      <p className="text-5xl mr-[10px]">4</p>
+                      <p className="text-5xl mr-[10px]">{monitores.length}</p>
       
                     </div>
                   </div>
@@ -110,7 +170,7 @@ const ProfessorDashboard = () => {
 
                     <div className="flex justify-between ml-[25px]">
                       <p className="text-2xl mt-[10px]">Grupos</p>
-                      <p className="text-5xl mr-[10px]">6</p>
+                      <p className="text-5xl mr-[10px]">{grupos.length}</p>
       
                     </div>
                   </div>

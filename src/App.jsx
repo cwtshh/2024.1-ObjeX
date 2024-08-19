@@ -20,6 +20,7 @@ function App() {
           <Route path='/login/admin' element={<ProfAdminLogin />} />
           <Route path='/professor/dashboard' element={<ProfessorDashboard />} /> // TODO mudar para ProfessorDashboard depois
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
+          <Route path='/professor/grupos' element={<ProfessorDashboard />} />
           <Route path='/admin/Grupos' element={<ListaGrupos />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
