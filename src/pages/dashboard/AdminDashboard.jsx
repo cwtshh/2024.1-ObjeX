@@ -2,6 +2,7 @@ import React from 'react'
 import { useAuth } from '../../context/AuthContext';
 import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
 import { Link } from 'react-router-dom';
+import SideBar from '../../components/sidebar/SideBar';
 
 const AdminDashboard = () => {
   const { logout, user } = useAuth();
@@ -11,7 +12,7 @@ const AdminDashboard = () => {
       <NavBarMenu />
       <div className='flex justify-center pt-[65px]'>
           <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
-            <div className="bg-base-100 md:w-[250px] w-[85vw] md:h-[85vh] shadow z-[1] rounded-xl">
+            {/* <div className="bg-base-100 md:w-[250px] w-[85vw] md:h-[85vh] shadow z-[1] rounded-xl">
               <div className="bg-[#2e3440] md:h-[250px] rounded-t-xl flex flex-col items-center pt-[10px]">
                 <div className='avatar'>
                   <div className='rounded-full w-[150px] h-[150px]'>
@@ -67,7 +68,9 @@ const AdminDashboard = () => {
                 </ul>
 
               </div>
-            </div>
+            </div> */}
+
+            <SideBar />
 
             <div className='z-[1] flex justify-center pt-[10px] md:h-[85vh] overflow-y-auto'>
               {/* colocar o resto do conteúdo aqui */}
