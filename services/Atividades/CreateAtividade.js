@@ -3,49 +3,37 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-
-
-// nome: String, enunciado: String, turma: id(turma), professor: id(professor), type: enum['code', 'image', 'text'];
-const create_atividade = async(req, res) => {
-    const { nome, enunciado, turma, professor, type } = req.body;
-    const new_atividade = await Atividade.create({
-        nome, 
-        enunciado, 
-        turma, 
-        professor, 
-        type
-
-    });
+// RECEBA RECEBA RECEBA RECEBA RECEBA
+const create_atividade_code = async(req, res) => {
+    const new_atividade = await Atividade.create({});
     if(!new_atividade) {
         return res.status(400).json({ message: 'Erro ao criar a atividade' });
     }
-
-    const uploadDirectory = path.join(__dirname, `../../uploads/${new_atividade._id}/tests/`);
-    if(!fs.existsSync(uploadDirectory)) {
-        fs.mkdirSync(uploadDirectory, { recursive: true });
+    const uploadDirectory = path.join(__dirname, `../../uploads/${new_atividade._id}_testcase/`);
+    if(!fs.existsSync(uploadDirectory)){
+        fs.mkdirSync(uploadDirectory, {recursive: true});
     }
-
     const storage = multer.diskStorage({
-        destination: function(req, file, cb) {
-            cb(null, path.join(__dirname, `../../uploads/${new_atividade._id}/tests/`));
+        destination: function(req, file, cb){
+            cb(null, uploadDirectory);
         },
-        filename: function(req, file, cb) {
-            const name = file.originalname;
-            console.log(file);
-            cb(null, name);
+        filename: function(req, file, cb){
+            const filename = `${new_atividade._id}-testFile${path.extname(file.originalname)}`;
+            cb(null, filename);
         }
     });
-    const upload = multer({ storage: storage }).single('file');
-    upload(req, res, async function(err) {
-        if(err) {
-            console.log(err);
-            return res.status(400).json({ message: 'Erro ao fazer upload do arquivo de testes' });
+    const upload = multer({storage: storage}).single('file');
+    upload(req, res, async(err) => {
+        if(err){
+            res.status(400).json({message: err});
         }
-        new_atividade.url_arquivo_testes = req.file.path;
-        await new_atividade.save();
-        return res.status(201).json(new_atividade);
+        else{
+            const {nome, enunciado, turma, professor, type} = req.body;
+            const url_arquivo_testes = req.file.path;
+            const atividade = await Atividade.findByIdAndUpdate(new_atividade._id, {nome, enunciado, turma, professor, type, url_arquivo_testes}, {new: true});
+            res.status(201).json(atividade);
+        }
     });
-
 }
 
-module.exports = create_atividade;
+module.exports = create_atividade_code;
