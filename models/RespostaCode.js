@@ -1,0 +1,35 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const RespostaCodeSchema = new Schema(
+    {
+        code: {
+            type: String,
+            required: true
+        },
+        atividade_id: {
+            type: Schema.Types.ObjectId,
+            ref: 'Atividade'
+        },
+        usuario_id: {
+            type: Schema.Types.ObjectId,
+            ref: 'Usuario'
+        },
+        passed: {
+            type: Boolean,
+            default: false
+        },
+        data_resposta: {
+            type: Date,
+            default: Date.now
+        }        
+    },
+    {
+        timestamps: true,
+    },
+    {
+        collection: 'respostas_code'
+    }
+);
+
+module.exports = mongoose.model('RespostaCode', RespostaCodeSchema);
