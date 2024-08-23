@@ -37,7 +37,6 @@ O conceito de MVP (Minimum Viable Product), ou Produto Mínimo Viável, é funda
 | EP01 - Professor|US30 | Eu como professor Admin, quero ser capaz de deletar um professor para caso ele não seja necessário |
 | EP01 - Professor|US40 | Eu como Professor/Admin desejo fazer login para ter acesso às funcionalidades |
 | EP01 - Professor|US41 | Eu como Professor/Admin desejo fazer logout para sair da plataforma de maneira segura |
-| EP02 - Monitor|US31 |Eu como monitor desejo fornecer feedback para os alunos para auxiliar no desenvolvimento de atividades |
 | EP02, EP03 - Aluno/Monitor|US38 |Eu como aluno/monitor desejo fazer login para ter acesso às funcionalidades |
 | EP02, EP03 - Aluno/Monitor|US39 |Eu como aluno/monitor desejo fazer logout para sair da plataforma de maneira segura |
 | EP03 - Alunos|US32 | Eu como aluno desejo responder atividades de múltipla escolha para poder ser avaliado |
@@ -62,6 +61,7 @@ O conceito de MVP (Minimum Viable Product), ou Produto Mínimo Viável, é funda
 | EP01 - Professor|US17 |  Eu como professor, quero ser capaz de visualizar um conteúdo inserido na plataforma para ajudar na organização e ensino|
 | EP01 - Professor|US18 |  Eu como professor, quero ser capaz de editar um conteúdo, para mudar as informações|
 | EP01 - Professor|US19 |  Eu como professor, quero ser capaz de deletar um conteúdo para caso ele não seja mais necessário|
+| EP02 - Monitor|US31 |Eu como monitor desejo fornecer feedback para os alunos para auxiliar no desenvolvimento de atividades |
 | EP03 - Alunos|US37 |Eu como aluno desejo visualizar  conteúdos disponibilizados pelo professor e fazer o download para auxiliar nos meus estudos|
 
 </center>
