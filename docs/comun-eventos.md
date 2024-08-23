@@ -6,26 +6,30 @@ A ComunEventos é uma startup criada por três jovens empreendedores que, após 
 
 A plataforma irá permitir que Organizadores de Eventos consigam contatar Patrocinadores e Voluntários para organizar os eventos e também promovê-los por meio da plataforma, para que os Participantes interessados consigam ver os detalhes dos eventos, comprar ingressos e ir aos eventos.
 
-<br>
+## USM:
 
-# USM:
+<iframe width="768" height="432" src="https://miro.com/app/live-embed/uXjVKuUGHA8=/?moveToViewport=-114842,-13106,28479,19600&embedId=724033820824" frameborder="0" scrolling="yes" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
 
-<iframe width="768" height="432" src="https://miro.com/app/live-embed/uXjVKuUGHA8=/?moveToViewport=-114842,-13106,28479,19600&embedId=724033820824" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+Foram produzidas 88 Histórias de Usuários, portanto nas tabelas abaixo só foi possível apresentar os Títulos. Para verificar as Histórias de Usuário é necessário expandir os Cards de Título de História de Usuário no Miro (acima), conforme o tutorial:
 
-Foram produzidas 88 Histórias de Usuários, portanto nas tabelas abaixo só foi possível apresentar os Títulos, para verificar as Histórias de Usuário é necessário expandir os Cards de Título de História de Usuário no Miro (acima), conforme o tutorial:
-
-# Como verificar as Histórias de Usuário:
+## Como verificar as Histórias de Usuário:
 
 Primeiramente, coloque em tela cheia para facilitar a visualização:
-<!-- IMAGEM -->
+![Fullscreen no Iframe Miro](assets/tutorial-miro-1.png){: style="height:auto", width="100%"}
 
-Aproxime de um Card e aperte o botão com ícone de Expadir:
-<!-- IMAGEM -->
+Aproxime do Card que deseja verificar a US, em seguida selecione-o, por fim, aperte o botão com ícone de Expadir:
+![SAFe](assets/tutorial-miro-2.png){: style="height:auto", width="100%"}
 
 Desça até a descrição do Card, onde se encontra a História de Usuário:
-<!-- IMAGEM -->
+![SAFe](assets/tutorial-miro-3.png){: style="height:auto", width="100%"}
 
+<span style="color:red; font-size:22px; text-align:justify"><strong>Observação: </strong></span><span>Caso seja necessário necessário fazer auditoria do último horário onde foram realizadas modificações no quadro Miro para verificar fraude, por favor entrar em contato com a equipe, pois apenas membros com permissão de edição conseguem visualizar o histórico do quadro. E a mensagem de "Última Modificação" apresentada ao abrir o quadro, geralmente é atualizada mesmo sem modificações relevantes.</span>
 <br>
+
+## Visualização como Tabela (Não detalha as US's)
+
+<div style="margin-top:30px"></div>
+<center>
 
 **Organizador do Evento** 
 
@@ -89,3 +93,5 @@ Desça até a descrição do Card, onde se encontra a História de Usuário:
 | Ir em um evento | Inscrever-se no evento | - Visualizar informações do evento <br> - Realizar cadastro na plataforma <br> - Adquirir ingressos <br> - Escolher ingressos, preencher dados e confirmar compra |
 | Ir em um evento | Ir ao evento | - Ler a programação e horários do evento <br> - Navegar até o local do evento |
 | Dar Feedback | Publicar feedback | - Publicar um comentário sobre o evento |
+
+</center>
