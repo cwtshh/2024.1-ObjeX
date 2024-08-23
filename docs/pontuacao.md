@@ -69,7 +69,6 @@ Tabela 3 - Pontuação das User Stories
 |US21 | 3                | 3           | 6         |
 |US22 | 3                | 3           | 6         |
 |US23 | 3                | 3           | 6         |
-|US31 | 4                | 2           | 6         |
 |US32 | 4                | 2           | 6         |
 |US34 | 4                | 2           | 6         |
 |US02 | 3                | 2           | 5         |

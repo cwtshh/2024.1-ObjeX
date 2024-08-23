@@ -1,0 +1,3 @@
+Nessa missão, dois conceitos chave estudados foram o User Story Mapping (USM) e o Product Backlog Building (PBB), que desempenham papéis cruciais na organização e priorização dos requisitos.
+Aplicando o USM, percebemos como é possível alinhar as necessidades dos stakeholders com o backlog do produto, facilitando a comunicação entre as equipes e o entendimento do que realmente é crítico para o sucesso do projeto.
+Ao longo do semestre, compreendemos a importância de técnicas como USM e PBB para o desenvolvimento de produtos de software que atendam às expectativas dos usuários e aos objetivos de negócio. Essas práticas são essenciais para garantir que o processo de desenvolvimento seja ágil, eficiente e focado na entrega de valor.
