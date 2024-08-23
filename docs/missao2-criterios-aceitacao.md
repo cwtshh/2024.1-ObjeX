@@ -33,13 +33,19 @@ As imagens a seguir, apresentam os Critérios de Aceitação para cada uma das H
 <!-- <p align="center"><strong>Tabela 1: Dados de vendas</strong></p> -->
 
 ## Critérios de Aceitação FE10 - Inserir Feedback
-![Critérios de Aceitação FE10 - Inserir Feedback](assets/criterios-aceitacao/fe10-inserir-feedback.png){: style="height:auto", width="100%"}
+<span style="color:white; font-size:26px;">Não entrou no MVP.</span><br><br>
 
 ## Critérios de Aceitação FE11 - Submeter Atividades
 ![Critérios de Aceitação FE11 - Submeter Atividades](assets/criterios-aceitacao/fe11-submeter-atividades.png){: style="height:auto", width="100%"}
 
 ## Critérios de Aceitação FE12 - Entrar e Sair de Grupos
 ![Critérios de Aceitação FE12 - Entrar e sair de grupos](assets/criterios-aceitacao/fe12-entrar-e-sair-grupos.png){: style="height:auto", width="100%"}
+
+## Critérios de Aceitação FE14 - Professor/Admin Login e Logout
+![Critérios de Aceitação FE14 - Professor/Admin Login e Logout](assets/criterios-aceitacao/fe14-professor-admin-login-logout.png){: style="height:auto", width="100%"}
+
+## Critérios de Aceitação FE15 - Aluno/Monitor Login e Logout
+![Critérios de Aceitação FE15 - Aluno/Monitor Login e Logout](assets/criterios-aceitacao/fe15-aluno-monitor-login-logout.png){: style="height:auto", width="100%"}
 
 ## Critérios de Aceitação FE13 - Visualizar e Baixar Conteúdos
 <span style="color:white; font-size:26px;">Não entrou no MVP.</span><br><br>
