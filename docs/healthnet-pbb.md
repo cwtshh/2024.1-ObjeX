@@ -1,8 +1,6 @@
 **Product Backlog Building (PBB)** é um método sistemático para criar e refinar o backlog de produto. Ele visa maximizar o valor entregue ao cliente, otimizando o esforço da equipe de desenvolvimento. O PBB é aplicado para identificar problemas, expectativas e necessidades das personas, definindo e priorizando itens no backlog de forma colaborativa para uma visão holística do produto. O PBB é um processo contínuo que começa antes do início do projeto e continua durante todo o ciclo de vida do projeto. Ele é usado para garantir que o projeto esteja sempre alinhado com as necessidades do negócio e dos usuários, e para garantir que o trabalho do time de desenvolvimento esteja sempre focado nas coisas mais importantes.
 
 
-
-
 ## HealthNet 
 
 A "HealthNet" enfrenta um desafio significativo devido à falta de uma estrutura unificada para a gestão de dados de pacientes em suas diversas unidades espalhadas por vários estados. Os profissionais de saúde lidam com sistemas desatualizados e incompatíveis, resultando em prontuários isolados que não se comunicam entre si. Isso atrasa os processos, aumenta o risco de erros médicos e dificulta o acesso a informações completas e atualizadas. Além disso, os sistemas de agendamento de consultas são ineficientes, causando longos tempos de espera e frustração. O controle de medicamentos também é prejudicado, dificultando o rastreamento de prescrições e aumentando o risco de complicações médicas. A dependência de processos manuais e papelada agrava ainda mais a situação, tornando as operações lentas, propensas a erros, e complicando a conformidade com regulamentações de proteção de dados de saúde.

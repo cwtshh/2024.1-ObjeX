@@ -18,7 +18,7 @@ Não se sabe por que Black Star espionava a facção, mas mostrou grande habilid
 Caio Moreira Sulz Gonsalves&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/CaioSulz" style="color:white">:simple-github:</a>
  
-![Kairos](integrantes\kairos\profile.png){: style="height:300px;border-radius:50%"}
+![Kairos](integrantes/kairos/profile.png){: style="height:300px;border-radius:50%"}
 
 Em um universo distante, no planeta Diafthorá, um planeta conhecido pela imensa corrupção que o assolava, surge a história de Kairos, um jovem destemido e perspicaz. Desde tenra idade, Kairos foi criado pelo seu pai que sempre o ensinou a andar contra a maré e o sistema, a corrupção.
 
@@ -32,7 +32,7 @@ Desde então, viaja pela vastidão do espaço, enfrentando perigos inimaginávei
 Gustavo Costa de Jesus&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/cwtshh" style="color:white">:simple-github:</a>
 
-![Vincent](integrantes\vincent\profile.png){: style="height:300px;border-radius:50%"}
+![Vincent](integrantes/vincent/profile.png){: style="height:300px;border-radius:50%"}
 
 
 Vincent, um nativo do planeta NSA, cresceu em meio às sombras da cidade de Nocturne Falls, dominada pelo sinistro Conglomerado Apache. Desde jovem, ele testemunhou a exploração desenfreada do seu lar pelas mãos gananciosas dessa corporação militar, que lucrava com guerras induzidas e caos espalhado. 
@@ -49,7 +49,7 @@ Percebendo que agora era um alvo, Vincent teve que fugir de Nocturne Falls para 
 Arthur Rodrigues Sousa&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/arthurrsousa" style="color:white">:simple-github:</a>
 
-![Simão](integrantes\simao\profile.png){: style="height:300px;border-radius:50%"}
+![Simão](integrantes/simao/profile.png){: style="height:300px;border-radius:50%"}
 
 Saindo de um planeta humilde, onde a vida não era fácil, Simão viu-se mergulhado no mundo do crime em busca de oportunidades para sobreviver. No entanto, o conglomerado de Celestia, na sua ânsia por semear o caos e promover conflitos, manipulou alguns dos aliados de Simão, resultando na perda de milhões de créditos para ele.
 
@@ -59,7 +59,7 @@ Movido pela sede de retaliação, Simão decidiu agir e entrou em contato com a 
 Fabrício Macedo de Queiroz&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/FabricioDeQueiroz" style="color:white">:simple-github:</a>
 
-![Shin](integrantes\shin\profile.png){: style="height:300px;border-radius:50%"}
+![Shin](integrantes/shin/profile.png){: style="height:300px;border-radius:50%"}
 
 Shin não se juntou a facção Cyber Hunterz por interesse em fama ou respeito. Tendo nascido em uma região pobre do planeta Diafthorá, levou uma vida marcada por desafios, que puderam ser superados com uma boa adaptabilidade. Ele e seu amigo Kairos conseguiram se juntar a uma facção determinada (no que diz respeito aos seus interesses). Ele preza muito pelo ganho monetário e de informações, tendo em vista suas origens. Tem como hobbie projetar, criar e vender equipamentos para seus companheiros. Enxerga como vantagem ser enviado em algumas invasões orquestradas pela Slitherium, já que nessas missões de reconhecimento, é plausível que encontre materiais raros desejáveis para suas criações. 
 Mesmo tendo uma personalidade mesquinha, ele preza muito por seus companheiros, e trabalha como um informante do Comando Estelar, passando informações privilegiadas dos planos da Slitherium dos quais tenha conhecimento.
@@ -68,7 +68,7 @@ Mesmo tendo uma personalidade mesquinha, ele preza muito por seus companheiros, 
 Rayene Ferreira Almeida&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/rayenealmeida" style="color:white">:simple-github:</a>
 
-![Dronada](integrantes\dronada\profile.png){: style="height:300px;border-radius:50%"}
+![Dronada](integrantes/dronada/profile.png){: style="height:300px;border-radius:50%"}
 
 Dronada nasceu sob os céus avermelhados do exoplaneta Gliese 876d, um mundo onde os extremos eram a norma e a adaptação era a chave para a sobrevivência. 
 Criada por seus pais em uma comunidade subterrânea, Dronada aprendeu os segredos da sobrevivência em um ambiente hostil. Seu pai, um engenheiro habilidoso, ensinou-lhe a arte de construir dispositivos que podiam resistir às forças brutais do planeta, enquanto sua mãe, uma curandeira talentosa, transmitiu-lhe o conhecimento ancestral das plantas e ervas que cresciam em cavernas profundas.
@@ -79,7 +79,7 @@ Para honrar os ensinamentos de seus pais ela seguiu em frente com sua facção c
 Nicollas Garbield Oliveira Sousa&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/nicollaxs" style="color:white">:simple-github:</a>
 
-![Black Star](integrantes\blackstar\profile.png){: style="height:300px;border-radius:50%"}
+![Black Star](integrantes/blackstar/profile.png){: style="height:300px;border-radius:50%"}
 
 Black Star, um indivíduo frio e observador, é guiado por seus interesses, que frequentemente envolvem dinheiro. No entanto, ele segue a ética e a disciplina de seu grupo. Black aprecia as batalhas e as recompensas que elas trazem. Apesar de uma história de vida tumultuada, ele é um guerreiro leal e competente, sempre vigilante em relação a tudo e a todos. Desde a infância, envolveu-se em diversos problemas, mas isso lhe proporcionou experiência e habilidades valiosas.
 
@@ -87,7 +87,7 @@ Black Star, um indivíduo frio e observador, é guiado por seus interesses, que 
 Manoel Castro Moura Filho&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/matsuo-kage" style="color:white; font-size:20px">:simple-github:</a>
 
-![708145](integrantes\tobias\profile.png){: style="height:300px;border-radius:50%;"}
+![708145](integrantes/tobias/profile.png){: style="height:300px;border-radius:50%;"}
 
 :smile: :smile: 20 pontos de qi. :smile: :smile:
 
