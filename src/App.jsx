@@ -7,6 +7,7 @@ import AdminDashboard from './pages/dashboard/AdminDashboard'
 import ProfLogin from './pages/login/ProfLogin'
 import ListaGrupos from './pages/lista-grupos/lista'
 import ProfessorDashboard from './pages/dashboard/ProfessorDashboard'
+import Interpretador from './pages/aluno/interpretador'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path='/admin/grupos' element={<ListaGrupos />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
+          <Route path='/aluno/interpretador' element={<Interpretador />} />
         </Routes>
       </BrowserRouter>
     </>
