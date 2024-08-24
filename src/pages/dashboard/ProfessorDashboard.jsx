@@ -67,16 +67,18 @@ const ProfessorDashboard = () => {
     <div>
 
       <NavBarMenu />
-      <div className='flex justify-center pt-[65px]'>
+      <div className='flex md:relative justify-center pt-[65px]'>
           <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
-            <SideBar page={'/professor'} />
+            <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
+              <SideBar page={'/professor'} />
+            </div>
 
-            <div className='z-[1] flex justify-center pt-[10px] md:h-[85vh] overflow-y-auto'>
+            <div className='z-[1] md:absolute md:right-0 md:mr-[62px] lg:mr-[0px]  xl:mr-[0px] lg:relative xl:relative lg:center xl:center flex justify-center pt-[20px] md:h-[85vh] overflow-y-2'>
               {/* colocar o resto do conteúdo aqui */}
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 z-[1] gap-4 p-4'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 z-[1] gap-x-12 gap-y-6 p-4'>
                 
 
-                <a href="">
+                <a href="" className='h-[200px]'>
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
                     </div>
@@ -103,7 +105,7 @@ const ProfessorDashboard = () => {
                   </div>
                 </a>
 
-                <a href="">
+                <a href="" className='h-[200px]'>
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
                     </div>
@@ -129,7 +131,7 @@ const ProfessorDashboard = () => {
                   </div>
                 </a>
 
-                <a href="">
+                <a href="" className='h-[200px]'>
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
                     </div>
@@ -153,7 +155,7 @@ const ProfessorDashboard = () => {
                   </div>
                 </a>
 
-                <a href=''>
+                <a href='' className='h-[200px]'>
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
                     </div>
