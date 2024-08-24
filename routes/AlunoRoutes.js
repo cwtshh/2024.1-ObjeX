@@ -8,6 +8,7 @@ const login_aluno = require("../services/Aluno/LoginAluno");
 const login_token = require('../services/Aluno/LoginTokenAluno');
 const get_alunos = require('../services/Aluno/GetAluno');
 const delete_aluno = require('../services/Aluno/DeleteAluno');
+const primeiro_acesso = require('../services/Aluno/PrimeiroAcesso');
 
 
 // middlewares
@@ -18,6 +19,7 @@ const authenticate_token_prof = require('../services/Professor/AuthenticateToken
 
 
 router.post('/register', AlunoCreateValidation(), validate, register_aluno);
+router.post('/register/primeiroacesso', primeiro_acesso);
 router.post('/register/activate', AlunoActivateValidation(), validate, activate_register);
 router.post('/login', AlunoLoginValidation(), validate, login_aluno);
 router.post('/login/token', login_token);

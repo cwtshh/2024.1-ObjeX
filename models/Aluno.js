@@ -4,9 +4,15 @@ const Schema = mongoose.Schema;
 const AlunoSchema = new Schema(
     {
         nome: String,
-        email: String,
+        email: {
+            type: String,
+            default: ''
+        },
         matricula: String,
-        senha: String,
+        senha: {
+            type: String,
+            default: ''
+        },
         in_grupo: {
             type: Boolean,
             default: false

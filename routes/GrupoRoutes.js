@@ -8,9 +8,11 @@ const get_all_groupos = require("../services/Grupos/GetGroups");
 const { GroupCreateValidation } = require('../middlewares/GroupValidation');
 const validate = require('../middlewares/HandleValidation');
 const authenticate_token_adm = require("../services/ProfessorAdmin/AunthenticateToken");
+const entrar_grupo = require('../services/Grupos/EntrarGrupo');
 
 
 router.post('/create', GroupCreateValidation(), validate, create_group);
 router.get('/',  get_all_groupos);
+router.post('/entrar', entrar_grupo);
 
 module.exports = router;
