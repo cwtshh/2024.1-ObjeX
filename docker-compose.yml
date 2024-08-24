@@ -16,8 +16,6 @@ services:
     command: npm run server
     depends_on:
       - db
-    networks:
-      - objex-network
   db:
     container_name: db
     image: mongo
@@ -33,13 +31,7 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-    networks:
-      - objex-network
 
 volumes:
   dbdata-volume:
-
-networks:
-  objex-network:
-    external: true
     
