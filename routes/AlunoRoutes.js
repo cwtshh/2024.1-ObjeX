@@ -19,7 +19,7 @@ const authenticate_token_prof = require('../services/Professor/AuthenticateToken
 
 
 router.post('/register', AlunoCreateValidation(), validate, register_aluno);
-router.post('/register/primeiroacesso', primeiro_acesso, primeiro_acesso)
+router.post('/register/primeiroacesso', primeiro_acesso);
 router.post('/register/activate', AlunoActivateValidation(), validate, activate_register);
 router.post('/login', AlunoLoginValidation(), validate, login_aluno);
 router.post('/login/token', login_token);
