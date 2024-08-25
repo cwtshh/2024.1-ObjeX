@@ -14,7 +14,7 @@ const RespostaTextoSchema = new Schema(
         },
         usuario: {
             type: Schema.Types.ObjectId,
-            ref: 'Usuario',
+            ref: 'Aluno',
             default: null,
         },
     },
