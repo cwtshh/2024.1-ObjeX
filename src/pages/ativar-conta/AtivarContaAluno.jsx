@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import NavBarLoginAdmin from '../../components/navbar/navbar-login/NavBarLoginAdmin'
 import ErrorAlert from '../../components/alert/error/ErrorAlert';
+import Loading from '../../components/loading/Loading';
+import NotifyToast from '../../components/toast/NotifyToast';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ALUNO_ENDPOINT } from '../../util/constants';
@@ -9,16 +11,19 @@ const AtivarContaAluno = () => {
     const [ senhaAcesso, setSenhaAcesso ] = useState('');
     const [ senha, setSenha ] = useState('');
     const [ confirmarSenha, setConfirmarSenha ] = useState('');
-    const [ error, setError ] = useState(false);
+    const [ DiffPassError, setDiffPassError ] = useState(false);
+    const [ error, setError ] = useState('');
+    const [ isLoading, setIsLoading ] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async(e) => {
       e.preventDefault();
       if(!senhaAcesso || !senha || !confirmarSenha) {
         console.log(senhaAcesso, senha, confirmarSenha)
-        alert('Preencha todos os campos');
+        setError('Preencha todos os campos');
         return;
       }
+      setIsLoading(true);
       try {
         const res = await axios.post(`${ALUNO_ENDPOINT}/register/activate`, {
           senha_antiga: senhaAcesso,
@@ -26,23 +31,37 @@ const AtivarContaAluno = () => {
           matricula: localStorage.getItem('matricula@primeiroAcesso')
         });
         console.log(res);
-        setError(false);
         localStorage.removeItem('matricula@primeiroAcesso');
         navigate('/login/aluno');
       } catch(err) {
-        setError(true);
-        console.log(err);
+        if(err.response.data.message) {
+          setError(err.response.data.message);
+        }
+        if(err.response.data.errors) {
+          setError(err.response.data.errors[0]);
+        }
+      } finally {
+        setIsLoading(false);
       }
     }
 
     useEffect(() => { 
       if(senha !== confirmarSenha) {
-        setError(true);
+        setDiffPassError(true);
       } else {
-        setError(false);
+        setDiffPassError(false);
       }
-      console.log(error)
+      console.log(DiffPassError)
     }, [senha, confirmarSenha])
+
+    // Para atualizar o estado do Toast de erro:
+    useEffect(() => { 
+      if(error) {
+        setTimeout(() => {
+          setError('');
+        }, 5000);
+      }
+    }, [error])
 
     return (
       <div>
@@ -60,56 +79,57 @@ const AtivarContaAluno = () => {
                     </div>
                     <div className="card-body pl-[35px] pt-[35px] rounded-b-xl w-full h-1/4 bg-base-100">
                         <h2>Digite a senha de acesso que você recebeu no seu email e cadastre sua senha definitiva.</h2>
-                        <form onSubmit={handleSubmit} className='flex flex-col' >
+                        <form onSubmit={handleSubmit} className='flex flex-col'>
                         <h2 className='text-xl font-medium text-primary-content mb-2'>Senha de acesso</h2>
                         <label className="input bg-base-300 flex items-center gap-2 ">
-                            <svg
+                          <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 16 16"
                             fill="currentColor"
                             className="h-5 w-5 text-primary">
-                            <path
-                                d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                            <path
-                                d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                            </svg>
-                            <input onChange={e => setSenhaAcesso(e.target.value)} type="text" className="grow pl-2" placeholder="123456789" />
+                              <path
+                              fillRule="evenodd"
+                              d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                              clipRule="evenodd" />
+                          </svg>
+                          <input onChange={e => setSenhaAcesso(e.target.value)} type="text" className="grow pl-2" placeholder="senha" />
                         </label>
                         <h2 className='text-xl font-medium text-primary-content mb-2 mt-4'>Senha</h2>
                         <label className="input bg-base-300 flex items-center gap-2 ">
-                            <svg
+                          <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 16 16"
                             fill="currentColor"
                             className="h-5 w-5 text-primary">
-                            <path
-                                d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                            <path
-                                d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                            </svg>
-                            <input onChange={e => setSenha(e.target.value)} type="password" className="grow pl-2" placeholder="123456789" />
+                              <path
+                              fillRule="evenodd"
+                              d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                              clipRule="evenodd" />
+                          </svg>
+                          <input onChange={e => setSenha(e.target.value)} type="password" className="grow pl-2" placeholder="senha" />
                         </label>
                         <h2 className='text-xl font-medium text-primary-content mb-2 mt-4'>Confirmar Senha</h2>
                         <label className="input bg-base-300 flex items-center gap-2 ">
-                            <svg
+                          <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 16 16"
                             fill="currentColor"
                             className="h-5 w-5 text-primary">
-                            <path
-                                d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                            <path
-                                d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                            </svg>
-                            <input onChange={e => setConfirmarSenha(e.target.value)} type="password" className="grow pl-2" placeholder="123456789" />
+                              <path
+                              fillRule="evenodd"
+                              d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                              clipRule="evenodd" />
+                          </svg>
+                          <input onChange={e => setConfirmarSenha(e.target.value)} type="password" className="grow pl-2" placeholder="senha" />
                         </label>
-                        <button type='submit' className='btn btn-primary font-medium w-1/2 h-[55px] self-center mt-6'>Cadastrar Senha</button>
+                        <div className='flex items-center justify-center'>
+                          {DiffPassError ? <ErrorAlert message={'As senhas não conferem!'} /> : <></>}
+                          {error ? <NotifyToast message={error} toast_type='erro' /> : <></>}
+                        </div>
+                        <button type='submit' disabled={DiffPassError ? 'disabled' : ''} className='btn btn-primary font-medium w-1/2 h-[55px] self-center mt-6'>{isLoading ? <Loading /> : "Cadastrar Senha"}</button>
                         </form>
                     </div>
                 </div> 
-            </div>
-            <div className='flex items-center justify-center'>
-              {error ? <ErrorAlert message={'As senhas não conferem!'} /> : <></>}
             </div>
             
         </div>
