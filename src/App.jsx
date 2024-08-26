@@ -9,7 +9,8 @@ import ListaGrupos from './pages/lista-grupos/lista'
 import ProfessorDashboard from './pages/dashboard/ProfessorDashboard'
 import Interpretador from './pages/atividades/interpretador'
 import ImgUpload from './pages/atividades/img-upload'
-import AtividadeDeTexto from './pages/atividades/AtividadeDeTexto'
+import 'react-toastify/dist/ReactToastify.css';
+// import AtividadeDeTexto from './pages/atividades/AtividadeDeTexto'
 
 function App() {
   return (
@@ -27,8 +28,8 @@ function App() {
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
           <Route path='/atividade/interpretador' element={<Interpretador />} />
-	  <Route path='/atividade/img-upload' element={<ImgUpload />} />
-	  <Route path='/atividade/texto' element={<AtividadeDeTexto />} />
+	        <Route path='/atividade/img-upload' element={<ImgUpload />} />
+	  {/* <Route path='/atividade/texto' element={<AtividadeDeTexto />} /> */}
 	  
         </Routes>
       </BrowserRouter>
