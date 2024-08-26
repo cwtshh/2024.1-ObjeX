@@ -23,7 +23,7 @@ router.post('/register/primeiroacesso', primeiro_acesso);
 router.post('/register/activate', AlunoActivateValidation(), validate, activate_register);
 router.post('/login', AlunoLoginValidation(), validate, login_aluno);
 router.post('/login/token', login_token);
-router.get('/', authenticate_token_aluno, get_alunos);
+router.get('/', get_alunos);
 router.delete('/delete/:id', authenticate_token_prof, delete_aluno);
 
 
