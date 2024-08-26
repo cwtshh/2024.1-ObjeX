@@ -7,8 +7,9 @@ import AdminDashboard from './pages/dashboard/AdminDashboard'
 import ProfLogin from './pages/login/ProfLogin'
 import ListaGrupos from './pages/lista-grupos/lista'
 import ProfessorDashboard from './pages/dashboard/ProfessorDashboard'
-import Interpretador from './pages/aluno/interpretador'
-
+import Interpretador from './pages/atividades/interpretador'
+import ImgUpload from './pages/atividades/img-upload'
+import AtividadeDeTexto from './pages/atividades/AtividadeDeTexto'
 
 function App() {
   return (
@@ -25,7 +26,10 @@ function App() {
           <Route path='/admin/grupos' element={<ListaGrupos />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
-          <Route path='/aluno/interpretador' element={<Interpretador />} />
+          <Route path='/atividade/interpretador' element={<Interpretador />} />
+	  <Route path='/atividade/img-upload' element={<ImgUpload />} />
+	  <Route path='/atividade/texto' element={<AtividadeDeTexto />} />
+	  
         </Routes>
       </BrowserRouter>
     </>

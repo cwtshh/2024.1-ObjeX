@@ -35,12 +35,28 @@ const Interpretador = () => {
             <div className='bg-[#2e3440] w-[25px] h-full rounded-l-xl'>
               
             </div>
-            <div className='bg-[#d8dee9] h-[30px] w-full rounded-tr-lg flex justify-end items-center pr-[10px]'>
-              <button className='w-[90px] h-[24px] bg-[#5e81ac] text-base-100 rounded-xl'>Enviar</button>
+	    <div className="w-full flex flex-col">
+            	<div className='bg-[#d8dee9] h-[30px] w-full rounded-tr-lg flex justify-end items-center pr-[10px]'>
+              	<button className='w-[90px] h-[24px] bg-[#5e81ac] text-base-100 rounded-xl'>Enviar</button>
 
-            </div>
+            	</div>
+	  	<div className="h-full bg-base-100">
+	  		<textarea
+	  			className="h-full w-full rounded-br-xl focus:outline-none p-1" 
+	  			placeholder="Escreva seu código aqui..."
+	  			value={text}
+	  			onChange={handleChange}
+	  			onKeyDown={handleKeyDown}
+
+
+	  		/>
+
+	  	</div>
+	    </div>
+	 	 
 
           </div>
+	  	
 
           <div className='bg-base-100 h-[240px] w-full rounded-xl shadow flex items-center p-[10px]'>
             <div className='h-full w-full p-2 rounded-xl bg-[#2e3440]'>
