@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import NavBarLoginAdmin from '../../components/navbar/navbar-login/NavBarLoginAdmin'
+import Loading from '../../components/loading/Loading';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ALUNO_ENDPOINT } from '../../util/constants';
@@ -8,27 +9,36 @@ import ErrorAlert from '../../components/alert/error/ErrorAlert';
 const PrimeiroAcessoAluno = () => {
     const [ matricula, setMatricula ] = useState('');
     const [ email, setEmail ] = useState('');
+    const [ error, setError ] = useState('');
+    const [ isLoading, setIsLoading ] = useState(false);
     const navigate = useNavigate();
-    const [ error, setError ] = useState(false);
 
     const handleFirstAccess = async(e) => {
         e.preventDefault();
         if(!matricula || !email) {
-            alert('Preencha todos os campos');
+            setError('Preencha todos os campos!');
             return;
         }
+        setIsLoading(true);
         // Enviar email com senha temporária     
-        localStorage.setItem('matricula@primeiroAcesso', matricula);  
+        localStorage.setItem('matricula@primeiroAcesso', matricula);
         try {
             const res = await axios.post(`${ALUNO_ENDPOINT}/register/primeiroacesso`, {
                 matricula,
                 email
             });
             console.log(res);
-            navigate('/ativarconta');       
+            navigate('/ativarconta');
         } catch(err) {
-            setError(true);
             console.log(err);
+            if(err.response.data.message) {
+                setError(err.response.data.message);
+            }
+            if(err.response.data.error_message) {
+            setError(err.response.data.error_message);
+            }
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -41,7 +51,7 @@ const PrimeiroAcessoAluno = () => {
                 <rect x="65%" width="50%" height="100%" fill="#d8dee9"/>
                 </svg>
             </div>
-            <div className='pl-20 pr-20 pt-[100px] flex items-center justify-center'>
+            <div className='pl-20 pr-20 pt-[100px] mb-[130px] flex items-center justify-center'>
                 <div className="card bg-base-100 shadow-2xl">
                     <div className="card-body rounded-t-xl w-full h-[74px] items-center justify-center bg-base-content ">
                         <h2 className='text-2xl font-medium text-base-100'>Primeiro Acesso</h2>
@@ -74,13 +84,13 @@ const PrimeiroAcessoAluno = () => {
                             </svg>
                             <input onChange={e => setMatricula(e.target.value)} type="text" className="grow pl-2" placeholder="123456789" />
                         </label>
-                        <button type='submit' className='btn btn-primary font-medium w-1/2 h-[55px] self-center mt-6'>Recebar Senha</button>
+                        <div className='flex items-center justify-start mt-6'>
+                          {error !== '' ? <p className='text-error text-base font-bold'>{error}</p> : <div className="mb-6"></div>}
+                        </div>
+                        <button type='submit' className='btn btn-primary font-medium w-1/2 h-[55px] self-center mt-6'>{isLoading ? <Loading /> : "Recebar Senha"}</button>
                         </form>
                     </div>
                 </div>
-            </div>
-            <div>
-                {error && <ErrorAlert message='Aluno não encontrado.' />}
             </div>
         </div>
     )
