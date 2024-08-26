@@ -47,8 +47,8 @@ const PrimeiroAcessoAluno = () => {
                         <h2 className='text-2xl font-medium text-base-100'>Primeiro Acesso</h2>
                     </div>
                     <div className="card-body pl-[35px] pt-[35px] rounded-b-xl w-full h-1/4 bg-base-100">
-                        <h2>Digite sua matricula e um email válido para receber sua senha de acesso temporário.</h2>
-                        <form onSubmit={handleFirstAccess} className='flex flex-col' >
+                        <h2 className='text-justify'>Digite sua matricula e um email válido para receber sua senha de acesso temporário.</h2>
+                        <form onSubmit={handleFirstAccess} className='flex flex-col mt-6'>
                         <h2 className='text-xl font-medium text-primary-content mb-2'>Email</h2>
                         <label className="input bg-base-300 flex items-center gap-2 ">
                             <svg

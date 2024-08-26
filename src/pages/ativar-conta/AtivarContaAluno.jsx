@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import NavBarLoginAdmin from '../../components/navbar/navbar-login/NavBarLoginAdmin'
-import ErrorAlert from '../../components/alert/error/ErrorAlert';
 import Loading from '../../components/loading/Loading';
 import NotifyToast from '../../components/toast/NotifyToast';
 import axios from 'axios';
@@ -72,14 +71,14 @@ const AtivarContaAluno = () => {
                 <rect x="65%" width="50%" height="100%" fill="#d8dee9"/>
                 </svg>
             </div>
-            <div className='pl-20 pr-20 pt-[100px] flex items-center justify-center'>
+            <div className='pl-20 pr-20 pt-[100px] mb-[100px] flex items-center justify-center'>
                 <div className="card bg-base-100 shadow-2xl">
                     <div className="card-body rounded-t-xl w-full h-[74px] items-center justify-center bg-base-content ">
                         <h2 className='text-2xl font-medium text-base-100'>Primeiro Acesso</h2>
                     </div>
                     <div className="card-body pl-[35px] pt-[35px] rounded-b-xl w-full h-1/4 bg-base-100">
-                        <h2>Digite a senha de acesso que você recebeu no seu email e cadastre sua senha definitiva.</h2>
-                        <form onSubmit={handleSubmit} className='flex flex-col'>
+                        <h2 className='text-justify'>Digite a senha de acesso que você recebeu no seu email e cadastre sua senha definitiva.</h2>
+                        <form onSubmit={handleSubmit} className='flex flex-col mt-6'>
                         <h2 className='text-xl font-medium text-primary-content mb-2'>Senha de acesso</h2>
                         <label className="input bg-base-300 flex items-center gap-2 ">
                           <svg
@@ -122,10 +121,10 @@ const AtivarContaAluno = () => {
                           </svg>
                           <input onChange={e => setConfirmarSenha(e.target.value)} type="password" className="grow pl-2" placeholder="senha" />
                         </label>
-                        <div className='flex items-center justify-center'>
-                          {DiffPassError ? <ErrorAlert message={'As senhas não conferem!'} /> : <></>}
-                          {error ? <NotifyToast message={error} toast_type='erro' /> : <></>}
+                        <div className='flex items-center justify-start'>
+                          {DiffPassError ? <p className='text-error text-lg font-bold mt-4'>As senhas não conferem!</p> : <div className="mt-11"></div>}
                         </div>
+                          {error ? <NotifyToast message={error} toast_type='erro' /> : <></>}
                         <button type='submit' disabled={DiffPassError ? 'disabled' : ''} className='btn btn-primary font-medium w-1/2 h-[55px] self-center mt-6'>{isLoading ? <Loading /> : "Cadastrar Senha"}</button>
                         </form>
                     </div>
