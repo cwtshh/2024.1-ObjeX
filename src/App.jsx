@@ -4,6 +4,7 @@ import ProfAdminLogin from './pages/login/ProfAdminLogin'
 import './App.css'
 import ProtectedRoute from './components/protected-route/ProtectedRoute'
 import AdminDashboard from './pages/dashboard/AdminDashboard'
+import AtividadeDeTexto from './pages/exercicio/AtividadeDeTexto'
 
 
 function App() {
@@ -20,6 +21,8 @@ function App() {
           <Route path='/professor/admin/dashboard' element={<ProtectedRoute roles={['admin']} component={AdminDashboard} />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
+          {/* Rotas de exercicio */}
+          <Route path='/atividade/texto' element={<AtividadeDeTexto/>}/>
         </Routes>
       </BrowserRouter>
     </>
