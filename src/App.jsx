@@ -5,6 +5,7 @@ import './App.css'
 import ProtectedRoute from './components/protected-route/ProtectedRoute'
 import AdminDashboard from './pages/dashboard/AdminDashboard'
 import AtividadeDeTexto from './pages/exercicio/AtividadeDeTexto'
+import AtividadeDeImagem from './pages/exercicio/AtividadeDeImagem'
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
           {/* Rotas de exercicio */}
           <Route path='/atividade/texto' element={<AtividadeDeTexto/>}/>
+          <Route path='/atividade/imagem' element={<AtividadeDeImagem/>}/>
         </Routes>
       </BrowserRouter>
     </>
