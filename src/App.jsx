@@ -12,6 +12,7 @@ import ImgUpload from './pages/atividades/img-upload'
 import 'react-toastify/dist/ReactToastify.css';
 // import AtividadeDeTexto from './pages/atividades/AtividadeDeTexto'
 
+
 function App() {
   return (
     <>
@@ -29,8 +30,7 @@ function App() {
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
           <Route path='/atividade/interpretador' element={<Interpretador />} />
 	        <Route path='/atividade/img-upload' element={<ImgUpload />} />
-	  {/* <Route path='/atividade/texto' element={<AtividadeDeTexto />} /> */}
-	  
+	        {/* <Route path='/atividade/texto' element={<AtividadeDeTexto />} /> */}
         </Routes>
       </BrowserRouter>
     </>
