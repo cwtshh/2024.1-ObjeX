@@ -15,6 +15,9 @@ import Interpretador from './pages/atividades/interpretador'
 import ImgUpload from './pages/atividades/img-upload'
 import 'react-toastify/dist/ReactToastify.css';
 // import AtividadeDeTexto from './pages/atividades/AtividadeDeTexto'
+import AtividadeDeTexto from './pages/exercicio/AtividadeDeTexto'
+import AtividadeDeImagem from './pages/exercicio/AtividadeDeImagem'
+
 
 function App() {
   return (
@@ -35,9 +38,11 @@ function App() {
           <Route path='/aluno/dashboard' element={<AlunoDashboard />} />
           <Route path='/ativarconta' element={<AtivarContaAluno />} />
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
+          {/* Rotas de exercicio */}
           <Route path='/atividade/interpretador' element={<Interpretador />} />
 	        <Route path='/atividade/img-upload' element={<ImgUpload />} />
-	        {/* <Route path='/atividade/texto' element={<AtividadeDeTexto />} /> */}
+          <Route path='/atividade/texto' element={<AtividadeDeTexto/>}/>
+          <Route path='/atividade/imagem' element={<AtividadeDeImagem/>}/>
         </Routes>
       </BrowserRouter>
     </>
