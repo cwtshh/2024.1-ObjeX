@@ -19,12 +19,13 @@ const LoginAluno = () => {
             return;
         }
         setIsLoading(true);
-        if(await login({ matricula, senha }, 'estudante')) {
+        const logar = await login({ matricula, senha }, 'estudante');
+        if(logar.passou) {
             navigate('/aluno/dashboard');
             return;
         }
         setIsLoading(false);
-        setError('Credenciais inválidas!');
+        setError(`${logar.retorno.response.data.message}!`);
     }
 
     return (

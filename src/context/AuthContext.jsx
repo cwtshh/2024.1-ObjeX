@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
                     localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
                     localStorage.setItem('objex@auth_token', res.data.token);
                     setIsReady(true);
-                    return true;
+                    return {passou: true, retorno: res};
                 }
 
                 case 'estudante': {
@@ -30,14 +30,14 @@ export const AuthProvider = ({ children }) => {
                     localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
                     localStorage.setItem('objex@auth_token', res.data.token);
                     setIsReady(true);
-                    return true;
+                    return {passou: true, retorno: res};
                 }
-                    
+
             }
 
         } catch (error) {
             console.log(error);
-            return false;
+            return {passou: false, retorno: error};
         }
     };
 
