@@ -16,7 +16,6 @@ services:
     command: npm run server
     depends_on:
       - db
-
   db:
     container_name: db
     image: mongo
@@ -35,4 +34,3 @@ services:
 
 volumes:
   dbdata-volume:
-

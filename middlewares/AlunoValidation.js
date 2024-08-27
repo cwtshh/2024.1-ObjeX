@@ -2,14 +2,6 @@ const { body } = require('express-validator');
 
 const AlunoCreateValidation = () => {
     return [
-        body('nome')
-            .isString()
-            .withMessage("O nome é obrigatório")
-            .isLength({ min: 3})
-            .withMessage("O nome deve ter no mínimo 3 caracteres"),
-        body('email')
-            .isEmail()
-            .withMessage("O email é obrigatório"),
         body('matricula')
             .isString()
             .withMessage("A matricula é obrigatória")

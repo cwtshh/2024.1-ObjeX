@@ -5,7 +5,6 @@ const send_mail = require('../../middlewares/SendMail');
 const activate_register = async(req, res) => {
     const { matricula, nova_senha, senha_antiga } = req.body;
     const aluno = await Aluno.findOne({matricula});
-    console.log(aluno.email);
     if(!aluno) {
         return res.status(404).json({message: 'Aluno não encontrado'});
     }
