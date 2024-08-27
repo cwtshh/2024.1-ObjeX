@@ -22,6 +22,18 @@ export const AuthProvider = ({ children }) => {
                 return true;
             }
 
+            if(user_type === 'professor') {
+                const res = await axios.post(`${PROFESSOR_ENDPOINT}/login`, userData);
+                console.log(res.error);
+                console.log(res.data);
+                setUser(res.data.user);
+                setToken(res.data.token);
+                localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
+                localStorage.setItem('objex@auth_token', res.data.token);
+                setIsReady(true);
+                return true;
+            }
+
         } catch (error) {
             console.log(error);
             return false;
