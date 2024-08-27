@@ -3,7 +3,7 @@ import NavBarLoginAdmin from '../../components/navbar/navbar-login/NavBarLoginAd
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const ProfAdminLogin = () => {
+const ProfLogin = () => {
   // variaveis para armazenar email e senha digitados
   // useState é um hook do React que permite adicionar estado a componentes funcionais
   const [ email, setEmail ] = useState('');
@@ -18,17 +18,16 @@ const ProfAdminLogin = () => {
       alert('Preencha todos os campos');
       return;
     }
-    // 
-    if(await login({ email, senha }, 'admin')) {
-      navigate('/admin/dashboard');
+    
+    if(await login({ email, senha }, 'professor')) {
+      navigate('/professor/dashboard');
       return;
     }
     alert('Email ou senha incorretos');
   }
 
-  const handleForgot = async(e) => {
-    e.preventDefault();
-    alert('Contate o administrador do sistema para redefinir sua senha');
+  const handleForgot = async() => {
+    alert('Esqueceu a senha?');
   }
 
   return (
@@ -45,7 +44,7 @@ const ProfAdminLogin = () => {
       <div className='pl-20 pr-20 pt-[100px] flex items-center justify-center'>
         <div className="card bg-base-100 shadow-2xl">
           <div className="card-body rounded-t-xl w-full h-[74px] items-center justify-center bg-base-content ">
-            <h2 className='text-2xl font-medium text-base-100'>Login Admin</h2>
+            <h2 className='text-2xl font-medium text-base-100'>Login Professor</h2>
           </div>
           <div className="card-body pl-[35px] pt-[35px] rounded-b-xl w-full h-1/4 bg-base-100">
             <form onSubmit={handleSubmit} className='flex flex-col'>
@@ -88,4 +87,4 @@ const ProfAdminLogin = () => {
   )
 }
 
-export default ProfAdminLogin
+export default ProfLogin
