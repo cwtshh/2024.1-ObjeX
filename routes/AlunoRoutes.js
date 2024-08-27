@@ -9,6 +9,7 @@ const login_token = require('../services/Aluno/LoginTokenAluno');
 const get_alunos = require('../services/Aluno/GetAluno');
 const delete_aluno = require('../services/Aluno/DeleteAluno');
 const primeiro_acesso = require('../services/Aluno/PrimeiroAcesso');
+const registrar_varios_alunos = require('../services/Aluno/RegisterVariosAlunos')
 
 
 // middlewares
@@ -25,6 +26,7 @@ router.post('/login', AlunoLoginValidation(), validate, login_aluno);
 router.post('/login/token', login_token);
 router.get('/', authenticate_token_aluno, get_alunos);
 router.delete('/delete/:id', authenticate_token_prof, delete_aluno);
+router.post('/register/many', registrar_varios_alunos);
 
 
 module.exports = router;
