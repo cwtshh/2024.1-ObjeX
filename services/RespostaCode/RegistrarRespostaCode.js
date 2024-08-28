@@ -1,7 +1,24 @@
 const RespostaCode = require('../../models/RespostaCode');
+const Atividade = require('../../models/Atividade');
 
 const registrar_resposta_code = async(req, res) => {
     const { code, atividade_id, usuario_id, passed } = req.body;
+    const atividade = await Atividade.findById(atividade_id);
+    if(!atividade) {
+        return res.status(400).json({
+            message: 'Atividade não encontrada'
+        });
+    }
+    if(atividade.type !== 'code') {
+        return res.status(400).json({
+            message: 'Atividade não é de código'
+        });
+    }
+    if(atividade.data_abertura > new Date() || atividade.data_encerramento < new Date()) {
+        return res.status(400).json({
+            message: 'Atividade fechada'
+        });
+    }
     const resposta = await RespostaCode.findOne({atividade_id, usuario_id});
     if(resposta) {
         await resposta.updateOne({$set: {code, passed}}, {new: true});

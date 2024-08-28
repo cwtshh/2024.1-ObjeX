@@ -10,6 +10,12 @@ const responder_atividade_imagem = async(req, res) => {
     if(!atividade_ref){
         return res.status(400).json({message: 'Atividade não encontrada'});
     }
+    if(atividade_ref.type !== 'image'){
+        return res.status(400).json({message: 'Atividade não é de imagem'});
+    }
+    if(atividade_ref.data_abertura > new Date() || atividade_ref.data_encerramento < new Date()){
+        return res.status(400).json({message: 'Atividade fechada'});
+    }
     const uploadDirectory = path.join(__dirname, `../../respostas/imagem/${atividade_id}/${aluno_id}/`);
     if(!fs.existsSync(uploadDirectory)){
         fs.mkdirSync(uploadDirectory, {recursive: true});

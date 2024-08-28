@@ -28,9 +28,9 @@ const create_atividade_code = async(req, res) => {
             res.status(400).json({message: err});
         }
         else{
-            const {nome, enunciado, turma, professor, type} = req.body;
+            const {nome, enunciado, turma, professor, type, data_abertura, data_encerramento} = req.body;
             const url_arquivo_testes = req.file.path;
-            const atividade = await Atividade.findByIdAndUpdate(new_atividade._id, {nome, enunciado, turma, professor, type, url_arquivo_testes}, {new: true});
+            const atividade = await Atividade.findByIdAndUpdate(new_atividade._id, {nome, enunciado, turma, professor, type, data_abertura, data_encerramento, url_arquivo_testes}, {new: true});
             res.status(201).json(atividade);
         }
     });

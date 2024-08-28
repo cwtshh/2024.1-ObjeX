@@ -26,6 +26,14 @@ const AtividadeSchema = new Schema(
             enum: ['code', 'image', 'text'],
             default: 'text',
         },
+        data_abertura: {
+            type: Date,
+            default: Date.now,
+        },
+        data_encerramento: {
+            type: Date,
+            default: null,
+        },
         url_arquivo_testes: {
             type: String,
             default: null,

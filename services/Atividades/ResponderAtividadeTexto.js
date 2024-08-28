@@ -10,6 +10,9 @@ const responder_atividade_texto = async(req, res) => {
     if (atividade.type !== "text") {
         return res.status(400).json({ message: "Atividade não é de texto" });
     }
+    if(atividade.data_abertura > new Date() || atividade.data_encerramento < new Date()){
+        return res.status(400).json({message: 'Atividade fechada'});
+    }
     const resposta_nova = await RespostaTexto.create({
         resposta,
         atividade: id_atividade,
