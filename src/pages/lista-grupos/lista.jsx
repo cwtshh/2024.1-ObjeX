@@ -8,6 +8,7 @@ import GroupCard from '../../components/navbar/group-card/GroupCard';
 import SideBar from '../../components/sidebar/SideBar';
 import GrupoCard from '../../components/grupo-card/GrupoCard';
 import NotifyToast from '../../components/toast/NotifyToast';
+import ExcelJs from 'exceljs';
 
 const ListaGrupos = () => {
   const { logout, user } = useAuth();
@@ -28,7 +29,7 @@ const ListaGrupos = () => {
       NotifyToast({ message: 'Erro ao buscar grupos', toast_type: 'erro' });
     });
   };
-  const get_turmas = async() => {
+  const get_turmas = async() => { // TODO - Implementar autenticação
     await axios.get(`${API_BASE_URL}/turma/admin`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YzY1MTlmMTExZTEwOWYxZDEwNWIyZCIsImlhdCI6MTcyNDg3ODcyMCwiZXhwIjoxNzI1NDgzNTIwfQ.Z2xeffUnI5MDZbobKMmHvLAycecwq0Lx7UfQwkGKPfA`
@@ -65,7 +66,30 @@ const ListaGrupos = () => {
       setFilteredGroups(filtered);
     }
 
-  })
+  });
+
+  const export_excel = async() => { // TODO - consertar exportação, membros não estao aparecendo corretamente
+    const workbook = new ExcelJs.Workbook();
+    const worksheet = workbook.addWorksheet('Grupos');
+    worksheet.addRow(['Nome', 'Descrição', 'Turma', 'Capacidade', 'Membros']);
+    grupos.forEach(grupo => {
+      worksheet.addRow([grupo.nome, grupo.descricao, grupo.turma.nome, grupo.capacidade, grupo.membros.map((membro) => {
+        return membro.nome + ', ';
+      })]);
+    });
+    worksheet.columns.forEach(column => {
+      column.width = 25;
+    });
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.setAttribute('download', 'grupos.xlsx');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
 
 
@@ -103,7 +127,7 @@ const ListaGrupos = () => {
                 </label>
               </div>
               <div className='flex gap-4'>
-                <button className='btn btn-primary text-white'>
+                <button onClick={() => export_excel()} className='btn btn-primary text-white'>
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M17.5 3.75V8.75C17.5 9.08152 17.6317 9.39946 17.8661 9.63388C18.1005 9.8683 18.4185 10 18.75 10H23.75" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M21.25 26.25H8.75C8.08696 26.25 7.45107 25.9866 6.98223 25.5178C6.51339 25.0489 6.25 24.413 6.25 23.75V6.25C6.25 5.58696 6.51339 4.95107 6.98223 4.48223C7.45107 4.01339 8.08696 3.75 8.75 3.75H17.5L23.75 10V23.75C23.75 24.413 23.4866 25.0489 23.0178 25.5178C22.5489 25.9866 21.913 26.25 21.25 26.25Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
