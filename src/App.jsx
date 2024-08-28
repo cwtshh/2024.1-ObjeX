@@ -39,7 +39,7 @@ function App() {
           <Route path='/ativarconta' element={<AtivarContaAluno />} />
           <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
           {/* Rotas de exercicio */}
-          <Route path='/atividade/interpretador' element={<Interpretador />} />
+          <Route path='/atividade/interpretador/:id' element={<Interpretador />} />
 	        <Route path='/atividade/img-upload' element={<ImgUpload />} />
           <Route path='/atividade/texto' element={<AtividadeDeTexto/>}/>
           <Route path='/atividade/imagem' element={<AtividadeDeImagem/>}/>
