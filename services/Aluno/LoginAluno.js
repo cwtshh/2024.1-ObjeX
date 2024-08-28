@@ -23,6 +23,7 @@ const login_aluno = async(req, res) => {
             email: aluno.email,
             matricula: aluno.matricula,
             id: aluno._id,
+            turma: aluno.turma,
             in_grupo: aluno.in_grupo,
             role: 'aluno'
         }
