@@ -15,6 +15,10 @@ const login_aluno = async(req, res) => {
     if(!pass) {
         return res.status(401).json({message: 'Senha incorreta'});
     }
+    await aluno.populate({
+        path: 'turma',
+        select: 'nome'
+    });
     return res.status(200).json({
         message: 'Aluno logado com sucesso',
         token: generate_token(aluno._id),
