@@ -2,18 +2,19 @@ import React from 'react'
 import { formatDateTime } from '../../util/date-util/ConverterData'
 
 const AtividadeCard = ({ atividade }) => {
-
+    console.log(atividade)
     return (
         <li className="list-none p-4 m-2 bg-base-300 rounded-lg">
             <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
                 <div className='flex flex-col md:w-[13vw] pb-4'>
                     <h2 className="text-xl font-bold truncate">{atividade.nome}</h2>
                     <p className="opacity-70">{atividade.type === 'text' ? "Texto" : atividade.type === 'image' ? "Imagem" : "Código"}</p>
-                    <p>{atividade.professor}</p>
+                    <p>{atividade.professor.nome}</p>
                 </div>
                 <div className='flex flex-col md:w-[30vw] pb-4'>
                     <p className="truncate">{atividade.enunciado}</p>
-                    {/* <p className="truncate opacity-70">{atividade.turma.nome}</p> */}
+                    <p>{atividade.turma.nome}</p>
+                    {/* <p className="truncate opacity-70">{atividade}</p> */}
                 </div>
                 <div className='flex flex-col md:w-[10vw] pb-4'>
                     <div className='flex flex-row gap-2 mb-1'>

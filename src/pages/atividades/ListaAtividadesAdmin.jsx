@@ -6,8 +6,11 @@ import { API_BASE_URL } from '../../util/constants'
 import NotifyToast from '../../components/toast/NotifyToast'
 import { ToastContainer } from 'react-toastify'
 import AtividadeCard from '../../components/atividade-card/AtividadeCard'
+import { ToastifyNotificate } from '../../components/toast/Toastify'
+import { useAuth } from '../../context/AuthContext'
 
 const ListaAtividadesAdmin = () => {
+    const { user } = useAuth();
     const [ turmas, setTurmas ] = useState([]);
     const [ atividades, setAtividades ] = useState([]);
     const [ filteredAtividades, setFilteredAtividades ] = useState([]);
@@ -26,7 +29,7 @@ const ListaAtividadesAdmin = () => {
             setAtividades(res.data);
             setFilteredAtividades(res.data);
         }).catch(err => {
-            NotifyToast('Erro ao buscar atividades', 'error');
+            ToastifyNotificate('Erro ao buscar atividades', 'error');
         })
     };
 
@@ -38,7 +41,7 @@ const ListaAtividadesAdmin = () => {
         }).then((res) => {
             setTurmas(res.data.turmas);
         }).catch(err => {
-            NotifyToast('Erro ao buscar turmas', 'error');
+            ToastifyNotificate('Erro ao buscar turmas', 'error');
         })
     };
 
@@ -55,7 +58,75 @@ const ListaAtividadesAdmin = () => {
 
     const handleCreateAtividade = async(e) => {
         e.preventDefault();
-        console.log(nome, enunciado, turma, tipoAtividade, data_abertura, data_encerramento, file);
+        // console.log(nome, enunciado, turma, tipoAtividade, data_abertura, data_encerramento, file);
+
+        if(tipoAtividade === 'code') {
+            console.log('code');
+            const formData = new FormData();
+            formData.append('nome', nome);
+            formData.append('enunciado', enunciado);
+            formData.append('turma', turma);
+            formData.append('type', 'code');
+            formData.append('data_abertura', data_abertura);
+            formData.append('data_encerramento', data_encerramento);
+            formData.append('file', file);
+            formData.append('professor', user.id);
+            console.log(formData);
+            await axios.post(`${API_BASE_URL}/atividade/create/code`, formData, {
+                headers: {
+                    // TODO mudar para o token do admin
+                }
+            }).then(res => {
+                ToastifyNotificate('Atividade criada com sucesso', 'success');
+                get_atividades();
+            }).catch(err => {
+                ToastifyNotificate('Erro ao criar atividade', 'error');
+            });
+        }
+
+        if(tipoAtividade === 'text') {
+            console.log('text');
+            await axios.post(`${API_BASE_URL}/atividade/create/text`, {
+                nome: nome,
+                enunciado: enunciado,
+                turma: turma,
+                type: 'text',
+                data_abertura: data_abertura,
+                data_encerramento: data_encerramento,
+                professor: user.id
+            }, {
+                headers: {
+                    // TODO mudar para o token do admin
+                }
+            }).then(res => {
+                ToastifyNotificate('Atividade criada com sucesso', 'success');
+                get_atividades();
+            }).catch(err => {
+                ToastifyNotificate('Erro ao criar atividade', 'error');
+            });
+        }
+
+        if(tipoAtividade === 'image') {
+            console.log('image');
+            await axios.post(`${API_BASE_URL}/atividade/create/image`, {
+                nome: nome,
+                enunciado: enunciado,
+                turma: turma,
+                type: 'image',
+                data_abertura: data_abertura,
+                data_encerramento: data_encerramento,
+                professor: user.id
+            }, {
+                headers: {
+                    // TODO mudar para o token do admin
+                }
+            }).then(res => {
+                ToastifyNotificate('Atividade criada com sucesso', 'success');
+                get_atividades();
+            }).catch(err => {
+                ToastifyNotificate('Erro ao criar atividade', 'error');
+            });
+        }
     }
 
     useEffect(() => {
@@ -155,7 +226,7 @@ const ListaAtividadesAdmin = () => {
                         >
                             <option value="" disabled>Selecione uma Turma</option>
                             {turmas.map(turma => {
-                                return <option value={turma.id}>{turma.nome}</option>
+                                return <option value={turma._id}>{turma.nome}</option>
                             })}
                         </select>
                     </label>
@@ -169,7 +240,7 @@ const ListaAtividadesAdmin = () => {
                             className='select select-bordered'
                             onChange={(e) => setTipoAtividade(e.target.value)}
                         >
-                            <option value="" disabled>Selecione uma Turma</option>
+                            <option value="" disabled>Selecione o tipo da atividade</option>
                             <option value="text">Texto</option>
                             <option value="image">Imagem</option>
                             <option value="code">Código</option>
@@ -211,13 +282,15 @@ const ListaAtividadesAdmin = () => {
                         />
                     </label>
 
-                    <button type='submit' className='btn btn-primary text-white'>Criar Grupo</button>
+                    <button type='submit' className='btn btn-primary text-white'>Criar Atividade</button>
                 </form>
             </div>
             <form method="dialog" className="modal-backdrop">
                 <button>close</button>
             </form>
             </dialog>
+
+            <ToastContainer />
         </div>
         <div className="z-[-1]">
             <svg className="fixed bottom-0 left-0 w-full h-1/3">
@@ -231,7 +304,7 @@ const ListaAtividadesAdmin = () => {
             <rect x="0" y="50%" width="100%" height="50%" fill="#d8dee9"/>
             </svg>
         </div>
-        <ToastContainer />
+        
         </div>
     )
 }
