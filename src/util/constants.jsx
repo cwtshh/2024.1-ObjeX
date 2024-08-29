@@ -4,3 +4,4 @@ export const ALUNO_ENDPOINT = import.meta.env.VITE_ALUNO_ENDPOINT;
 export const TURMA_ENDPOINT = import.meta.env.VITE_TURMA_ENDPOINT;
 export const GRUPO_ENDPOINT = import.meta.env.VITE_GRUPO_ENDPOINT;
 export const MONITOR_ENDPOINT = import.meta.env.VITE_MONITOR_ENDPOINT;
+export const ATIVIDADE_ENDPOINT = import.meta.env.VITE_ATIVIDADE_ENDPOINT;
