@@ -5,7 +5,10 @@ const GroupSchema = new Schema(
     {
         nome: String,
         descricao: String,
-        turma: String,
+        turma: {
+            type: Schema.Types.ObjectId,
+            ref: 'Turma'
+        },
         membros: [
             {
                 type: Schema.Types.ObjectId,
