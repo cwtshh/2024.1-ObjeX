@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef} from 'react'
 import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
 import SideBar from '../../components/sidebar/SideBar';
 import axios from 'axios'
 import { API_BASE_URL } from '../../util/constants';
 import { useAuth } from '../../context/AuthContext';
 
+
+
 const ListaDeProfessores = () => {
     const { token } = useAuth();
     const [professores, setProfessores] = useState([]);
+    const [nome,setNome]=useState('')
+    const [email,setEmail]=useState('')
+    const modalRef = useRef(null);
 
     const getProfessores = () => {
         axios.get(`${API_BASE_URL}/professor/admin/get`, {
@@ -15,19 +20,42 @@ const ListaDeProfessores = () => {
                 'Authorization': `Bearer ${token}` // TODO: API Alunos está aceitando apenas token de aluno, arrumar no backend
             }
         })
-        .then((response) => {
-            console.log(response.data);
-            setProfessores(response.data);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+            .then((response) => {
+                console.log(response.data);
+                setProfessores(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     useEffect(() => {
         getProfessores();
     }, []);
 
+
+    const handleCriarProfessor = async(e)=>{
+        e.preventDefault()
+
+        await axios.post(`${API_BASE_URL}/professor/register`,
+            {
+                nome : nome,
+                email : email,
+                id_turma : "66bd643a0e288b6d2f04a1a3"
+            },{
+                headers: {
+                      'Authorization': `Bearer ${token}`
+                }
+        }).then(res =>{
+            console.log('Professor criado com sucesso')
+            setNome('')
+            setEmail('')
+            modalRef.current.close()
+            getProfessores()
+        }).catch(error => {
+            console.log('Falha ao criar Professor', error.response.data);
+        })
+    }
 
     return (
         <div className='bg-base-200 min-h-screen flex flex-col'>
@@ -50,7 +78,7 @@ const ListaDeProfessores = () => {
                                     </div>
 
                                     <div className='flex gap-4'>
-                                        <button className='btn btn-primary text-white'>Adicionar Professor</button>
+                                        <button className='btn btn-primary text-white' onClick={() => document.getElementById('my_modal_3').showModal()}>Adicionar Professor</button>
                                     </div>
                                 </div>
 
@@ -79,7 +107,42 @@ const ListaDeProfessores = () => {
                             </div>
                         </div>
                     </div>
+                    {/* You can open the modal using document.getElementById('ID').showModal() method */}
+                    <dialog ref={modalRef} id="my_modal_3" className="modal">
+                    <div className="modal-box flex flex-col justify-center items-center">
+                        <h3 className='font-bold text-lg'>Atividades</h3>
+                        <form onSubmit={handleCriarProfessor} className='flex flex-col justify-center gap-2 w-3/4'>
+                            <label className="form-control">
+                                <div className="label">
+                                    <span className="label-text">Nome:</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    className="input input-bordered"
+                                    value={nome}
+                                    onChange={(e)=>setNome(e.target.value)}
+                                />
+                            </label>
 
+                            <label className="form-control">
+                                <div className="label">
+                                    <span className="label-text">Email:</span>
+                                </div>
+                                <input
+                                    type="email"
+                                    className="input input-bordered"
+                                    value={email}
+                                    onChange={(e)=>setEmail(e.target.value)}
+                                />
+                            </label>
+
+                            <button type='submit' className='btn btn-primary text-white'>Criar Professor</button>
+                        </form>
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                        <button>close</button>
+                    </form>
+                    </dialog>
                 </div>
             </div>
 
