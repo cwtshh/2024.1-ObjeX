@@ -4,6 +4,10 @@ const get_atividade = async(req, res) => {
     // retorna todos as atividades do banco
     await Atividade.find()
     .select('_id nome enunciado turma professor type createdAt updatedAt data_abertura data_encerramento')
+    .populate({
+        path: 'turma',
+        select: 'nome'
+    })
     .then(result => {
         if(result && result.length > 0) {
             return res.status(200).json(result);
@@ -27,6 +31,10 @@ const get_atividades_turma = async(req, res) => {
 
     await Atividade.find({ turma: id_turma })
     .select('_id nome enunciado turma professor type createdAt updatedAt data_abertura data_encerramento')
+    .populate({
+        path: 'turma',
+        select: 'nome'
+    })
     .then(result => {
         if(result && result.length > 0) {
             return res.status(200).json(result);
