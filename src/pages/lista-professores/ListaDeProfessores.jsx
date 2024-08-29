@@ -1,9 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
 import SideBar from '../../components/sidebar/SideBar';
-import { Link } from 'react-router-dom';
+import axios from 'axios'
+import { API_BASE_URL } from '../../util/constants';
+import { useAuth } from '../../context/AuthContext';
 
 const ListaDeProfessores = () => {
+    const { token } = useAuth();
+    const [professores, setProfessores] = useState([]);
+
+    const getProfessores = () => {
+        axios.get(`${API_BASE_URL}/professor/admin/get`, {
+            headers: {
+                'Authorization': `Bearer ${token}` // TODO: API Alunos está aceitando apenas token de aluno, arrumar no backend
+            }
+        })
+        .then((response) => {
+            console.log(response.data);
+            setProfessores(response.data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    };
+
+    useEffect(() => {
+        getProfessores();
+    }, []);
+
 
     return (
         <div className='bg-base-200 min-h-screen flex flex-col'>
@@ -30,57 +54,27 @@ const ListaDeProfessores = () => {
                                     </div>
                                 </div>
 
-                                <div className='h-[34em]'>
-                                    {/* Cards contendo os professores */}
-                                    <div className='rounded-xl bg-gray-300 p-[20px] mt-[40px] flex justify-between items-center'>
-                                        <div className='flex items-center gap-[30px]'>
-
-                                            <div className="w-14 h-14 rounded-full overflow-hidden">
-                                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                <div className='h-[45em] overflow-y-auto'>
+                                    {professores.map((professor, index) => (
+                                        <div key={index} className='rounded-xl bg-gray-300 p-[20px] mt-[40px] flex justify-between items-center'>
+                                            <div className='flex items-center gap-[30px]'>
+                                                <div className="w-14 h-14 rounded-full overflow-hidden">
+                                                    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="Professor" />
+                                                </div>
+                                                <div>
+                                                    <p>{professor.nome}</p>
+                                                    <p>Professor</p>
+                                                </div>
                                             </div>
-
                                             <div>
-                                                {/* Nome do Professor que vem do banco */}
-                                                <p>Nicollas Gabriel</p>
-                                                <p>Professor</p>
+                                                <p>{professor.email}</p>
+                                            </div>
+                                            <div className='flex items-center gap-[30px]'>
+                                                <button className='btn btn-primary text-base-100 rounded-lg'>Editar</button>
+                                                <button className='btn btn-error text-base-100 rounded-lg'>Excluir</button>
                                             </div>
                                         </div>
-
-                                        <div>
-                                            {/* Email do Professor que vem do banco */}
-                                            <p>nicollas@gmail.com</p>
-                                        </div>
-
-                                        <div className='flex items-center gap-[30px]'>
-                                        <button className='btn btn-primary text-base-100 rounded-lg'>Editar</button>
-                                        <button className='btn btn-error text-base-100 rounded-lg'>Excluir</button>
-                                        </div>
-                                    </div>
-                                    {/* Cards contendo os professores */}
-                                    <div className='rounded-xl bg-gray-300 p-[20px] mt-[40px] flex justify-between items-center'>
-                                        <div className='flex items-center gap-[30px]'>
-
-                                            <div className="w-14 h-14 rounded-full overflow-hidden">
-                                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                                            </div>
-
-                                            <div>
-                                                {/* Nome do Professor que vem do banco */}
-                                                <p>Gabriel Nicollas</p>
-                                                <p>Professor</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p>gabriel@gmail.com</p>
-                                        </div>
-
-                                        <div className='flex items-center gap-[30px]'>
-                                            {/* Ícone de ação, como excluir */}
-
-                                            <button className='btn btn-primary text-base-100 rounded-lg'>Editar</button>
-                                            <button className='btn btn-error text-base-100 rounded-lg'>Excluir</button>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
