@@ -86,6 +86,7 @@ const ListaAtividadesAdmin = () => {
                 setDataAbertura('');
                 setDataEncerramento('');
                 setFile(null);
+                document.getElementById('my_modal_2').close();
             }).catch(err => {
                 ToastifyNotificate('Erro ao criar atividade', 'error');
             });
@@ -115,6 +116,7 @@ const ListaAtividadesAdmin = () => {
                 setDataAbertura('');
                 setDataEncerramento('');
                 setFile(null);
+                document.getElementById('my_modal_2').close();
             }).catch(err => {
                 ToastifyNotificate('Erro ao criar atividade', 'error');
             });
@@ -144,6 +146,7 @@ const ListaAtividadesAdmin = () => {
                 setDataAbertura('');
                 setDataEncerramento('');
                 setFile(null);
+                document.getElementById('my_modal_2').close();
             }).catch(err => {
                 ToastifyNotificate('Erro ao criar atividade', 'error');
             });
@@ -218,6 +221,7 @@ const ListaAtividadesAdmin = () => {
                         <span className="label-text">Nome:</span>
                         </div>
                         <input
+                            defaultValue=""
                             type="text" 
                             className="input input-bordered"
                             onChange={e => setNome(e.target.value)} 
@@ -229,6 +233,7 @@ const ListaAtividadesAdmin = () => {
                         <span className="label-text">Enunciado:</span>
                         </div>
                         <textarea 
+                            defaultValue=""
                             type="text" 
                             className='textarea textarea-bordered h-48' 
                             style={{ resize : 'none'}}
