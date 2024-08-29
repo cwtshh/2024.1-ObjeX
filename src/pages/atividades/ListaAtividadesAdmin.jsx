@@ -79,6 +79,13 @@ const ListaAtividadesAdmin = () => {
             }).then(res => {
                 ToastifyNotificate('Atividade criada com sucesso', 'success');
                 get_atividades();
+                setNome('');
+                setEnunciado('');
+                setTurma('');
+                setTipoAtividade('');
+                setDataAbertura('');
+                setDataEncerramento('');
+                setFile(null);
             }).catch(err => {
                 ToastifyNotificate('Erro ao criar atividade', 'error');
             });
@@ -101,6 +108,13 @@ const ListaAtividadesAdmin = () => {
             }).then(res => {
                 ToastifyNotificate('Atividade criada com sucesso', 'success');
                 get_atividades();
+                setNome('');
+                setEnunciado('');
+                setTurma('');
+                setTipoAtividade('');
+                setDataAbertura('');
+                setDataEncerramento('');
+                setFile(null);
             }).catch(err => {
                 ToastifyNotificate('Erro ao criar atividade', 'error');
             });
@@ -123,6 +137,13 @@ const ListaAtividadesAdmin = () => {
             }).then(res => {
                 ToastifyNotificate('Atividade criada com sucesso', 'success');
                 get_atividades();
+                setNome('');
+                setEnunciado('');
+                setTurma('');
+                setTipoAtividade('');
+                setDataAbertura('');
+                setDataEncerramento('');
+                setFile(null);
             }).catch(err => {
                 ToastifyNotificate('Erro ao criar atividade', 'error');
             });
