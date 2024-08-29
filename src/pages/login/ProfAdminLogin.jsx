@@ -13,6 +13,8 @@ const ProfAdminLogin = () => {
 
   const handleSubmit = async(e) => {
     // previne a página de recarregar ao enviar o formulário
+    console.log("Estou logado")
+    
     e.preventDefault();
     if(!email || !senha) {
       alert('Preencha todos os campos');
