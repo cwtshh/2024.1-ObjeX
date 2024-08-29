@@ -7,18 +7,16 @@ const ListaDeProfessores = () => {
 
     return (
         <div className='bg-base-200 min-h-screen flex flex-col'>
-            <div className='mr-[100px]'>
             <NavBarMenu />
-            </div>
 
             <div className='flex flex-1 pt-[75px]'>
                 <div className='flex flex-col md:flex-row w-full'>
-                    <div className='z-[1] md:w-[300px]'>
+                    <div className='z-[1] md:w-[300px] ml-[90px]'>
                         <SideBar user_role={'admin'} />
                     </div>
 
                     <div className='z-[1] flex-1 pl-4 pr-4 flex justify-center'>
-                        <div className="card bg-base-100 shadow-2xl w-full max-w-[60em]">
+                        <div className="card bg-base-100 shadow-2xl w-full max-w-[90em]">
                             <div className="rounded-t-xl w-[full] h-[30px] items-center justify-center bg-base-content">
                             </div>
                             <div className="card-body pl-[35px] pt-[20px] rounded-b-xl h-1/2 bg-base-100">
@@ -54,29 +52,8 @@ const ListaDeProfessores = () => {
                                         </div>
 
                                         <div className='flex items-center gap-[30px]'>
-                                            {/* Ícone de ação, como excluir */}
-
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                fill="blue"
-                                                height="1em"
-                                                width="1em"
-                                            >
-                                                <path d="M4 21a1 1 0 00.24 0l4-1a1 1 0 00.47-.26L21 7.41a2 2 0 000-2.82L19.42 3a2 2 0 00-2.83 0L4.3 15.29a1.06 1.06 0 00-.27.47l-1 4A1 1 0 003.76 21 1 1 0 004 21zM18 4.41L19.59 6 18 7.59 16.42 6zM5.91 16.51L15 7.41 16.59 9l-9.1 9.1-2.11.52z" />
-                                            </svg>
-
-                                            <svg
-                                                fill="red"
-                                                viewBox="0 0 16 16"
-                                                height="1em"
-                                                width="1em"
-                                            >
-                                                <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z" />
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                                                />
-                                            </svg>
+                                        <button className='btn btn-primary text-base-100 rounded-lg'>Editar</button>
+                                        <button className='btn btn-error text-base-100 rounded-lg'>Excluir</button>
                                         </div>
                                     </div>
                                     {/* Cards contendo os professores */}
@@ -89,7 +66,7 @@ const ListaDeProfessores = () => {
 
                                             <div>
                                                 {/* Nome do Professor que vem do banco */}
-                                                <p>Nicollas Gabriel</p>
+                                                <p>Gabriel Nicollas</p>
                                                 <p>Professor</p>
                                             </div>
                                         </div>
@@ -100,27 +77,8 @@ const ListaDeProfessores = () => {
                                         <div className='flex items-center gap-[30px]'>
                                             {/* Ícone de ação, como excluir */}
 
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                fill="blue"
-                                                height="1em"
-                                                width="1em"
-                                            >
-                                                <path d="M4 21a1 1 0 00.24 0l4-1a1 1 0 00.47-.26L21 7.41a2 2 0 000-2.82L19.42 3a2 2 0 00-2.83 0L4.3 15.29a1.06 1.06 0 00-.27.47l-1 4A1 1 0 003.76 21 1 1 0 004 21zM18 4.41L19.59 6 18 7.59 16.42 6zM5.91 16.51L15 7.41 16.59 9l-9.1 9.1-2.11.52z" />
-                                            </svg>
-
-                                            <svg
-                                                fill="red"
-                                                viewBox="0 0 16 16"
-                                                height="1em"
-                                                width="1em"
-                                            >
-                                                <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z" />
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                                                />
-                                            </svg>
+                                            <button className='btn btn-primary text-base-100 rounded-lg'>Editar</button>
+                                            <button className='btn btn-error text-base-100 rounded-lg'>Excluir</button>
                                         </div>
                                     </div>
                                 </div>
