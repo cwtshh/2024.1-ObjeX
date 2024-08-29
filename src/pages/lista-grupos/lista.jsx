@@ -108,7 +108,7 @@ const ListaGrupos = () => {
             </div>
           <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[5] rounded-xl">
             <div className="bg-[#2e3440] md:h-[45px] rounded-t-xl flex flex-col items-center justify-center">
-              <h2 className='text-2xl font-medium text-base-100'>Atividades</h2>
+              <h2 className='text-2xl font-medium text-base-100'>Grupos</h2>
             </div>
             <div className='flex items-center justify-between pr-12 pl-6'>
               <div>
