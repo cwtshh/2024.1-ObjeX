@@ -7,7 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 
 const AlunoDashboard = () => {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
   const [atividades, setAtividades] = useState([]);
   const [grupos, setGrupos] = useState([]);
@@ -23,7 +23,7 @@ const AlunoDashboard = () => {
     });
 
     // Pegando atividades do banco de dados
-    axios.get(`${ATIVIDADE_ENDPOINT}/get`, {
+    axios.get(`${ATIVIDADE_ENDPOINT}/get/${user.turma._id}`, {
     }).then((response) => {
       console.log(response.data);
       setAtividades(response.data);

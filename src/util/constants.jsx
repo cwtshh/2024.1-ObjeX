@@ -5,3 +5,4 @@ export const TURMA_ENDPOINT = import.meta.env.VITE_TURMA_ENDPOINT;
 export const GRUPO_ENDPOINT = import.meta.env.VITE_GRUPO_ENDPOINT;
 export const MONITOR_ENDPOINT = import.meta.env.VITE_MONITOR_ENDPOINT;
 export const ATIVIDADE_ENDPOINT = import.meta.env.VITE_ATIVIDADE_ENDPOINT;
+export const CODE_API_BASE_URL = import.meta.env.CODE_API_BASE_URL;
