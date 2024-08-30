@@ -3,7 +3,7 @@ const router = express();
 
 // services
 const create_atividade_code = require('../services/Atividades/CreateAtividade');
-const { get_atividade, get_atividades_turma } = require('../services/Atividades/GetAtividades');
+const { get_atividade, get_atividades_turma, get_atividade_id } = require('../services/Atividades/GetAtividades');
 const create_atividade_image = require('../services/Atividades/CreateAtividadeImage')
 const responder_atividade_imagem = require('../services/Atividades/ResponderAtividadeImagem');
 const get_resposta_image = require('../services/Atividades/GetRepostaImage');
@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
 });
 router.get('/get', get_atividade);
 router.get('/get/:id_turma', get_atividades_turma);
+router.get('/get/atividade/:id_atividade', get_atividade_id);
 router.post('/create/code', create_atividade_code);
 router.post('/create/image', create_atividade_image);
 router.post('/create/text', create_atividade_texto);
