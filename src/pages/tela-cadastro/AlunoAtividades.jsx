@@ -6,6 +6,7 @@ import { ATIVIDADE_ENDPOINT } from "../../util/constants";
 import axios from "axios";
 import { useAuth } from '../../context/AuthContext';
 import AtividadeCard from '../../components/atividade-card/AtividadeCard';
+import { ToastContainer } from 'react-toastify';
 
 const AlunoAtividades = () => {
   const { token, user } = useAuth();
@@ -92,6 +93,7 @@ const AlunoAtividades = () => {
             </svg>
         </div>
 
+        <ToastContainer className='mt-20 flex flex-col align-center items-center gap-y-2 md:gap-y-0' />
     </div>
   )
 }

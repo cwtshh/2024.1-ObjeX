@@ -3,11 +3,40 @@ import { formatDateTime } from '../../util/date-util/ConverterData';
 import AtividadeVerModal from './AtividadeVerModal';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { Icons, toast } from 'react-toastify';
 
 const AtividadeCard = ({ atividade }) => {
     const navigate = useNavigate();
 
+    const notify = (status, message) => {
+        if(status === 'error') {
+          toast.warning(`${message}`, {
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            className: 'bg-base-100 md:w-[15vw] w-[75vw]',
+            bodyClassName: 'font-bold text-warning-content opacity-60',
+            closeButton: false,
+            progressClassName: 'bg-warning',
+            icon: Icons.info,
+          });
+        }
+      }
+
     const goToAtividade = () => {
+        let today = new Date();
+        let data_abertura = new Date(atividade.data_abertura);
+        let data_encerramento = new Date(atividade.data_encerramento);
+
+        if(today < data_abertura) {
+            notify('error', 'Atividade ainda não foi aberta');
+            return;
+        } else if(today > data_encerramento) {
+            notify('error', 'Atividade já foi encerrada');
+            return;
+        }
         switch(atividade.type) {
             case 'code':
                 navigate(`/atividade/interpretador/${atividade._id}`);
