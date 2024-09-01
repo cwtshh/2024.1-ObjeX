@@ -2,7 +2,14 @@ const Grupo = require("../../models/Grupo");
 
 const get_grupo_by_turma = async(req, res) => {
     const { id } = req.params;
-    const grupo = await Grupo.find({ turma: id });
+    const grupo = await Grupo.find({ turma: id })
+    .populate({
+        path: 'membros',
+        select: 'nome'
+    }).populate({
+        path: 'turma',
+        select: 'nome'
+    });
     return res.status(200).json(grupo);
 }
 
