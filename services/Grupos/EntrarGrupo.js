@@ -6,6 +6,9 @@ const entrar_grupo = async(req, res) => {
     if(!grupo){
         return res.status(404).json({message: 'Grupo não encontrado'});
     }
+    if(grupo.membros.length >= grupo.capacidade){
+        return res.status(400).json({message: 'Grupo cheio'});
+    }
     if(grupo.membros.includes(id_estudante)){
         return res.status(400).json({message: 'Estudante já está no grupo'});
     }
