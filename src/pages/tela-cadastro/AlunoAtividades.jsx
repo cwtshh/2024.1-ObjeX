@@ -11,9 +11,9 @@ import { ToastContainer } from 'react-toastify';
 const AlunoAtividades = () => {
   const { token, user } = useAuth();
 
-  const [atividades, setAtividades] = useState([]);
+  const [ atividades, setAtividades ] = useState([]);
   const [ filteredAtividades, setFilteredAtividades ] = useState([]);
-  const [erro, setErro] = useState('');
+  const [ erro, setErro ] = useState('');
 
   useEffect(() => {
     // Pegando atividades do banco de dados

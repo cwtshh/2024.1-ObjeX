@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AtividadeDeTexto from './pages/exercicio/AtividadeDeTexto'
 import AtividadeDeImagem from './pages/exercicio/AtividadeDeImagem'
 import AlunoAtividades from './pages/tela-cadastro/AlunoAtividades'
+import AlunoGrupos from './pages/lista-grupos/AlunoGrupos'
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path='/primeiroacesso' element={<PrimeiroAcessoAluno />} />
           <Route path='/aluno/dashboard' element={<AlunoDashboard />} />
           <Route path='/ativarconta' element={<AtivarContaAluno />} />
+          <Route path='/aluno/grupos' element={<AlunoGrupos />} />
           <Route path='/aluno/atividades' element={<AlunoAtividades />} />
           {/* Rotas de exercicio */}
           <Route path='/atividade/interpretador' element={<Interpretador />} />

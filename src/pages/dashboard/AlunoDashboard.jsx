@@ -14,7 +14,7 @@ const AlunoDashboard = () => {
 
   useEffect(() => {
     // Pegando grupos do banco de dados
-    axios.get(`${GRUPO_ENDPOINT}/`, {
+    axios.get(`${GRUPO_ENDPOINT}/${user.turma._id}`, {
     }).then((response) => {
       console.log(response.data);
       setGrupos(response.data);
