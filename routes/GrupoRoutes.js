@@ -2,7 +2,7 @@ const express = require('express');
 const router = express();
 
 const create_group = require('../services/Grupos/CreateGroup');
-const get_all_groupos = require("../services/Grupos/GetGroups");
+const get_all_grupos = require("../services/Grupos/GetGroups");
 
 // middlewares
 const { GroupCreateValidation } = require('../middlewares/GroupValidation');
@@ -13,7 +13,7 @@ const get_grupo_by_turma = require('../services/Grupos/GetGrupoByTurma')
 
 
 router.post('/create', GroupCreateValidation(), validate, create_group);
-router.get('/',  get_all_groupos);
+router.get('/',  get_all_grupos);
 router.post('/entrar', entrar_grupo);
 router.post('/sair', sair_grupo);
 router.get('/:id', get_grupo_by_turma);

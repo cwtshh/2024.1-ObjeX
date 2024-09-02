@@ -1,27 +1,38 @@
 const Turma = require('../../models/Turma')
+const Professor = require('../../models/Professor')
 
 const delete_turma =  async (req,res)=>{
     const {id} = req.params
-    try{
-        //Tenta encontrar por id 
-        const deleteuser = await Turma.findByIdAndDelete(id)
 
-        //verifica se achou alguma turma pelo id
-        if(deleteuser){
-            res.status(200).json({
-            message : 'Turma deletada com sucesso'})
-        } else {
-        //Caso não encontre turma
-            res.status(404).json({
-            message : 'Turma não encontrada'})  
+    await Turma.findByIdAndDelete(id)
+    .then(async result => {
+        if(result) {
+            const professor = await Professor.findOne({ turma: id });
+
+            if(!professor){
+                return res.status(404).json({
+                    message: 'Professor não encontrado'
+                });
             }
-        } catch (error){
-        //Caso tenha algum erro na conexão ou em algo relacionado ao banco
-            res.status(500).json({
-                message : 'Erro ao deletar a Turma',
-                error: error.message
-            })
+
+            professor.turma = null;
+            await professor.save();
+            
+            return res.status(200).json({
+                message: 'Turma deletada com sucesso',
+            });
+        } else {
+            return res.status(404).json({
+                message: 'Turma não encontrada'
+            });
         }
+    })
+    .catch(error => {
+        return res.status(500).json({
+            message: 'Erro ao deletar turma',
+            erro: error
+        });
+    });
 }
 
 module.exports = delete_turma
