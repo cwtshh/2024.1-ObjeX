@@ -12,11 +12,6 @@ const ProfessorCreateValidation = () => {
             .withMessage("O email é obrigatório")
             .isEmail()
             .withMessage("O email deve ser válido"),
-        body('id_turma')
-            .isString() // TODO existe um isObectId ?
-            .withMessage("O ID da turma é obrigatório")
-            .isLength({ min: 24})
-            .withMessage("O ID da turma deve ter no mínimo 24 caracteres"),
     ]
 };
 
@@ -78,7 +73,7 @@ const ProfessorUpdateValidation = () => {
             .isLength({ min: 3})
             .withMessage("O nome deve ter no mínimo 3 caracteres"),
         body('id_turma')
-            .isString() // TODO existe um isObectId ?
+            .isString()
             .withMessage("O ID da turma é obrigatório")
             .isLength({ min: 24})
             .withMessage("O ID da turma deve ter no mínimo 24 caracteres"),
