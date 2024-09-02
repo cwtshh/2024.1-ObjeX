@@ -10,7 +10,7 @@ const register_turma = async(req, res) => {
         error: 'Já existe uma turma com esse nome.'
     });
 
-    const professor_exists = await Professor.findOne({ _id: professor });
+    const professor_exists = await Professor.findById(professor);
 
     // verifica se o professor existe
     if(!professor_exists) return res.status(400).json({
@@ -29,8 +29,8 @@ const register_turma = async(req, res) => {
         error: 'Erro ao cadastrar turma.'
     });
 
-    professor.turma = new_turma._id;
-    await professor.save();
+    professor_exists.turma = new_turma._id;
+    await professor_exists.save();
 
     // retorna os dados da turma 
     return res.status(201).json({
