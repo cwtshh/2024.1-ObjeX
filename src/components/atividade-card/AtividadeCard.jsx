@@ -1,8 +1,12 @@
 import React from 'react'
 import { formatDateTime } from '../../util/date-util/ConverterData'
+import AtividadeVerModalAdmin from './AtividadeVerModalAdmin'
+import DeletarAtividadeModalAdmin from './DeletarAtividadeModalAdmin'
 
 const AtividadeCard = ({ atividade }) => {
-    console.log(atividade)
+    const deletar_atividade = async() => {
+        
+    }
     return (
         <li className="list-none p-4 m-2 bg-base-300 rounded-lg">
             <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
@@ -40,10 +44,12 @@ const AtividadeCard = ({ atividade }) => {
                     </div>
                 </div>
                 <div className='flex flex-row md:w-[10vw] justify-between'>
-                    <div className='btn btn-neutral text-base-100 rounded-lg'>Editar</div>
-                    <div className='btn btn-error text-base-100 rounded-lg'>Excluir</div>
+                    <div className='btn btn-neutral text-base-100 rounded-lg' onClick={() => document.getElementById(atividade._id).showModal()}>Editar</div>
+                    <div className='btn btn-error text-base-100 rounded-lg' onClick={() => document.getElementById(`${atividade._id}_delete`).showModal()}>Excluir</div>
                 </div>
             </div>
+            <AtividadeVerModalAdmin atividade={atividade} />
+            <DeletarAtividadeModalAdmin atividade={atividade} />
         </li>
     )
 }

@@ -10,7 +10,7 @@ import { ToastifyNotificate } from '../../components/toast/Toastify'
 import { useAuth } from '../../context/AuthContext'
 
 const ListaAtividadesAdmin = () => {
-    const { user } = useAuth();
+    const { user, token } = useAuth();
     const [ turmas, setTurmas ] = useState([]);
     const [ atividades, setAtividades ] = useState([]);
     const [ filteredAtividades, setFilteredAtividades ] = useState([]);
@@ -36,7 +36,7 @@ const ListaAtividadesAdmin = () => {
     const get_turmas = async() => {
         await axios.get(`${API_BASE_URL}/turma/admin`, {
             headers: {
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YzY1MTlmMTExZTEwOWYxZDEwNWIyZCIsImlhdCI6MTcyNDg3ODcyMCwiZXhwIjoxNzI1NDgzNTIwfQ.Z2xeffUnI5MDZbobKMmHvLAycecwq0Lx7UfQwkGKPfA`
+                Authorization: `Bearer ${token}`
             }
         }).then((res) => {
             setTurmas(res.data.turmas);
@@ -53,10 +53,11 @@ const ListaAtividadesAdmin = () => {
             const filtered = atividades.filter(atividade => {
                 return atividade.nome.toLowerCase().includes(search.toLowerCase());
             });
+            console.log(filtered); // Verifique o conteúdo filtrado aqui
             setFilteredAtividades(filtered);
         }
     
-    }, []);
+    }, [atividades]);
 
     const handleCreateAtividade = async(e) => {
         e.preventDefault();
