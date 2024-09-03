@@ -19,6 +19,7 @@ import AtividadeDeTexto from './pages/exercicio/AtividadeDeTexto'
 import AtividadeDeImagem from './pages/exercicio/AtividadeDeImagem'
 import ListaAtividadesAdmin from './pages/atividades/ListaAtividadesAdmin'
 import EditarAtividade from './pages/atividades/EditarAtividade'
+import ProfessorAtvSubmetidas from './pages/atividades/ProfessorAtvSubmetidas'
 
 
 function App() {
@@ -30,12 +31,13 @@ function App() {
           {/* Rotas de professor */}
           <Route path='/login/professor' element={<ProfLogin />} />
           <Route path='/login/admin' element={<ProfAdminLogin />} />
-          <Route path='/professor/dashboard' element={<ProfessorDashboard />} /> // TODO mudar para ProfessorDashboard depois
+          <Route path='/professor/dashboard' element={<ProfessorDashboard />} />
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/professor/grupos' element={<ProfessorDashboard />} />
           <Route path='/admin/grupos' element={<ListaGrupos />} />
           <Route path='/admin/atividades' element={<ListaAtividadesAdmin />} />
           <Route path='/admin/atividade/editar/:id' element={<EditarAtividade />} />
+          <Route path='/professor/submissoes/:id' element={<ProfessorAtvSubmetidas />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<LoginAluno />} />
           <Route path='/primeiroacesso' element={<PrimeiroAcessoAluno />} />
