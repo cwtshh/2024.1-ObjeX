@@ -6,10 +6,16 @@ const get_grupo_by_turma = async(req, res) => {
     .populate({
         path: 'membros',
         select: 'nome'
-    }).populate({
+    })
+    .populate({
         path: 'turma',
         select: 'nome'
+    })
+
+    if(!grupo) return res.status(400).json({
+        message: 'Grupo não encontrado'
     });
+
     return res.status(200).json(grupo);
 }
 

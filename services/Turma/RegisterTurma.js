@@ -1,4 +1,5 @@
 const Turma = require("../../models/Turma");
+const Professor = require("../../models/Professor");
 
 const register_turma = async(req, res) => {
     // recebe os dados da requisiçao
@@ -7,6 +8,13 @@ const register_turma = async(req, res) => {
     // verifica se já existe uma turma com o memso nome
     if(await Turma.findOne({ nome })) return res.status(400).json({
         error: 'Já existe uma turma com esse nome.'
+    });
+
+    const professor_exists = await Professor.findById(professor);
+
+    // verifica se o professor existe
+    if(!professor_exists) return res.status(400).json({
+        error: 'Professor não encontrado.'
     });
     
     // cria uma novo turma
@@ -20,6 +28,9 @@ const register_turma = async(req, res) => {
     if(!new_turma) return res.status(500).json({
         error: 'Erro ao cadastrar turma.'
     });
+
+    professor_exists.turma = new_turma._id;
+    await professor_exists.save();
 
     // retorna os dados da turma 
     return res.status(201).json({

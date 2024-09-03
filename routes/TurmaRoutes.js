@@ -30,7 +30,7 @@ router.post('/', authenticate_token_prof, TurmaValidation(), validate, register_
 router.post('/admin', authenticate_token_adm, TurmaValidation(), validate, register_turma);
 
 //Endpoint para deletar de turma
-router.delete('/delete/:id', authenticate_token_prof,delete_turma);
+router.delete('/delete/:id', authenticate_token_prof, delete_turma);
 router.delete('/delete/admin/:id', authenticate_token_adm, delete_turma);
 
 module.exports = router;
