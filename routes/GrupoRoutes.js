@@ -15,7 +15,7 @@ const edit_grupo = require('../services/Grupos/EditGrupo')
 
 
 router.post('/create', GroupCreateValidation(), validate, create_group);
-router.update('/:id', GroupUpdateValidation(), validate, edit_grupo);
+router.put('/:id', GroupUpdateValidation(), validate, edit_grupo);
 router.get('/',  get_all_groupos);
 router.post('/entrar', entrar_grupo);
 router.get('/:id', get_grupo_by_turma);
