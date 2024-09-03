@@ -17,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import AtividadeDeTexto from './pages/atividades/AtividadeDeTexto'
 import AtividadeDeTexto from './pages/exercicio/AtividadeDeTexto'
 import AtividadeDeImagem from './pages/exercicio/AtividadeDeImagem'
-import AlunoAtividades from './pages/tela-cadastro/AlunoAtividades'
+import AlunoAtividades from './pages/lista-atividades/AlunoAtividades'
 import AlunoGrupos from './pages/lista-grupos/AlunoGrupos'
 
 

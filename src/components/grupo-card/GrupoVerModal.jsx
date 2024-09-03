@@ -1,7 +1,9 @@
 import React from "react"
-import { formatDateTime } from "../../util/date-util/ConverterData"
+import { useAuth } from "../../context/AuthContext"
 
-const GrupoVerModal = ({ grupo }) => {
+const GrupoVerModal = ({ grupo, cb }) => {
+    const { user } = useAuth();
+
     return (
         <dialog id={grupo._id} className="modal">
           <div className="modal-box flex flex-col md:gap-y-4 gap-y-3 max-w-screen-2xl max-h-[88vh] bg-base-200">
@@ -15,7 +17,7 @@ const GrupoVerModal = ({ grupo }) => {
                 <div className='flex flex-col bg-base-300 rounded-lg p-2 items-center justify-center align-middle w-1/2'>
                     <p className="font-bold text-sm md:text-xl opacity-70 text-center">{grupo.turma.nome}</p>
                 </div>
-                <div className='flex flex-row bg-neutral rounded-lg p-2 items-center gap-12 justify-center align-middle w-1/2'>
+                <div className='flex flex-row bg-neutral rounded-lg p-2 items-center md:gap-12 gap-2 justify-center align-middle w-1/2'>
                     <p className="truncate md:text-4xl text-2xl text-neutral-content">{grupo.membros.length}</p>
                     <p className="truncate md:text-4xl text-2xl text-neutral-content">|</p>
                     <p className="truncate md:text-4xl text-2xl text-neutral-content">{grupo.capacidade}</p>
@@ -23,7 +25,7 @@ const GrupoVerModal = ({ grupo }) => {
             </div>
             <div className='flex flex-col w-full'>
                 <p className="text-lg font-extrabold opacity-70 pb-0.5 pt-1">Descrição:</p>
-                <div className='flex flex-col bg-base-300 rounded-lg p-2 px-4 w-full'>
+                <div className='flex flex-col bg-base-300 rounded-lg p-2 px-4 w-full h-[20vh] overflow-y-auto'>
                     <p className="text-justify text-lg">{grupo.descricao}</p>
                 </div>
             </div>
@@ -39,10 +41,37 @@ const GrupoVerModal = ({ grupo }) => {
                     )}
                 </ul>
             </div>
+            <div className='flex flex-row w-full justify-center'>
+                <button onClick={()=>document.getElementById(`${grupo._id}_confirmation_in`).showModal()} disabled={!(grupo.membros.map(membro => membro._id).includes(user.id))} className="btn btn-error text-base-100 rounded-lg w-full md:text-xl md:w-1/4 md:mt-4 mt-2">Sair</button>
+            </div>
           </div>
           <form method="dialog" className="modal-backdrop">
             <button></button>
           </form>
+            <dialog id={`${grupo._id}_confirmation_in`} className="modal">
+                <div className="modal-box flex flex-col gap-y-3 max-w-screen-1xl max-h-[88vh] bg-base-200">
+                    <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-error text-lg font-bold">✕</button>
+                    </form>
+                    <p className="text-justify text-xl md:text-xl">Realmente deseja sair do Grupo?</p>
+                    <p className="text-justify font-bold md:text-lg mt-2">Essa ação é irreversível!</p>
+                    <div className="flex flex-row gap-4">
+                        <form method="dialog" className='flex flex-row w-full justify-center'>
+                            <button onClick={() => {
+                                cb();
+                                document.getElementById(grupo._id).close();
+                            }} disabled={!(grupo.membros.map(membro => membro._id).includes(user.id))} className="btn btn-error text-base-100 rounded-lg w-full md:text-xl w-3/4 mt-4">Sair</button>
+                        </form>
+                        <form method="dialog" className='flex flex-row w-full justify-center'>
+                            <button className="btn btn-neutral text-neutral-content rounded-lg w-full md:text-xl w-3/4 mt-4">Cancelar</button>
+                        </form>
+                    </div>
+                    
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button></button>
+                </form>
+            </dialog>
         </dialog>
     )
 }

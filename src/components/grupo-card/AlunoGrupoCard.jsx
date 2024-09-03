@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import GrupoVerModal from './GrupoVerModal';
 import { Icons, toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthContext';
 import { GRUPO_ENDPOINT } from '../../util/constants';
 import axios from 'axios';
+import ConfirmacaoModal from './ConfirmacaoModal';
 
-const AlunoGrupoCard = ({ grupo }) => {
+const AlunoGrupoCard = ({ grupo, triggerReload }) => {
     const { user } = useAuth();
+    const [ emGrupo, setEmGrupo ] = React.useState(user.in_grupo);
 
     const notify = (status, message) => {
         if(status === 'error') {
@@ -25,7 +27,7 @@ const AlunoGrupoCard = ({ grupo }) => {
           });
         }
         if(status === 'success') {
-            toast.warning(`${message}`, {
+            toast.success(`${message}`, {
               autoClose: 5000,
               hideProgressBar: false,
               closeOnClick: true,
@@ -48,13 +50,37 @@ const AlunoGrupoCard = ({ grupo }) => {
         .then((res) => {
             // Atualizar o estado do usuário
             user.in_grupo = true;
-            
+            setEmGrupo(true);
+            localStorage.setItem('objex@auth_user', JSON.stringify(user));
             notify('success', 'Entrou no grupo com sucesso');
+            triggerReload();
         }
         ).catch((err) => {
             notify('error', err.response.data.message);
         });
     }
+
+    const sairGrupo = () => {
+        axios.post(`${GRUPO_ENDPOINT}/sair/`, {
+            id_grupo: grupo._id,
+            id_estudante: user.id
+        })
+        .then((res) => {
+            // Atualizar o estado do usuário
+            user.in_grupo = false;
+            setEmGrupo(false);
+            localStorage.setItem('objex@auth_user', JSON.stringify(user));
+            notify('success', 'Saiu do grupo com sucesso');
+            triggerReload();
+        }
+        ).catch((err) => {
+            notify('error', err.response.data.message);
+        });
+    }
+
+    useEffect(() => {
+        setEmGrupo(user.in_grupo);
+    }, [grupo, user])
 
     return (
         <li key={grupo._id} className="p-4 m-2 bg-base-300 rounded-lg">
@@ -80,10 +106,16 @@ const AlunoGrupoCard = ({ grupo }) => {
                             <path d="M396 512a112 112 0 10224 0 112 112 0 10-224 0zm546.2-25.8C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 000 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM508 688c-97.2 0-176-78.8-176-176s78.8-176 176-176 176 78.8 176 176-78.8 176-176 176z" />
                         </svg>
                     </Link>
-                    <button onClick={entrarGrupo} disabled={user.in_grupo ? 'disabled' : ''} className='btn btn-primary text-base-100 rounded-lg'>Entrar</button>
+                    {grupo.membros.map(membro => membro._id).includes(user.id) ? (
+                        <button onClick={()=>document.getElementById(`${grupo._id}_confirmation`).showModal()} className="btn btn-error text-base-100 rounded-lg w-20">Sair</button>
+                    ) : (
+                        <button onClick={entrarGrupo} disabled={emGrupo} className="btn btn-primary text-base-100 rounded-lg w-20">Entrar</button>
+                    )}
+                    
                 </div>
             </div>
-            <GrupoVerModal grupo={grupo} />
+            <GrupoVerModal grupo={grupo} cb={sairGrupo} />
+            <ConfirmacaoModal grupo={grupo} cb={sairGrupo} msg='Realmente deseja sair do Grupo?' />
         </li>
     )
 }

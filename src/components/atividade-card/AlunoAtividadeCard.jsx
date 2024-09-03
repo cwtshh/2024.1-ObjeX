@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { Icons, toast } from 'react-toastify';
 
-const AtividadeCard = ({ atividade }) => {
+const AlunoAtividadeCard = ({ atividade }) => {
     const navigate = useNavigate();
 
     const notify = (status, message) => {
@@ -23,7 +23,7 @@ const AtividadeCard = ({ atividade }) => {
             icon: Icons.info,
           });
         }
-      }
+    }
 
     const goToAtividade = () => {
         let today = new Date();
@@ -106,4 +106,4 @@ const AtividadeCard = ({ atividade }) => {
     )
 }
 
-export default AtividadeCard
+export default AlunoAtividadeCard

@@ -43,8 +43,8 @@ const AtividadeVerModal = ({ atividade }) => {
             </div>
             <div className='flex flex-col w-full'>
                 <p className="text-lg font-extrabold opacity-70 pb-0.5 pt-1">Enunciado:</p>
-                <div className='flex flex-col bg-base-300 rounded-lg p-2 px-4 w-full'>
-                    <p className="text-justify text-lg">{atividade.enunciado}</p>
+                <div className='flex flex-col bg-base-300 rounded-lg p-2 px-4 w-full h-[30vh] overflow-y-auto'>
+                    <p className="text-justify md:text-lg">{atividade.enunciado}</p>
                 </div>
             </div>
           </div>

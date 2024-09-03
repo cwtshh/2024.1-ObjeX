@@ -5,11 +5,11 @@ import { formatDateTime } from '../../util/date-util/ConverterData';
 import { ATIVIDADE_ENDPOINT } from "../../util/constants";
 import axios from "axios";
 import { useAuth } from '../../context/AuthContext';
-import AtividadeCard from '../../components/atividade-card/AtividadeCard';
+import AlunoAtividadeCard from '../../components/atividade-card/AlunoAtividadeCard';
 import { ToastContainer } from 'react-toastify';
 
 const AlunoAtividades = () => {
-  const { token, user } = useAuth();
+  const { user } = useAuth();
 
   const [ atividades, setAtividades ] = useState([]);
   const [ filteredAtividades, setFilteredAtividades ] = useState([]);
@@ -75,7 +75,7 @@ const AlunoAtividades = () => {
                     <ul className="list-none overflow-y-auto h-[68vh] bg-base-100 md:pl-4 md:pr-2 pl-4 pr-4 rounded-lg">
                         {filteredAtividades.length > 0 ? (filteredAtividades.map((atividade, index) => {
                             return (
-                                <AtividadeCard key={index} atividade={atividade} />
+                                <AlunoAtividadeCard key={index} atividade={atividade} />
                             )
                         })) : (
                             <div className='flex justify-center items-center'><p className='md:text-2xl md:mt-16 text-lg mt-6 text-primary font-bold opacity-80'>Nenhuma atividade encontrada...</p></div>
