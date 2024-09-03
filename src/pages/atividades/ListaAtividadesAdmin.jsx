@@ -206,9 +206,9 @@ const ListaAtividadesAdmin = () => {
 
                         <div className='flex flex-col p-6 overflow-scroll h-4/5'>
                             {atividades.length === 0 ? <h1></h1> : (
-                                filteredAtividades.map(atividade => {
+                                filteredAtividades.map((atividade, index) => {
                                     return (
-                                        <AtividadeCard atividade={atividade} />
+                                        <AtividadeCard key={index} atividade={atividade} trigger_reload={get_atividades} />
                                     )
                                 })
                             )}
@@ -254,8 +254,8 @@ const ListaAtividadesAdmin = () => {
                             onChange={(e) => setTurma(e.target.value)}
                         >
                             <option value="" disabled>Selecione uma Turma</option>
-                            {turmas.map(turma => {
-                                return <option value={turma._id}>{turma.nome}</option>
+                            {turmas.map((turma, index) => {
+                                return <option key={index} value={turma._id}>{turma.nome}</option>
                             })}
                         </select>
                     </label>

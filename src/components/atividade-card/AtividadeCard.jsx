@@ -3,7 +3,7 @@ import { formatDateTime } from '../../util/date-util/ConverterData'
 import AtividadeVerModalAdmin from './AtividadeVerModalAdmin'
 import DeletarAtividadeModalAdmin from './DeletarAtividadeModalAdmin'
 
-const AtividadeCard = ({ atividade }) => {
+const AtividadeCard = ({ atividade, trigger_reload }) => {
     const deletar_atividade = async() => {
         
     }
@@ -48,8 +48,8 @@ const AtividadeCard = ({ atividade }) => {
                     <div className='btn btn-error text-base-100 rounded-lg' onClick={() => document.getElementById(`${atividade._id}_delete`).showModal()}>Excluir</div>
                 </div>
             </div>
-            <AtividadeVerModalAdmin atividade={atividade} />
-            <DeletarAtividadeModalAdmin atividade={atividade} />
+            <AtividadeVerModalAdmin atividade={atividade} trigger_reload={trigger_reload} />
+            <DeletarAtividadeModalAdmin atividade={atividade} trigger_relaod={trigger_reload} />
         </li>
     )
 }
