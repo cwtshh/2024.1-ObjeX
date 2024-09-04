@@ -11,33 +11,42 @@ const resgatar_respostas = async(req, res) => {
         return res.status(400).send({ error: 'Atividade não encontrada' });
     }
 
-    let respostas;
+    if(atividade.type === 'code') {
+        const respostas = await RespostaCode.find({ atividade_id: id_atividade })
+        .populate({
+            path: 'aluno_id',
+            select: 'nome'
+        })
 
-    switch (atividade.type) {
-        case 'code':
-            respostas = await RespostaCode.find({ atividade_id: id_atividade })
-            .populate({
-                path: 'aluno_id',
-                select: 'nome'
-            })
-        case 'image':
-            respostas = await RespostaImage.find({ atividade_id: id_atividade })
-            .populate({
-                path: 'aluno_id',
-                select: 'nome'
-            })
-        case 'text':
-            respostas = await RespostaText.find({ atividade_id: id_atividade })
-            .populate({
-                path: 'aluno_id',
-                select: 'nome'
-            })
-    }
+        if(!respostas){
+            return res.status(400).send({ error: 'Respostas não encontradas' });
+        }
+        return res.status(200).json(respostas);
+    } else if(atividade.type === 'image') {
+        const respostas = await RespostaImage.find({ atividade_id: id_atividade })
+        .populate({
+            path: 'aluno_id',
+            select: 'nome'
+        })
 
-    if(!respostas){
-        return res.status(400).send({ error: 'Respostas não encontradas' });
+        if(!respostas){
+            return res.status(400).send({ error: 'Respostas não encontradas' });
+        }
+        return res.status(200).json(respostas);
+    } else if(atividade.type === 'text') {
+        const respostas = await RespostaText.find({ atividade_id: id_atividade })
+        .populate({
+            path: 'aluno_id',
+            select: 'nome'
+        })
+
+        if(!respostas){
+            return res.status(400).send({ error: 'Respostas não encontradas' });
+        }
+        return res.status(200).json(respostas);
+    } else {
+        return res.status(400).send({ error: 'Tipo de atividade não encontrado' });
     }
-    return res.status(200).json(respostas);
 }
 
 module.exports = resgatar_respostas;
