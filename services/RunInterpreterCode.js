@@ -27,7 +27,7 @@ const run_interpreter_code_and_test = async(req, res) => {
     exec(command, async(error, stdout, stderr) => {
         if (error) {
             await axios.post(`${BASE_API_URL}/atividade/registrar/resposta`, {
-                code: `${code}\n\n${error.message}`,
+                code: `${code}\n\n\n######### ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ##################\n\n${error.message}\n######### ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ERRO ##################`,
                 atividade_id: atividade_id,
                 passed: false,
                 usuario_id: usuario_id,
