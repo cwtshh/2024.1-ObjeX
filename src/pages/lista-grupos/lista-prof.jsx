@@ -11,7 +11,7 @@ import NotifyToast from '../../components/toast/NotifyToast';
 import ExcelJs from 'exceljs';
 
 const ListaGruposProf = () => {
-  const { logout, user } = useAuth();
+  const { logout, user, token } = useAuth();
   const [ grupos, setGrupos ] = useState([]);
   const [ filteredGroups, setFilteredGroups ] = useState([]);
   const [ turmas, setTurmas ] = useState([]);
@@ -22,7 +22,7 @@ const ListaGruposProf = () => {
   const [ capacidade, setCapacidade ] = useState('');
 
   const get_groups = async() => {
-    await axios.get(`${GRUPO_ENDPOINT}/get/${user.turma}`).then((res) => {
+    await axios.get(`${GRUPO_ENDPOINT}/${user.turma}`).then((res) => {
       setGrupos(res.data);
       setFilteredGroups(res.data);
     }).catch(err => {
@@ -30,10 +30,9 @@ const ListaGruposProf = () => {
     });
   };
   const get_turmas = async() => { // TODO - Implementar autenticação
-    await axios.get(`${API_BASE_URL}/turma/admin`, {
+    await axios.get(`${API_BASE_URL}/turma/`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YzY1MTlmMTExZTEwOWYxZDEwNWIyZCIsImlhdCI6MTcyNDg3ODcyMCwiZXhwIjoxNzI1NDgzNTIwfQ.Z2xeffUnI5MDZbobKMmHvLAycecwq0Lx7UfQwkGKPfA`
-      }
+        Authorization: `Bearer ${token}`}
     }).then(res => {
       setTurmas(res.data.turmas);
     }).catch(err => {
