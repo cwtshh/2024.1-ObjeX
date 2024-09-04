@@ -15,8 +15,8 @@ const responder_atividade_texto = async(req, res) => {
     }
     const resposta_nova = await RespostaTexto.create({
         resposta,
-        atividade: id_atividade,
-        usuario: id_usuario,
+        atividade_id: id_atividade,
+        aluno_id: id_usuario,
     });
     if(!resposta_nova) {
         return res.status(500).json({ message: "Erro ao responder atividade" });

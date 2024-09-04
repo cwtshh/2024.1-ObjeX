@@ -17,7 +17,7 @@ const resgatar_respostas = async(req, res) => {
         case 'code':
             respostas = await RespostaCode.find({ atividade_id: id_atividade })
             .populate({
-                path: 'usuario_id',
+                path: 'aluno_id',
                 select: 'nome'
             })
         case 'image':
@@ -27,9 +27,9 @@ const resgatar_respostas = async(req, res) => {
                 select: 'nome'
             })
         case 'text':
-            respostas = await RespostaText.find({ atividade: id_atividade })
+            respostas = await RespostaText.find({ atividade_id: id_atividade })
             .populate({
-                path: 'usuario',
+                path: 'aluno_id',
                 select: 'nome'
             })
     }
