@@ -14,6 +14,7 @@ import ProfessorDashboard from './pages/dashboard/ProfessorDashboard'
 import Interpretador from './pages/atividades/interpretador'
 import ImgUpload from './pages/atividades/img-upload'
 import 'react-toastify/dist/ReactToastify.css';
+import Alunos from './pages/lista-alunos/Alunos'
 // import AtividadeDeTexto from './pages/atividades/AtividadeDeTexto'
 import AtividadeDeTexto from './pages/exercicio/AtividadeDeTexto'
 import AtividadeDeImagem from './pages/exercicio/AtividadeDeImagem'
@@ -34,6 +35,7 @@ function App() {
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/professor/grupos' element={<ProfessorDashboard />} />
           <Route path='/admin/grupos' element={<ListaGrupos />} />
+          <Route path='/professor/alunos' element={<Alunos/>}/>
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<LoginAluno />} />
           <Route path='/primeiroacesso' element={<PrimeiroAcessoAluno />} />
