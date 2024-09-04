@@ -19,7 +19,7 @@ const {
 
 //Endpoint para obter todas turmas
 router.get('/', authenticate_token_prof, get_turmas);
-router.get('/admin', authenticate_token_adm, get_turmas);
+router.get('/admin', get_turmas); // TODO adicionar verificacao de token novamente
 
 //Endpoint para obter turma
 router.get('/:id', authenticate_token_prof, get_turma);
