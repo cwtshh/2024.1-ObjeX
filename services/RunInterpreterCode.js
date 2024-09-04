@@ -21,7 +21,7 @@ const run_interpreter_code_and_test = async(req, res) => {
 
     const temp_code = `${code}\n\n${test_cases}`;
     const upload_directory = path.join(__dirname, '../uploads');
-    const file_path = path.join(upload_directory, 'temp_code.py');
+    const file_path = path.join(upload_directory, `${usuario_id}_temp_code.py`);
     fs.writeFileSync(file_path, temp_code);
     const command = `python3 ${file_path}`;
     exec(command, async(error, stdout, stderr) => {
@@ -33,17 +33,26 @@ const run_interpreter_code_and_test = async(req, res) => {
                 usuario_id: usuario_id,
             })
 
+            // Apagar temp_code.py
+            fs.unlinkSync(file_path);
+
             return res.json({
                 status: 'error',
                 message: error.message
             });
         }
         if(stderr){
+            // Apagar temp_code.py
+            fs.unlinkSync(file_path);
+
             return res.json({
                 status: 'error',
                 message: stderr
             });
         }
+
+        // Apagar temp_code.py
+        fs.unlinkSync(file_path);
         
         await axios.post(`${BASE_API_URL}/atividade/registrar/resposta`, {
             code: code,
@@ -51,7 +60,8 @@ const run_interpreter_code_and_test = async(req, res) => {
             passed: true,
             usuario_id: usuario_id,
         })
-        res.json({
+        
+        return res.json({
             status: 'success',
             message: stdout
         });
