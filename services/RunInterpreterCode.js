@@ -3,13 +3,14 @@ const fs = require('fs');
 const path = require('path');
 const { stdout, stderr } = require("process");
 const exec = require('child_process').exec;
+const BASE_API_URL = process.env.BASE_API_URL;
 
 const run_interpreter_code_and_test = async(req, res) => {
     const { code, atividade_id, usuario_id } = req.body;
     let test_cases = '';
     // TODO DEIXAR A ROTA DINAMICA
     try {
-        const res = await axios.get(`http://localhost:3001/atividade/casos/teste?atividade_id=${atividade_id}`);
+        const res = await axios.get(`${BASE_API_URL}/atividade/casos/teste?atividade_id=${atividade_id}`);
         test_cases = res.data;
     } catch (error) {
         console.log(error);
@@ -35,8 +36,8 @@ const run_interpreter_code_and_test = async(req, res) => {
             });
             return;
         }
-        // TODO DEIXAR A ROTA DINAMICA
-        await axios.post(`http://localhost:3001/atividade/registrar/resposta`, {
+        
+        await axios.post(`${BASE_API_URL}/atividade/registrar/resposta`, {
             code: code,
             atividade_id: atividade_id,
             passed: true,
