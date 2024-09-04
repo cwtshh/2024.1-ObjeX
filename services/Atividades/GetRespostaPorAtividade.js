@@ -3,7 +3,7 @@ const RespostaTexto = require("../../models/RespostaTexto");
 const get_resposta_por_atividade_texto = async(req, res) => {
     const { id_atividade } = req.params;
     const resposta = await RespostaTexto.find({ atividade: id_atividade }).populate({
-        path: "usuario",
+        path: "aluno_id",
         select: "nome",
     });
     if (!resposta) {

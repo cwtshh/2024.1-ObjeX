@@ -11,9 +11,9 @@ const RespostaCodeSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Atividade'
         },
-        usuario_id: {
+        aluno_id: {
             type: Schema.Types.ObjectId,
-            ref: 'Usuario'
+            ref: 'Aluno'
         },
         passed: {
             type: Boolean,

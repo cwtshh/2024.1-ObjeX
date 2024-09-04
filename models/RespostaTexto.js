@@ -7,12 +7,12 @@ const RespostaTextoSchema = new Schema(
             type: String,
             default: null,
         },
-        atividade: {
+        atividade_id: {
             type: Schema.Types.ObjectId,
             ref: 'Atividade',
             default: null,
         },
-        usuario: {
+        aluno_id: {
             type: Schema.Types.ObjectId,
             ref: 'Aluno',
             default: null,
