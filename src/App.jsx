@@ -18,7 +18,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import AtividadeDeTexto from './pages/exercicio/AtividadeDeTexto'
 import AtividadeDeImagem from './pages/exercicio/AtividadeDeImagem'
 import AlunoAtividades from './pages/lista-atividades/AlunoAtividades'
-import AlunoGrupos from './pages/lista-grupos/AlunoGrupos'
+import AlunoGrupos from './pages/lista-grupos/AlunoGrupos' 
+import Turmas from './pages/turmas/Turmas'
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/professor/grupos' element={<ProfessorDashboard />} />
           <Route path='/admin/grupos' element={<ListaGrupos />} />
+          <Route path='/admin/turmas' element={<Turmas />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<LoginAluno />} />
           <Route path='/primeiroacesso' element={<PrimeiroAcessoAluno />} />
