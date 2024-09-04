@@ -8,7 +8,7 @@ const BASE_API_URL = process.env.BASE_API_URL;
 const run_interpreter_code_and_test = async(req, res) => {
     const { code, atividade_id, usuario_id } = req.body;
     let test_cases = '';
-    // TODO DEIXAR A ROTA DINAMICA
+
     try {
         const res = await axios.get(`${BASE_API_URL}/atividade/casos/teste?atividade_id=${atividade_id}`);
         test_cases = res.data;
