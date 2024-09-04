@@ -30,7 +30,6 @@ const Alunos = () => {
         await axios.get(`${API_BASE_URL}/aluno/turma?turma_id=${user.turma}`).then((res) => {
             setAlunos(res.data);
             setAlunosFiltrados(res.data);
-            console.log(res.data)
         }).catch(err => {
             NotifyToast({ message: 'Erro ao buscar Alunos', toast_type: 'erro' });
         });
@@ -46,7 +45,6 @@ const Alunos = () => {
                 turma: turmaDoAluno
             }
         ).then((res) => {
-            console.log('Professor criado com sucesso')
             setEmail('')
             setNome('')
             setMatricula('')
@@ -122,7 +120,6 @@ const Alunos = () => {
             await axios.post(`${API_BASE_URL}/aluno/register/many`, {
                 alunos: students,
                 turma: user.turma }).then(res => {
-                console.log(res.data);
             }).catch(err => {
                 console.log(err);
             });
