@@ -10,6 +10,7 @@ const get_alunos = require('../services/Aluno/GetAluno');
 const delete_aluno = require('../services/Aluno/DeleteAluno');
 const primeiro_acesso = require('../services/Aluno/PrimeiroAcesso');
 const registrar_varios_alunos = require('../services/Aluno/RegisterVariosAlunos')
+const get_aluno_by_turma = require('../services/Aluno/GetAlunoByTurma');
 
 
 // middlewares
@@ -27,6 +28,7 @@ router.post('/login/token', login_token);
 router.get('/', get_alunos);
 router.delete('/delete/:id', authenticate_token_prof, delete_aluno);
 router.post('/register/many', registrar_varios_alunos);
+router.get('/turma', get_aluno_by_turma);
 
 
 module.exports = router;
