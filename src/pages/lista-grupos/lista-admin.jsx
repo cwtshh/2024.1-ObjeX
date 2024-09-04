@@ -10,7 +10,7 @@ import GrupoCard from '../../components/grupo-card/GrupoCard';
 import NotifyToast from '../../components/toast/NotifyToast';
 import ExcelJs from 'exceljs';
 
-const ListaGrupos = () => {
+const ListaGruposAdmin = () => {
   const { logout, user } = useAuth();
   const [ grupos, setGrupos ] = useState([]);
   const [ filteredGroups, setFilteredGroups ] = useState([]);
@@ -230,4 +230,4 @@ const ListaGrupos = () => {
   )
 }
 
-export default ListaGrupos;
+export default ListaGruposAdmin;
