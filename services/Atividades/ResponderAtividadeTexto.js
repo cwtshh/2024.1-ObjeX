@@ -13,6 +13,11 @@ const responder_atividade_texto = async(req, res) => {
     if(atividade.data_abertura > new Date() || atividade.data_encerramento < new Date()){
         return res.status(400).json({message: 'Atividade fechada'});
     }
+    const possivel_resposta = await RespostaTexto.findOne({ atividade_id: id_atividade, aluno_id: id_usuario });
+    if (possivel_resposta) {
+        await possivel_resposta.updateOne({ resposta });
+        return res.status(200).json(possivel_resposta);
+    }
     const resposta_nova = await RespostaTexto.create({
         resposta,
         atividade_id: id_atividade,

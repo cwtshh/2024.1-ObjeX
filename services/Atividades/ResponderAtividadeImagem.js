@@ -34,6 +34,12 @@ const responder_atividade_imagem = async(req, res) => {
         if(err){
             return res.status(400).json({message: err});
         }
+        const resposta = await RespostaImage.findOne({atividade_id, aluno_id});
+        if(resposta){
+            fs.unlinkSync(resposta.image_url);
+            await resposta.updateOne({$set: {image_url: uploadDirectory + req.file.filename}});
+            return res.status(200).json(resposta);
+        }
         const new_resposta = await RespostaImage.create({
             atividade_id,
             aluno_id,
