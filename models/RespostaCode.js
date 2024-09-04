@@ -13,7 +13,7 @@ const RespostaCodeSchema = new Schema(
         },
         usuario_id: {
             type: Schema.Types.ObjectId,
-            ref: 'Usuario'
+            ref: 'Aluno'
         },
         passed: {
             type: Boolean,

@@ -12,6 +12,7 @@ const registrar_resposta_code = require('../services/RespostaCode/RegistrarRespo
 const responder_atividade_texto = require('../services/Atividades/ResponderAtividadeTexto');
 const create_atividade_texto = require('../services/Atividades/CreateAtividadeTexto');
 const get_resposta_por_atividade_texto = require('../services/Atividades/GetRespostaPorAtividade');
+const resgatar_respostas = require('../services/Atividades/GetRespostas');
 
 router.get('/', (req, res) => {
     res.send('ATIVIDADES');
@@ -24,9 +25,10 @@ router.post('/create/image', create_atividade_image);
 router.post('/create/text', create_atividade_texto);
 router.post('/responder/imagem/', responder_atividade_imagem);
 router.get('/imagem/', get_resposta_image);
-router.get('/casos/teste/', resgatar_casos_teste)
+router.get('/casos/teste/', resgatar_casos_teste);
 router.post('/registrar/resposta', registrar_resposta_code);
 router.post('/responder/texto', responder_atividade_texto);
 router.get('/texto/:id_atividade', get_resposta_por_atividade_texto);
+router.get('/resgatar/respostas', resgatar_respostas);
 
 module.exports = router;
