@@ -4,7 +4,7 @@ const RespostaImage = require('../../models/RespostaImage');
 const RespostaText = require('../../models/RespostaTexto');
 
 const resgatar_respostas = async(req, res) => {
-    const { id_atividade } = req.body;
+    const { id_atividade } = req.params;
     
     const atividade = await Atividade.findById(id_atividade);
     if (!atividade) {

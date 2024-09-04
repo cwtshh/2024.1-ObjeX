@@ -29,6 +29,6 @@ router.get('/casos/teste/', resgatar_casos_teste);
 router.post('/registrar/resposta', registrar_resposta_code);
 router.post('/responder/texto', responder_atividade_texto);
 router.get('/texto/:id_atividade', get_resposta_por_atividade_texto);
-router.get('/resgatar/respostas', resgatar_respostas);
+router.get('/resgatar/respostas/:id_atividade', resgatar_respostas);
 
 module.exports = router;
