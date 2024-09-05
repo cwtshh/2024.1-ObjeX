@@ -12,7 +12,7 @@ const ProfessorCreateValidation = () => {
             .withMessage("O email é obrigatório")
             .isEmail()
             .withMessage("O email deve ser válido"),
-        body('id_turma')
+        body('turma')
             .isString()
             .withMessage("O ID da turma é obrigatório")
     ]
