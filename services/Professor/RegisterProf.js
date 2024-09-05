@@ -7,7 +7,7 @@ const Turma = require("../../models/Turma");
 
 const register_prof = async(req, res) => {
     // recebe os dados da requisiçao
-    const { nome, email, id_turma } = req.body;
+    const { nome, email, turma } = req.body;
 
     // verifica se o email já está cadastrado
     if(await Professor.findOne({ email })) return res.status(400).json({
@@ -44,8 +44,8 @@ const register_prof = async(req, res) => {
         });
     }
     
-    const turma = await Turma.findById(id_turma);
-    if(!turma) return res.status(500).json({
+    const exist_turma = await Turma.findById(turma);
+    if(!exist_turma) return res.status(500).json({
         error: 'Erro ao encontrar turma'
     });
 
@@ -58,12 +58,12 @@ const register_prof = async(req, res) => {
         nome,
         email,
         senha: pass_hash,
-        turma: id_turma,
+        turma: exist_turma._id,
         role: 'professor'
     });
 
-    turma.professor = new_prof._id;
-    await turma.save();
+    exist_turma.professor = new_prof._id;
+    await exist_turma.save();
 
     // verifica se o professor foi cadastrado
     if(!new_prof) return res.status(500).json({
