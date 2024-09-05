@@ -183,9 +183,9 @@ const AlunosParaProfessor = () => {
                         <div className='flex flex-col p-6 overflow-scroll h-4/5'>
                             <div>
                                 {/* <!-- Card --> */}
-                                {alunosFiltrados.map(aluno => {
+                                {alunosFiltrados.length === 0 ? (<><h1>Nenhum aluno encontrado</h1></>) : (alunosFiltrados.map((aluno, index) => {
                                     return (
-                                        <ul key={aluno._id} className="list-none bg-base-100 pl-4 pr-4">
+                                        <ul key={index} className="list-none bg-base-100 pl-4 pr-4">
                                             <li className="p-4 m-2 bg-base-300 rounded-lg">
                                                 <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
                                                     <div className='flex flex-col md:w-[19vw] pb-4'>
@@ -205,7 +205,8 @@ const AlunosParaProfessor = () => {
                                             {/* ))} */}
                                         </ul>
                                     )
-                                })}
+                                }))
+                                }
                             </div>
                         </div>
                     </div>
