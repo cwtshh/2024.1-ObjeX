@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const auto_generate_password = require("../../middlewares/PasswordGenerator");
 const generate_token = require("./GenerateToken");
 const send_mail = require("../../middlewares/SendMail");
+const Turma = require("../../models/Turma");
 
 const register_prof = async(req, res) => {
     // recebe os dados da requisiçao
@@ -35,13 +36,18 @@ const register_prof = async(req, res) => {
     // tenta enviar o email
     try {
         await send_mail(email, subject, text);
-
+        
         mail_message = `Email enviado com sucesso para: ${email}`;
     } catch(error){
         return res.status(500).json({
             error_message: 'Erro ao cadastrar professor - Falha ao enviar email: ', error
         });
     }
+    
+    const turma = await Turma.findById(id_turma);
+    if(!turma) return res.status(500).json({
+        error: 'Erro ao encontrar turma'
+    });
 
     // criptografa a senha
     const hash = await bcrypt.genSalt();
@@ -55,6 +61,9 @@ const register_prof = async(req, res) => {
         turma: id_turma,
         role: 'professor'
     });
+
+    turma.professor = new_prof._id;
+    await turma.save();
 
     // verifica se o professor foi cadastrado
     if(!new_prof) return res.status(500).json({

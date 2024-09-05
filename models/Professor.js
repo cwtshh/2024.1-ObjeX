@@ -12,7 +12,7 @@ const ProfessorSchema = new Schema(
         turma: {
             type: Schema.Types.ObjectId,
             ref: 'Turma',
-            default: null
+            required: true
         },
         role: {
             type: String,

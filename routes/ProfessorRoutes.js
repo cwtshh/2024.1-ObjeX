@@ -33,7 +33,7 @@ const {
 router.post('/register/tmp', ProfessorAdminCreateValidation(), validate, register_prof_admin);
 router.post('/admin/login', ProfessorAdminLoginValidation(), validate, login_prof_admin);
 
-router.post('/register', authenticate_token_adm, ProfessorCreateValidation(), validate, register_prof);
+router.post('/register', ProfessorCreateValidation(), validate, register_prof); // TODO adicionar validacao de token novamente
 router.post('/login', ProfessorAdminLoginValidation(), validate, login_prof);
 
 router.delete('/delete', authenticate_token_adm, ProfessorDeleteValidation(), validate, delete_prof);

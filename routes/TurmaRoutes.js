@@ -26,8 +26,8 @@ router.get('/:id', authenticate_token_prof, get_turma);
 router.get('/admin/:id', authenticate_token_adm, get_turma);
 
 //Endpoint para registro de turma
-router.post('/', authenticate_token_prof, TurmaValidation(), validate, register_turma);
-router.post('/admin', authenticate_token_adm, TurmaValidation(), validate, register_turma);
+router.post('/', TurmaValidation(), validate, register_turma); // TODO adicionar validacao de token novamente
+router.post('/admin', TurmaValidation(), validate, register_turma);
 
 //Endpoint para deletar de turma
 router.delete('/delete/:id', authenticate_token_prof, delete_turma);
