@@ -71,49 +71,6 @@ export const AuthProvider = ({ children }) => {
                 }
             }
         }
-
-        // try {
-        //     switch(user_type) {
-        //         case 'admin': {
-        //             const res = await axios.post(`${PROFESSOR_ENDPOINT}/admin/login`, userData);
-        //             setUser(res.data.user);
-        //             setToken(res.data.token);
-        //             localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
-        //             localStorage.setItem('objex@auth_token', res.data.token);
-        //             setIsReady(true);
-        //             return(
-        //                 <Navigate to='/admin/dashboard' />
-        //             );
-        //         }
-
-        //         case 'estudante': {
-        //             const res = await axios.post(`${ALUNO_ENDPOINT}/login`, userData);
-        //             setUser(res.data.user);
-        //             setToken(res.data.token);
-        //             localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
-        //             localStorage.setItem('objex@auth_token', res.data.token);
-        //             setIsReady(true);
-        //             return {passou: true, retorno: res};
-        //         }
-
-        //     }
-
-        //     if(user_type === 'professor') {
-        //         const res = await axios.post(`${PROFESSOR_ENDPOINT}/login`, userData);
-        //         console.log(res.error);
-        //         console.log(res.data);
-        //         setUser(res.data.user);
-        //         setToken(res.data.token);
-        //         localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
-        //         localStorage.setItem('objex@auth_token', res.data.token);
-        //         setIsReady(true);
-        //         return true;
-        //     }
-
-        // } catch (error) {
-        //     console.log(error);
-        //     return {passou: false, retorno: error};
-        // }
     };
 
     const logout = async() => {
