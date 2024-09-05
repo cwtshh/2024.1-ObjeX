@@ -3,6 +3,7 @@ const router = express();
 
 const create_group = require('../services/Grupos/CreateGroup');
 const get_all_grupos = require("../services/Grupos/GetGroups");
+const delete_grupo = require("../services/Grupos/DeleteGrupo");
 
 // middlewares
 const { GroupCreateValidation } = require('../middlewares/GroupValidation');
@@ -20,5 +21,6 @@ router.get('/:id', get_grupo_by_turma);
 router.put('/:id', GroupUpdateValidation(), validate, edit_grupo);
 router.post('/entrar', entrar_grupo);
 router.post('/sair', sair_grupo);
+router.delete('/', delete_grupo);
 
 module.exports = router;
