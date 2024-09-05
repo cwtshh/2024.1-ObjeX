@@ -9,16 +9,17 @@ import AlunoDashboard from './pages/dashboard/AlunoDashboard'
 import PrimeiroAcessoAluno from './pages/primeiro-acesso/PrimeiroAcessoAluno'
 import AtivarContaAluno from './pages/ativar-conta/AtivarContaAluno'
 import ProfLogin from './pages/login/ProfLogin'
-import ListaGrupos from './pages/lista-grupos/lista'
+import ListaGruposAdmin from './pages/lista-grupos/lista-admin'
 import ProfessorDashboard from './pages/dashboard/ProfessorDashboard'
 import Interpretador from './pages/atividades/interpretador'
 import ImgUpload from './pages/atividades/img-upload'
 import 'react-toastify/dist/ReactToastify.css';
-// import AtividadeDeTexto from './pages/atividades/AtividadeDeTexto'
+import Alunos from './pages/lista-alunos/Alunos'
 import AtividadeDeTexto from './pages/exercicio/AtividadeDeTexto'
 import AtividadeDeImagem from './pages/exercicio/AtividadeDeImagem'
 import AlunoAtividades from './pages/lista-atividades/AlunoAtividades'
-import AlunoGrupos from './pages/lista-grupos/AlunoGrupos' 
+import AlunoGrupos from './pages/lista-grupos/AlunoGrupos'
+import ListaGruposProf from './pages/lista-grupos/lista-prof'
 import Turmas from './pages/turmas/Turmas'
 
 
@@ -36,6 +37,9 @@ function App() {
           <Route path='/professor/grupos' element={<ProfessorDashboard />} />
           <Route path='/admin/grupos' element={<ListaGrupos />} />
           <Route path='/admin/turmas' element={<Turmas />} />
+          <Route path='/professor/alunos' element={<Alunos/>}/>
+          <Route path='/professor/grupos' element={<ListaGruposProf />} />
+          <Route path='/admin/grupos' element={<ListaGruposAdmin />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<LoginAluno />} />
           <Route path='/primeiroacesso' element={<PrimeiroAcessoAluno />} />
