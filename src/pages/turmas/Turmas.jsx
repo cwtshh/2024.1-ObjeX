@@ -1,73 +1,202 @@
-import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-import NavBar from '../../components/navbar/navbar-menu/NavBarMenu';
-import SideBar from '../../components/sidebar/SideBar';
-import { API_BASE_URL } from '../../util/constants';
+import React, { useCallback, useEffect, useState, useRef } from 'react'
 import { useAuth } from '../../context/AuthContext';
+import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
+import axios from 'axios';
+import { API_BASE_URL } from '../../util/constants';
+import SideBar from '../../components/sidebar/SideBar';
+import NotifyToast from '../../components/toast/NotifyToast';
+import ExcelJS from 'exceljs';
 
 const Turmas = () => {
-  const { token } = useAuth(); 
-  const [turmas, setTurmas] = useState([]);
 
-  useEffect(() => {
-    const getTurmas = () => {
-      axios.get(` ${API_BASE_URL}/turma/admin `, {
-          headers: {
-              'Authorization': ` Bearer ${token} `
-          }
-      })
-      .then((response) => {
-          console.log(response.data);
-          setTurmas(response.data);
-      })
-      .catch((error) => {
-          console.error(error);
-      });
+    const [nome, setNome] = useState('')
+    const [horario, setHorario] = useState('')
+    const [turmas, setTurmas] = useState([])
+    const [turmasFiltradas, setTurmasFiltradas] = useState([])
+    const modal_create = useRef(null)
+    const { token } = useAuth();
+    const { user } = useAuth();
+
+    const create_turma = async (e) => {
+        e.preventDefault()
+
+        await axios.post(`${API_BASE_URL}/turma/admin`, {
+            nome: nome,
+            horario: horario,
+            professor: user.id
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(res=>{
+            setNome('')
+            setHorario('')
+            modal_create.current.close()
+            get_turmas()
+        }).catch(err=>{
+            NotifyToast({ message: 'Erro ao criar turma', toast_type: 'erro' });
+            console.log(err.message)
+        })
+    }
+
+    const get_turmas = async () => { // TODO - Implementar autenticação
+        await axios.get(`${API_BASE_URL}/turma/admin`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(res => {
+            setTurmas(res.data.turmas);
+            setTurmasFiltradas(res.data.turmas)
+        }).catch(err => {
+            NotifyToast({ message: 'Erro ao buscar turmas', toast_type: 'erro' });
+            console.log(err.message)
+        })
     };
 
-    getTurmas();
-  }, [token]);
+    const deletar_turma = async (id) => {
+       await axios.delete(`${API_BASE_URL}/turma/delete/admin/${id}`,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+       }).then(res=>{
+        NotifyToast({ message: 'Turma deletado com sucesso', toast_type: 'sucesso' });
+        get_turmas()
+       }).catch(err =>{
+        NotifyToast({ message: 'Erro ao deletar turma', toast_type: 'erro' });
+            console.log(err.message)
+       })
+    }
 
-  return (
-    <div className='bg-base-200'>
-      <NavBar />
-      <div className='flex justify-end pr-4'>
-        <div className='w-full max-w-[940px] p-4 flex flex-col gap-4 bg-base-100 rounded-xl shadow mt-[15px]'>
-          <div className='z-[1] md:absolute md:left-0 md:ml-[62px] mb-6'>
-            <SideBar user_role={'admin'} />
-          </div>
-          <div className="bg-[#2e3440] h-[25px] rounded-t-xl"></div>
-          <div className="bg-[#d8dee9] h-[75px] flex items-center justify-between px-4">
-            <div className="flex items-center">
-              <input
-                type="text"
-                placeholder="Pesquisar..."
-                className="border border-gray-300 rounded-md px-2 py-1 mr-2"
-              />
-            </div>
-            <button className="bg-[#5e81ac] text-base-100 px-4 py-2 rounded-md flex items-center">
-              <FontAwesomeIcon icon={faPlusCircle} className="mr-2" />
-              Adicionar Turma
-            </button>
-          </div>
+    const handleSearch = useCallback((e) => {
+        const search = e.target.value;
+        if (search === '') {
+            setTurmasFiltradas(turmas);
+        } else {
+            const filtered = turmas.filter(turma => {
+                return (
+                    turma.nome.toLowerCase().includes(search.toLowerCase()) ||
+                    turma.horario.toLowerCase().includes(search.toLowerCase())
+                );
+            });
+            setTurmasFiltradas(filtered);
+        }
 
-          <div className='flex flex-col gap-2 p-4'>
-            {turmas.map((turma) => (
-              <div key={turma.id} className="bg-[#d8dee9] p-4 rounded-md flex justify-between items-center"> 
-                <span className="text-[#2e3440]">{turma.nome}</span>
-                <div className="flex items-center">
-                  <FontAwesomeIcon icon={faPencilAlt} className="text-green-500 mr-4 cursor-pointer" />
-                  <FontAwesomeIcon icon={faTrashAlt} className="text-red-500 cursor-pointer" />
+    }, [turmas]);
+
+    useEffect(() => {
+        get_turmas();
+    }, [])
+
+    return (
+        <div>
+            <NavBarMenu />
+            <div className='flex justify-center pt-[65px]'>
+                <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
+                    <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
+                        <SideBar user_role={'admin'} />
+                    </div>
+                    <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[5] rounded-xl">
+                        <div className="bg-[#2e3440] md:h-[45px] rounded-t-xl flex flex-col items-center justify-center">
+                            <h2 className='text-2xl font-medium text-base-100'>Turmas</h2>
+                        </div>
+                        <div className='flex items-center justify-between pr-12 pl-6'>
+                            <div>
+                                <label className="input m-6 md:w-full border-transparent flex items-center bg-base-300 gap-3">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 16 16"
+                                        fill="currentColor"
+                                        className="h-6 w-6 opacity-50 text-primary-content">
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                                            clipRule="evenodd" />
+                                    </svg>
+                                    <input onChange={handleSearch} type="text" className="grow" placeholder="Pesquisar..." />
+                                </label>
+                            </div>
+                            <div className='flex gap-4'>
+                                <button onClick={() => modal_create.current.showModal()} className='btn btn-primary text-white'>
+                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7V10H15C15.5523 10 16 10.4477 16 11C16 11.5523 15.5523 12 15 12H12V15C12 15.5523 11.5523 16 11 16C10.4477 16 10 15.5523 10 15V12H7C6.44771 12 6 11.5523 6 11C6 10.4477 6.44772 10 7 10H10V7Z" fill="#E5E9F0" />
+                                    </svg>
+                                    Adicionar Turma
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className='flex flex-col p-6 overflow-scroll h-4/5'>
+                            <div>
+                                {/* <!-- Card --> */}
+                                {turmasFiltradas.map((turma,index) => {
+                                    return (
+                                        <ul key={index} className="list-none bg-base-100 pl-4 pr-4">
+                                            <li className="p-4 m-2 bg-base-300 rounded-lg">
+                                                <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
+                                                    <div className='flex flex-col md:w-[19vw] pb-4'>
+                                                        <h2 className="text-xl font-bold truncate">{turma.nome}</h2>
+                                                    </div>
+                                                    <div className='flex flex-col md:w-[30vw] pb-4'>
+
+                                                        <p className="truncate">{turma.horario}</p>
+                                                    </div>
+
+                                                    <div className='flex gap-4 flex-row  justify-between'>
+                                                        <button className='btn btn-error text-base-100 rounded-lg' onClick={() => { deletar_turma(turma._id) }}>Excluir</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            {/* ))} */}
+                                        </ul>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            ))}
-          </div>
+                <dialog ref={modal_create} className="modal">
+                    <div className="modal-box flex flex-col justify-center items-center">
+                        <h3 className='font-bold text-lg'>Criar Turma</h3>
+                        <form onSubmit={create_turma} className='flex flex-col justify-center gap-2 w-3/4'>
+                            <label className="form-control">
+                                <div className="label">
+                                    <span className="label-text">Nome:</span>
+                                </div>
+                                <input
+                                    onChange={e => setNome(e.target.value)}
+                                    type="text"
+                                    className="input input-bordered"
+                                />
+                            </label>
+                            <label className="form-control">
+                                <div className="label">
+                                    <span className="label-text">Horario:</span>
+                                </div>
+                                <input
+                                    onChange={e => setHorario(e.target.value)}
+                                    type="text"
+                                    className="input input-bordered"
+                                />
+                            </label>
+
+
+                            <button type='submit' className='btn btn-primary text-white'>Criar Turma</button>
+                        </form>
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                        <button>close</button>
+                    </form>
+                </dialog>
+            </div>
+            <div className="z-[-1]">
+                <svg className="fixed bottom-0 left-0 w-full h-1/3">
+                    <ellipse cx="50%" cy="50%" rx="50%" ry="50%" fill="#d8dee9" />
+                    <rect x="0" y="50%" width="100%" height="50%" fill="#d8dee9" />
+                </svg>
+            </div>
+
         </div>
-      </div>
-    </div>
-  );
+    )
 };
 
 export default Turmas;
