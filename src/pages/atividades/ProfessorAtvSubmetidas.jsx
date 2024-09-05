@@ -6,19 +6,26 @@ import { ATIVIDADE_ENDPOINT } from "../../util/constants";
 import axios from "axios";
 import { ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
+import SubmissaoCard from '../../components/submissao-card/SubmissaoCard';
 
 const ProfessorAtvSubmetidas = () => {
     const { id } = useParams();
 
     const [ atividade, setAtividade ] = useState([]);
+    const [ respostas, setRespostas ] = useState([]);
     const [ erro, setErro ] = useState('');
 
     const getAtividade = async () => {
         try {
+            if(id === undefined || id.length !== 24) {
+                return setErro('Atividade não encontrada!');
+            }
+
             // Pegando atividade do banco de dados
-            axios.get(`${ATIVIDADE_ENDPOINT}/get/atividade/${id}`, {
+            await axios.get(`${ATIVIDADE_ENDPOINT}/get/atividade/${id}`, {
             }).then((response) => {
                 setAtividade(response.data[0]);
+                getRespostas();
             }).catch((error) => {
                 setErro(error.response.data.message);
             });
@@ -30,9 +37,9 @@ const ProfessorAtvSubmetidas = () => {
     const getRespostas = async () => {
         try {
             // Pegando respostas do banco de dados
-            axios.get(`${ATIVIDADE_ENDPOINT}/get/respostas/${id}`, {
+            await axios.get(`${ATIVIDADE_ENDPOINT}/resgatar/respostas/${id}`, {
             }).then((response) => {
-                console.log(response.data);
+                setRespostas(response.data);
             }).catch((error) => {
                 setErro(error.response.data.message);
             });
@@ -43,10 +50,6 @@ const ProfessorAtvSubmetidas = () => {
 
     useEffect(() => {
         getAtividade();
-
-        if(atividade.type !== undefined) {
-            getRespostas();
-        }
     }, []);
 
     return (
@@ -59,22 +62,22 @@ const ProfessorAtvSubmetidas = () => {
                         <SideBar user_role={'professor'} />
                     </div>
 
-                    <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[1] rounded-xl mb-8 items-center align-middle justify-center">
+                    <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[1] rounded-xl md:mb-8 mb-20 items-center align-middle justify-center">
                         <div className="bg-[#2e3440] h-[45px] rounded-t-xl flex flex-row">
-                            <h2 className='md:text-2xl text-xl font-medium text-base-100 m-auto'>{atividade.nome}</h2>
+                            <h2 className='md:text-2xl text-xl font-medium text-base-100 m-auto md:clip truncate md:px-2 px-4'>{atividade.nome}</h2>
                         </div>
 
-                        <div className="flex md:flex-row flex-col justify-between md:items-center items-middle bg-base-300 md:p-4 p-2">
+                        <div className="flex md:flex-row flex-col justify-between md:items-center items-middle bg-base-300 md:p-4 p-2 mb-2">
                             <div className='flex flex-col md:w-[65vw]'>
-                                <p className="truncate md:text-lg md:pb-3 pb-1">{atividade.enunciado}</p>
-                                <div className='flex flex-row md:pb-2 pb-4'>
+                                <p className="truncate md:text-lg md:pb-3 pb-1 pl-1">{atividade.enunciado}</p>
+                                <div className='flex flex-row md:pb-2 pb-4 pl-1'>
                                     <p className="md:text-lg">{atividade.turma === undefined ? '' : atividade.turma.nome}</p>
                                     <p className="text-success-content md:text-lg md:mx-3 mx-2">•</p>
                                     <p className="md:text-lg">{atividade.type === 'text' ? "Texto" : atividade.type === 'image' ? "Imagem" : "Código"}</p>
                                 </div>
                             </div>
                             <div className='flex flex-col pb-2 md:pr-4'>
-                                <div className='flex flex-row gap-2 md:mb-2 mb-1'>
+                                <div className='flex flex-row gap-2 md:mb-2 mb-1 pr-1'>
                                     <svg
                                         viewBox="0 0 24 24"
                                         fill="currentColor"
@@ -99,14 +102,14 @@ const ProfessorAtvSubmetidas = () => {
 
                         {erro ? <p className='text-center text-error font-extrabold text-3xl mt-16'>{erro}</p> : <></>}
 
-                        <ul className="list-none overflow-y-auto h-[68vh] bg-base-100 md:pl-4 md:pr-2 pl-4 pr-4 rounded-lg">
-                            {/* {filteredAtividades.length > 0 ? (filteredAtividades.map((atividade, index) => {
+                        <ul className="list-none overflow-y-auto h-[68vh] bg-base-100 md:pl-1 md:pr-1 pl-0.5 pr-0.5 rounded-lg">
+                            {respostas.length > 0 ? (respostas.map((resposta, index) => {
                                 return (
-                                    <AlunoAtividadeCard key={index} atividade={atividade} />
+                                    <SubmissaoCard key={index} resposta={resposta} atividade={atividade} />
                                 )
                             })) : (
-                                <div className='flex justify-center items-center'><p className='md:text-2xl md:mt-16 text-lg mt-6 text-primary font-bold opacity-80'>Nenhuma atividade encontrada...</p></div>
-                            )} */}
+                                <div className='flex justify-center items-center'><p className='md:text-2xl md:mt-16 text-lg mt-6 text-primary font-bold opacity-80'>Nenhuma resposta encontrada...</p></div>
+                            )}
                         </ul>
 
                     </div>
