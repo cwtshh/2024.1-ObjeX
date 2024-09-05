@@ -7,7 +7,7 @@ import SideBar from '../../components/sidebar/SideBar';
 import NotifyToast from '../../components/toast/NotifyToast';
 import ExcelJS from 'exceljs';
 
-const Alunos = () => {
+const AlunosParaProfessor = () => {
 
     const [alunos, setAlunos] = useState([])
     const [email, setEmail] = useState('')
@@ -23,11 +23,11 @@ const Alunos = () => {
     const { user } = useAuth();
 
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
-    };
+        setFile(e.target.files[0])
+    }
 
     const get_alunos = async () => {
-        await axios.get(`${API_BASE_URL}/aluno/turma?turma_id=${user.turma}`).then((res) => {
+        await axios.get(`${API_BASE_URL}/aluno/turma?turma_id=${user.turma._id}`).then((res) => {
             setAlunos(res.data);
             setAlunosFiltrados(res.data);
         }).catch(err => {
@@ -116,8 +116,10 @@ const Alunos = () => {
                     });
                 }
             });
-        
+            console.log("turma:", user.turma._id)
+            console.log("alunos:", alunos)
             await axios.post(`${API_BASE_URL}/aluno/register/many`, {
+                
                 alunos: students,
                 turma: user.turma }).then(res => {
             }).catch(err => {
@@ -183,8 +185,8 @@ const Alunos = () => {
                                 {/* <!-- Card --> */}
                                 {alunosFiltrados.map(aluno => {
                                     return (
-                                        <ul className="list-none bg-base-100 pl-4 pr-4">
-                                            <li key={aluno._id} className="p-4 m-2 bg-base-300 rounded-lg">
+                                        <ul key={aluno._id} className="list-none bg-base-100 pl-4 pr-4">
+                                            <li className="p-4 m-2 bg-base-300 rounded-lg">
                                                 <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
                                                     <div className='flex flex-col md:w-[19vw] pb-4'>
                                                         <h2 className="text-xl font-bold truncate">{aluno.nome}</h2>
@@ -270,7 +272,7 @@ const Alunos = () => {
                     </form>
                 </dialog>
                 <dialog ref={modal_arquivo} className="modal">
-                    <div>
+                <div className="modal-box flex flex-col justify-center items-center">
                         <label className="form-control w-full max-w-xs mt-6">
                             <div className="label">
                                 <span className="label-text">Selecione um arquivo:</span>
@@ -300,4 +302,4 @@ const Alunos = () => {
     )
 }
 
-export default Alunos;
+export default AlunosParaProfessor;
