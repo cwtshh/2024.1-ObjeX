@@ -1,5 +1,4 @@
 const Grupo = require('../../models/Grupo')
-const Professor = require('../../models/Professor')
 
 const delete_grupo =  async (req,res)=>{
     const {id} = req.params
