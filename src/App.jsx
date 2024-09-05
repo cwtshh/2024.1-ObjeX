@@ -27,7 +27,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Navigate to='/login/admin' />} />
+          <Route path='/' element={<Navigate to='/login/aluno' />} />
           {/* Rotas de professor */}
           <Route path='/login/professor' element={<ProfLogin />} />
           <Route path='/login/admin' element={<ProfAdminLogin />} />

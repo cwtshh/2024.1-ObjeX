@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { ALUNO_ENDPOINT, PROFESSOR_ENDPOINT } from "../util/constants";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -10,47 +10,110 @@ export const AuthProvider = ({ children }) => {
     const [ token, setToken ] = useState(null);
     const [ isReady, setIsReady ] = useState(false);
 
+
     const login = async(userData, user_type) => {
-        try {
-            switch(user_type) {
-                case 'admin': {
+        switch(user_type) {
+            case 'admin': {
+                try {
                     const res = await axios.post(`${PROFESSOR_ENDPOINT}/admin/login`, userData);
                     setUser(res.data.user);
                     setToken(res.data.token);
                     localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
                     localStorage.setItem('objex@auth_token', res.data.token);
                     setIsReady(true);
-                    return {passou: true, retorno: res};
+                    return {
+                        passou: true,
+                        retorno: res
+                    };
+                } catch(err) {
+                    return {
+                        passou: false,
+                        retorno: err.response.data.error
+                    }
                 }
-
-                case 'estudante': {
+            }
+            case 'estudante': {
+                try {
                     const res = await axios.post(`${ALUNO_ENDPOINT}/login`, userData);
                     setUser(res.data.user);
                     setToken(res.data.token);
                     localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
                     localStorage.setItem('objex@auth_token', res.data.token);
                     setIsReady(true);
-                    return {passou: true, retorno: res};
+                    return {
+                        passou: true,
+                        retorno: res
+                    };
+                } catch(err) {
+                    return {
+                        passou: false,
+                        retorno: err.response.data.error
+                    }
                 }
-
             }
-
-            if(user_type === 'professor') {
-                const res = await axios.post(`${PROFESSOR_ENDPOINT}/login`, userData);
-                console.log(res.error);
-                console.log(res.data);
-                setUser(res.data.user);
-                setToken(res.data.token);
-                localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
-                localStorage.setItem('objex@auth_token', res.data.token);
-                setIsReady(true);
-                return true;
+            case 'professor': {
+                try {
+                    const res = await axios.post(`${PROFESSOR_ENDPOINT}/login`, userData);
+                    setUser(res.data.user);
+                    setToken(res.data.token);
+                    localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
+                    localStorage.setItem('objex@auth_token', res.data.token);
+                    setIsReady(true);
+                    return {
+                        passou: true,
+                        retorno: res
+                    };
+                } catch(err) {
+                    return {
+                        passou: false,
+                        retorno: err.response.data.error
+                    }
+                }
             }
-
-        } catch (error) {
-            console.log(error);
-            return {passou: false, retorno: error};
         }
+
+        // try {
+        //     switch(user_type) {
+        //         case 'admin': {
+        //             const res = await axios.post(`${PROFESSOR_ENDPOINT}/admin/login`, userData);
+        //             setUser(res.data.user);
+        //             setToken(res.data.token);
+        //             localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
+        //             localStorage.setItem('objex@auth_token', res.data.token);
+        //             setIsReady(true);
+        //             return(
+        //                 <Navigate to='/admin/dashboard' />
+        //             );
+        //         }
+
+        //         case 'estudante': {
+        //             const res = await axios.post(`${ALUNO_ENDPOINT}/login`, userData);
+        //             setUser(res.data.user);
+        //             setToken(res.data.token);
+        //             localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
+        //             localStorage.setItem('objex@auth_token', res.data.token);
+        //             setIsReady(true);
+        //             return {passou: true, retorno: res};
+        //         }
+
+        //     }
+
+        //     if(user_type === 'professor') {
+        //         const res = await axios.post(`${PROFESSOR_ENDPOINT}/login`, userData);
+        //         console.log(res.error);
+        //         console.log(res.data);
+        //         setUser(res.data.user);
+        //         setToken(res.data.token);
+        //         localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
+        //         localStorage.setItem('objex@auth_token', res.data.token);
+        //         setIsReady(true);
+        //         return true;
+        //     }
+
+        // } catch (error) {
+        //     console.log(error);
+        //     return {passou: false, retorno: error};
+        // }
     };
 
     const logout = async() => {
@@ -58,6 +121,9 @@ export const AuthProvider = ({ children }) => {
         setToken(null);
         localStorage.removeItem('objex@auth_user');
         localStorage.removeItem('objex@auth_token');
+        return (
+            <Navigate to='/login/admin' />
+        )
     }
 
     const retrive_user_data = async() => {

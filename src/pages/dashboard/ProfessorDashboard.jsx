@@ -70,7 +70,7 @@ const ProfessorDashboard = () => {
       <div className='flex md:relative justify-center pt-[65px]'>
           <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
             <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
-              <SideBar page={'/professor'} />
+              <SideBar user_role={'professor'} />
             </div>
 
             <div className='z-[1] md:absolute md:right-0 md:mr-[62px] lg:mr-[0px]  xl:mr-[0px] lg:relative xl:relative lg:center xl:center flex justify-center pt-[20px] md:h-[85vh] overflow-y-2'>
@@ -130,31 +130,6 @@ const ProfessorDashboard = () => {
                     </div>
                   </div>
                 </a>
-
-                <a href="" className='h-[200px]'>
-                    <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
-                    <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
-                    </div>
-                    
-                    <div className="ml-[20px] mt-[20px]">
-                      <svg width="100px" height="100px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" strokeWidth="3" stroke="#5e81ac" fill="none">
-                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier"><path d="M43.31,37.52A11.83,11.83,0,0,1,31.25,49.35,12.1,12.1,0,0,1,19.63,37.12V20.64a.1.1,0,0,1,.08-.1,90.43,90.43,0,0,1,12.08-1,82.5,82.5,0,0,1,11.57,1,.09.09,0,0,1,.07.1Z"></path><path d="M19.63,26,9,20.47a.1.1,0,0,1,0-.18L31.49,8.86h.09L54,20.17a.1.1,0,0,1,0,.18L43.43,26"></path><path d="M19.63,32.19H17.7s-2.94,0-2.94,4.52c0,4.17,2.93,4.17,2.93,4.17l2.51-.05"></path><path d="M43.3,32.7h1.93s3,0,3,4.53c0,4.17-2.94,4.17-2.94,4.17H42.65"></path><line x1="52.72" y1="45.04" x2="52.72" y2="21.03"></line><circle cx="52.72" cy="47.36" r="2.31"></circle><polyline points="37.76 47.53 37.76 55.15 25.89 55.15 25.89 47.95"></polyline><path d="M43.43,30.13a63,63,0,0,0-11.61-1,60.25,60.25,0,0,0-12.19,1"></path></g>
-                      </svg>
-                      
-                    </div>
-                    
-
-
-                    <div className="flex justify-between ml-[25px]">
-                      <p className="text-2xl mt-[10px]">Monitores</p>
-                      <p className="text-5xl mr-[10px]">{monitores.length}</p>
-      
-                    </div>
-                  </div>
-                </a>
-
                 <a href='' className='h-[200px]'>
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
@@ -177,21 +152,10 @@ const ProfessorDashboard = () => {
                     </div>
                   </div>
                 </a>
-
-
-                
-
-
-
               </div>
-
             </div>
-          
         </div>
-
       </div>
-
-      
       <div className="z-[-1]">
         <svg className="fixed bottom-0 left-0 w-full h-1/3">
           <ellipse cx="50%" cy="50%" rx="50%" ry="50%" fill="#d8dee9"/>
