@@ -7,7 +7,10 @@ const login_prof = async(req, res) => {
     const { email, senha } = req.body;
 
     // verifica se o email está cadastrado
-    const prof = await Professor.findOne({ email });
+    const prof = await Professor.findOne({ email }).populate({
+        path: 'turma',
+        select: 'nome'
+    });
     if(!prof) return res.status(400).json({
         error: 'Email não cadastrado'
     });

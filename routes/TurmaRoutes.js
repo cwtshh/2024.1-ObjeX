@@ -18,7 +18,7 @@ const {
 } = require('../middlewares/TurmaValidation');
 
 //Endpoint para obter todas turmas
-router.get('/', authenticate_token_prof, get_turmas);
+router.get('/', get_turmas);
 router.get('/admin', get_turmas); // TODO adicionar verificacao de token novamente
 
 //Endpoint para obter turma
