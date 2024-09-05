@@ -1,7 +1,7 @@
 const Grupo = require('../../models/Grupo')
 
 const delete_grupo =  async (req,res)=>{
-    const {id} = req.params
+    const {id} = req.body
 
     await Grupo.findOneAndDelete({_id:id})
     .then(result => {
