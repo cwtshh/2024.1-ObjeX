@@ -7,7 +7,7 @@ import SideBar from '../../components/sidebar/SideBar';
 import NotifyToast from '../../components/toast/NotifyToast';
 import ExcelJS from 'exceljs';
 
-const Alunos = () => {
+const AlunosParaAdmin = () => {
 
     const [alunos, setAlunos] = useState([])
     const [email, setEmail] = useState('')
@@ -23,11 +23,11 @@ const Alunos = () => {
     const { user } = useAuth();
 
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
-    };
+        setFile(e.target.files[0])
+    }
 
     const get_alunos = async () => {
-        await axios.get(`${API_BASE_URL}/aluno/turma?turma_id=${user.turma}`).then((res) => {
+        await axios.get(`${API_BASE_URL}/aluno/`).then((res) => {
             setAlunos(res.data);
             setAlunosFiltrados(res.data);
         }).catch(err => {
@@ -103,29 +103,31 @@ const Alunos = () => {
     }, [alunos]);
 
     const importar_arquivo = async () => {
-            const workbook = new ExcelJS.Workbook();
-            await workbook.xlsx.load(file);
-            const worksheet = workbook.worksheets[0];
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(file);
+        const worksheet = workbook.worksheets[0];
 
-            const students = [];
-            worksheet.eachRow((row, rowNumber) => {
-                if (rowNumber > 1) {
-                    students.push({
-                        matricula: row.getCell(1).value,
-                        nome: row.getCell(2).value,
-                    });
-                }
-            });
-        
-            await axios.post(`${API_BASE_URL}/aluno/register/many`, {
-                alunos: students,
-                turma: user.turma }).then(res => {
-            }).catch(err => {
-                console.log(err);
-            });
+        const students = [];
+        worksheet.eachRow((row, rowNumber) => {
+            if (rowNumber > 1) {
+                students.push({
+                    matricula: row.getCell(1).value,
+                    nome: row.getCell(2).value,
+                });
+            }
+        });
 
-            modal_arquivo.current.close()
-            get_alunos()
+        await axios.post(`${API_BASE_URL}/aluno/register/many`, {
+            alunos: students,
+            turma: turmaDoAluno
+        }).then(res => {
+        }).catch(err => {
+            console.log(err);
+        });
+
+        modal_arquivo.current.close()
+        setTurmaDoAluno('')
+        get_alunos()
     };
 
     useEffect(() => {
@@ -139,7 +141,7 @@ const Alunos = () => {
             <div className='flex justify-center pt-[65px]'>
                 <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
                     <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
-                        <SideBar user_role={'professor'} />
+                        <SideBar user_role={'admin'} />
                     </div>
                     <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[5] rounded-xl">
                         <div className="bg-[#2e3440] md:h-[45px] rounded-t-xl flex flex-col items-center justify-center">
@@ -181,10 +183,10 @@ const Alunos = () => {
                         <div className='flex flex-col p-6 overflow-scroll h-4/5'>
                             <div>
                                 {/* <!-- Card --> */}
-                                {alunosFiltrados.map(aluno => {
+                                {alunosFiltrados.length === 0 ? (<><h1>Nenhum aluno encontrado</h1></>) : (alunosFiltrados.map((aluno, index) => {
                                     return (
-                                        <ul className="list-none bg-base-100 pl-4 pr-4">
-                                            <li key={aluno._id} className="p-4 m-2 bg-base-300 rounded-lg">
+                                        <ul key={index} className="list-none bg-base-100 pl-4 pr-4">
+                                            <li className="p-4 m-2 bg-base-300 rounded-lg">
                                                 <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
                                                     <div className='flex flex-col md:w-[19vw] pb-4'>
                                                         <h2 className="text-xl font-bold truncate">{aluno.nome}</h2>
@@ -203,7 +205,8 @@ const Alunos = () => {
                                             {/* ))} */}
                                         </ul>
                                     )
-                                })}
+                                }))
+                                }
                             </div>
                         </div>
                     </div>
@@ -270,7 +273,24 @@ const Alunos = () => {
                     </form>
                 </dialog>
                 <dialog ref={modal_arquivo} className="modal">
-                    <div>
+                    <div className="modal-box flex flex-col justify-center items-center">
+                        <label className='form-control'>
+                            <div className='label'>
+                                <span className='label-text'>Turma:</span>
+                            </div>
+                            <select
+                                onChange={e => setTurmaDoAluno(e.target.value)}
+                                defaultValue=""
+                                className='select select-bordered'
+                            >
+                                <option value="" disabled>Selecione uma Turma</option>
+                                {turmas.map((turma, index) => {
+                                    return (
+                                        <option key={index} value={turma._id}>{turma.nome}</option>
+                                    )
+                                })}
+                            </select>
+                        </label>
                         <label className="form-control w-full max-w-xs mt-6">
                             <div className="label">
                                 <span className="label-text">Selecione um arquivo:</span>
@@ -300,4 +320,4 @@ const Alunos = () => {
     )
 }
 
-export default Alunos;
+export default AlunosParaAdmin;
