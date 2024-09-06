@@ -3,15 +3,15 @@ import { useAuth } from '../../context/AuthContext';
 import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { API_BASE_URL } from '../../util/constants';
+import { API_BASE_URL, GRUPO_ENDPOINT } from '../../util/constants';
 import GroupCard from '../../components/navbar/group-card/GroupCard';
 import SideBar from '../../components/sidebar/SideBar';
 import GrupoCard from '../../components/grupo-card/GrupoCard';
 import NotifyToast from '../../components/toast/NotifyToast';
 import ExcelJs from 'exceljs';
 
-const ListaGrupos = () => {
-  const { logout, user } = useAuth();
+const ListaGruposProf = () => {
+  const { logout, user, token } = useAuth();
   const [ grupos, setGrupos ] = useState([]);
   const [ filteredGroups, setFilteredGroups ] = useState([]);
   const [ turmas, setTurmas ] = useState([]);
@@ -22,7 +22,7 @@ const ListaGrupos = () => {
   const [ capacidade, setCapacidade ] = useState('');
 
   const get_groups = async() => {
-    await axios.get(`${API_BASE_URL}/grupo/`).then((res) => {
+    await axios.get(`${GRUPO_ENDPOINT}/${user.turma}`).then((res) => {
       setGrupos(res.data);
       setFilteredGroups(res.data);
     }).catch(err => {
@@ -30,10 +30,9 @@ const ListaGrupos = () => {
     });
   };
   const get_turmas = async() => { // TODO - Implementar autenticação
-    await axios.get(`${API_BASE_URL}/turma/admin`, {
+    await axios.get(`${API_BASE_URL}/turma/`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YzY1MTlmMTExZTEwOWYxZDEwNWIyZCIsImlhdCI6MTcyNDg3ODcyMCwiZXhwIjoxNzI1NDgzNTIwfQ.Z2xeffUnI5MDZbobKMmHvLAycecwq0Lx7UfQwkGKPfA`
-      }
+        Authorization: `Bearer ${token}`}
     }).then(res => {
       setTurmas(res.data.turmas);
     }).catch(err => {
@@ -73,17 +72,13 @@ const ListaGrupos = () => {
     const worksheet = workbook.addWorksheet('Grupos');
     worksheet.addRow(['Nome', 'Descrição', 'Turma', 'Capacidade', 'Membros']);
     grupos.forEach(grupo => {
-      let membros = '';
-      grupo.membros.forEach(membro => {
-        membros += `${membro.nome}, `;
-      });
-      console.log(membros);
-      worksheet.addRow([grupo.nome, grupo.descricao, grupo.turma.nome, grupo.capacidade, membros]);
+      worksheet.addRow([grupo.nome, grupo.descricao, grupo.turma.nome, grupo.capacidade, grupo.membros.map((membro) => {
+        return membro.nome + ', ';
+      })]);
     });
     worksheet.columns.forEach(column => {
       column.width = 25;
     });
-    worksheet.columns[4].width = 50;
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const url = window.URL.createObjectURL(blob);
@@ -108,7 +103,7 @@ const ListaGrupos = () => {
       <div className='flex justify-center pt-[65px]'>
           <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
             <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
-              <SideBar user_role={'admin'}/>
+              <SideBar user_role={'professor'}/>
             </div>
           <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[5] rounded-xl">
             <div className="bg-[#2e3440] md:h-[45px] rounded-t-xl flex flex-col items-center justify-center">
@@ -234,4 +229,4 @@ const ListaGrupos = () => {
   )
 }
 
-export default ListaGrupos;
+export default ListaGruposProf;
