@@ -8,11 +8,14 @@ import { useAuth } from '../../context/AuthContext';
 
 
 const ListaDeProfessores = () => {
-    const { token } = useAuth();
+    const { token, user } = useAuth();
     const [professores, setProfessores] = useState([]);
+    const [ turmas, setTurmas ] = useState([]);
+
     const [professorSelecionado, setProfessorSelecionado] = useState();
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
+    const [ turma, setTurma ] = useState('');
     const [filteredProfessores,setFilteredProfessores] = useState([])
     const modalRef = useRef(null);
     const modalEdicao = useRef(null)
@@ -34,8 +37,21 @@ const ListaDeProfessores = () => {
             });
     };
 
+    const get_turmas = async() => {
+        await axios.get(`${API_BASE_URL}/turma/admin`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then((res) => {
+            setTurmas(res.data.turmas);
+        }).catch(err => {
+            ToastifyNotificate('Erro ao buscar turmas', 'error');
+        })
+    };
+
     useEffect(() => {
         getProfessores();
+        get_turmas();
     }, []);
 
 
@@ -46,7 +62,7 @@ const ListaDeProfessores = () => {
             {
                 nome: nome,
                 email: email,
-                id_turma: "66bd643a0e288b6d2f04a1a3"
+                turma: turma,
             }, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -55,6 +71,7 @@ const ListaDeProfessores = () => {
             console.log('Professor criado com sucesso')
             setNome('')
             setEmail('')
+            setTurma('')
             modalRef.current.close()
             getProfessores()
         }).catch(error => {
@@ -66,6 +83,7 @@ const ListaDeProfessores = () => {
         setProfessorSelecionado(professor);
         setNome(professor.nome);
         setEmail(professor.email);
+        setTurma(professor.turma._id);
         modalEdicao.current.showModal();
     };
 
@@ -76,7 +94,7 @@ const ListaDeProfessores = () => {
                 id: professorSelecionado._id,
                 nome: nome,
                 email: email,
-                id_turma: "66bd643a0e288b6d2f04a1a3",
+                id_turma: turma,
                 role: "professor"
             }, {
             headers: {
@@ -86,6 +104,7 @@ const ListaDeProfessores = () => {
             console.log('Professor atualizado com sucesso')
             setNome('')
             setEmail('')
+            setTurma('')
             setProfessorSelecionado(null)
             getProfessores()
             modalEdicao.current.close()
@@ -103,6 +122,7 @@ const ListaDeProfessores = () => {
         setProfessorSelecionado('')
         setNome('')
         setEmail('')
+        setTurma('')
         modalEdicao.current.close()
     }
 
@@ -111,7 +131,7 @@ const ListaDeProfessores = () => {
 
         await axios.delete(`${API_BASE_URL}/professor/delete/`, {
             data: {
-                id: "66bd643a0e288b6d2f04a1a3",
+                id: user.turma._id,
                 id_delete: professorSelecionado._id
             },
             headers: {
@@ -122,6 +142,7 @@ const ListaDeProfessores = () => {
             console.log('Professor deletado com sucesso')
             setNome('')
             setEmail('')
+            setTurma('')
             setProfessorSelecionado(null)
             getProfessores()
             modalDelete.current.close()
@@ -158,144 +179,186 @@ const ListaDeProfessores = () => {
     }, []);
 
     return (
-        <div className='bg-base-200 min-h-screen flex flex-col'>
-            <NavBarMenu />
+        <div className='bg-base-200'>
 
-            <div className='flex flex-1 pt-[75px]'>
-                <div className='flex flex-col md:flex-row w-full'>
-                    <div className='z-[1] md:w-[300px] ml-[90px]'>
-                        <SideBar user_role={'admin'} />
+        <NavBarMenu />
+            <div className='flex md:relative justify-center pt-[75px]'>
+                <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
+                    <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
+                    <SideBar user_role={'admin'} />
                     </div>
-
-                    <div className='z-[1] flex-1 pl-4 pr-4 flex justify-center'>
-                        <div className="card bg-base-100 shadow-2xl w-full max-w-[90em]">
-                            <div className="rounded-t-xl w-[full] h-[30px] items-center justify-center bg-base-content">
+                    <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[1] rounded-xl md:mb-8 mb-20 md:mt-0 mt-8 items-center align-middle justify-center">
+                        <div className="bg-[#2e3440] h-[45px] rounded-t-xl flex flex-row">
+                            <h2 className='md:text-2xl text-xl font-medium text-base-100 m-auto md:clip truncate md:px-2 px-4'>Professores</h2>
+                        </div>
+                        <div className='flex flex md:flex-row flex-col items-center justify-between md:pr-12 md:px-0 px-3'>
+                            <label className="input m-6 md:w-2/3 w-full border-transparent flex items-center bg-base-300 gap-3">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 16 16"
+                                    fill="currentColor"
+                                    className="h-6 w-6 opacity-50 text-primary-content">
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                                        clipRule="evenodd" />
+                                </svg>
+                                <input onChange={handleSearch} type="text" className="grow" placeholder="Pesquisar..." />
+                            </label>
+                            <div className='flex gap-4 md:mb-0 mb-4 md:w-auto w-full'>
+                                <button onClick={() => document.getElementById('my_modal_3').showModal()} className='btn btn-primary text-white md:w-auto w-full'>
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7V10H15C15.5523 10 16 10.4477 16 11C16 11.5523 15.5523 12 15 12H12V15C12 15.5523 11.5523 16 11 16C10.4477 16 10 15.5523 10 15V12H7C6.44771 12 6 11.5523 6 11C6 10.4477 6.44772 10 7 10H10V7Z" fill="#E5E9F0"/>
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M22 11C22 17.0751 17.0751 22 11 22C4.92487 22 0 17.0751 0 11C0 4.92487 4.92487 0 11 0C17.0751 0 22 4.92487 22 11ZM2.00683 11C2.00683 15.9668 6.03321 19.9932 11 19.9932C15.9668 19.9932 19.9932 15.9668 19.9932 11C19.9932 6.03321 15.9668 2.00683 11 2.00683C6.03321 2.00683 2.00683 6.03321 2.00683 11Z" fill="#E5E9F0"/>
+                                </svg>
+                                Adicionar Professor
+                                </button>
                             </div>
-                            <div className="card-body pl-[35px] pt-[20px] rounded-b-xl h-1/2 bg-base-100">
-                                <div className='flex justify-between'>
-                                    <div className='w-2/3'>
-                                        <input type='text' className='input input-bordered w-full max-w-xs' placeholder='Buscar Professores' onChange={handleSearch}/>
-                                    </div>
+                        </div>
 
-                                    <div className='flex gap-4'>
-                                        <button className='btn btn-primary text-white' onClick={() => document.getElementById('my_modal_3').showModal()}>Adicionar Professor</button>
-                                    </div>
-                                </div>
-
-                                <div className='h-[45em] overflow-y-auto'>
-                                    {filteredProfessores.map((professor) => (
-                                        <div key={professor._id} className='rounded-xl bg-gray-300 p-[20px] mt-[40px] flex justify-between items-center'>
-                                            <div className='flex items-center gap-[30px]'>
-                                                <div className="w-14 h-14 rounded-full overflow-hidden">
-                                                    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="Professor" />
-                                                </div>
-                                                <div>
-                                                    <p>{professor.nome}</p>
-                                                    <p>Professor</p>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <p>{professor.email}</p>
-                                            </div>
-                                            <div className='flex items-center gap-[30px]'>
-                                                <button className='btn btn-primary text-base-100 rounded-lg'
-                                                    onClick={() => handleEditarProfessor(professor)}>Editar</button>
-                                                <button className='btn btn-error text-base-100 rounded-lg'
-                                                    onClick={() => selecionaProfessor(professor)}>Excluir</button>
+                        <ul className='list-none overflow-y-auto h-[68vh] bg-base-100 md:px-4 px-1 rounded-lg'>
+                            {filteredProfessores.map((professor) => (
+                                <li key={professor._id} className="list-none p-4 m-2 bg-base-300 rounded-lg">
+                                    <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
+                                        <div className="w-14 h-14 rounded-full overflow-hidden md:pb-0 mb-4">
+                                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="Professor" />
+                                        </div>
+                                        <div className='flex flex-col md:w-[10vw] md:pb-0 pb-4'>
+                                            <p className="truncate">{professor.nome}</p>
+                                            <p className="truncate opacity-70">{professor.role == 'admin' ? 'Admin' : 'Professor'}</p>
+                                        </div>
+                                        <div className='flex flex-col md:w-[30vw] md:pb-0 pb-4'>
+                                            <p className="truncate">{professor.email}</p>
+                                        </div>
+                                        <div className='flex md:flex-row flex-col md:w-[10vw] justify-between'>
+                                            <div className='flex flex-row justify-between md:gap-x-7'>
+                                                <div className='btn btn-neutral text-base-100 rounded-lg' onClick={() => handleEditarProfessor(professor)}>Editar</div>
+                                                <div className='btn btn-error text-base-100 rounded-lg' onClick={() => selecionaProfessor(professor)}>Excluir</div>
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                    {/* You can open the modal using document.getElementById('ID').showModal() method */}
-                    <dialog ref={modalRef} id="my_modal_3" className="modal">
-                        <div className="modal-box flex flex-col justify-center items-center">
-                            <h3 className='font-bold text-lg'>Professor</h3>
-                            <form onSubmit={handleCriarProfessor} className='flex flex-col justify-center gap-2 w-3/4'>
-                                <label className="form-control">
-                                    <div className="label">
-                                        <span className="label-text">Nome:</span>
-                                    </div>
-                                    <input
-                                        type="text"
-                                        className="input input-bordered"
-                                        value={nome}
-                                        onChange={(e) => setNome(e.target.value)}
-                                    />
-                                </label>
-
-                                <label className="form-control">
-                                    <div className="label">
-                                        <span className="label-text">Email:</span>
-                                    </div>
-                                    <input
-                                        type="email"
-                                        className="input input-bordered"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                    />
-                                </label>
-
-                                <button type='submit' className='btn btn-primary text-white'>Criar Professor</button>
-                            </form>
-                        </div>
-                        <form method="dialog" className="modal-backdrop">
-                            <button>close</button>
-                        </form>
-                    </dialog>
-
-                    <dialog ref={modalEdicao} id="modal_edicao" className="modal">
-                        <div className="modal-box flex flex-col justify-center items-center">
-                            <h3 className='font-bold text-lg'>Professor</h3>
-                            <form onSubmit={handleAtualizarProfessor} className='flex flex-col justify-center gap-2 w-3/4'>
-                                <label className="form-control">
-                                    <div className="label">
-                                        <span className="label-text">Nome:</span>
-                                    </div>
-                                    <input
-                                        type="text"
-                                        className="input input-bordered"
-                                        value={nome}
-                                        onChange={(e) => setNome(e.target.value)}
-                                    />
-                                </label>
-
-                                <label className="form-control">
-                                    <div className="label">
-                                        <span className="label-text">Email:</span>
-                                    </div>
-                                    <input
-                                        type="email"
-                                        className="input input-bordered"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                    />
-                                </label>
-
-                                <button type='submit' className='btn btn-primary text-white mt-2 mb-2'>Atualizar Professor</button>
-                                <button className='btn btn-primary text-white mt-2 mb-2' onClick={limparProfessor}>Cancelar</button>
-                            </form>
-                        </div>
-                        <form method="dialog" className="modal-backdrop">
-                            <button>close</button>
-                        </form>
-                    </dialog>
-
-                    <dialog ref={modalDelete} id="modal_delete" className="modal">
-                        <div className="modal-box flex flex-col justify-center items-center">
-                            <h3 className='font-bold text-lg gap-10 mb-10'>Realmente deseja excluir ?</h3>
-                            <form onSubmit={handleDeleteProfessor} className='flex flex-col justify-center gap-2 w-3/4'>
-                                <button type='submit' className='btn btn-error rounded-lg text-white'>Excluir</button>
-                                <button type='submit' className='btn btn-primary text-white'
-                                    onClick={() => document.getElementById('modal_delete').close()}>Cancelar</button>
-                            </form>
-                        </div>
-                    </dialog>
-
                 </div>
             </div>
+            {/* You can open the modal using document.getElementById('ID').showModal() method */}
+            <dialog ref={modalRef} id="my_modal_3" className="modal">
+                <div className="modal-box flex flex-col justify-center items-center">
+                    <h3 className='font-bold text-lg'>Professor</h3>
+                    <form onSubmit={handleCriarProfessor} className='flex flex-col justify-center gap-2 w-3/4'>
+                        <label className="form-control">
+                            <div className="label">
+                                <span className="label-text">Nome:</span>
+                            </div>
+                            <input
+                                type="text"
+                                className="input input-bordered"
+                                value={nome}
+                                onChange={(e) => setNome(e.target.value)}
+                            />
+                        </label>
+
+                        <label className='form-control'>
+                            <div className='label'>
+                            <span className='label-text'>Turma:</span>
+                            </div>
+                            <select 
+                                defaultValue="" 
+                                className='select select-bordered'
+                                onChange={(e) => setTurma(e.target.value)}
+                            >
+                                <option value="" disabled>Selecione uma Turma</option>
+                                {turmas.map((turma, index) => {
+                                    return <option key={index} value={turma._id}>{turma.nome}</option>
+                                })}
+                            </select>
+                        </label>
+
+                        <label className="form-control">
+                            <div className="label">
+                                <span className="label-text">Email:</span>
+                            </div>
+                            <input
+                                type="email"
+                                className="input input-bordered"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </label>
+
+                        <button type='submit' className='btn btn-primary text-white'>Criar Professor</button>
+                    </form>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
+
+            <dialog ref={modalEdicao} id="modal_edicao" className="modal">
+                <div className="modal-box flex flex-col justify-center items-center">
+                    <h3 className='font-bold text-lg'>Professor</h3>
+                    <form onSubmit={handleAtualizarProfessor} className='flex flex-col justify-center gap-2 w-3/4'>
+                        <label className="form-control">
+                            <div className="label">
+                                <span className="label-text">Nome:</span>
+                            </div>
+                            <input
+                                type="text"
+                                className="input input-bordered"
+                                value={nome}
+                                onChange={(e) => setNome(e.target.value)}
+                            />
+                        </label>
+
+                        <label className='form-control'>
+                            <div className='label'>
+                            <span className='label-text'>Turma:</span>
+                            </div>
+                            <select 
+                                defaultValue="" 
+                                className='select select-bordered'
+                                onChange={(e) => setTurma(e.target.value)}
+                            >
+                                <option value="" disabled>Selecione uma Turma</option>
+                                {turmas.map((turma, index) => {
+                                    return <option key={index} value={turma._id}>{turma.nome}</option>
+                                })}
+                            </select>
+                        </label>
+
+                        <label className="form-control">
+                            <div className="label">
+                                <span className="label-text">Email:</span>
+                            </div>
+                            <input
+                                type="email"
+                                className="input input-bordered"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </label>
+
+                        <button type='submit' className='btn btn-primary text-white mt-2 mb-2'>Atualizar Professor</button>
+                        <button className='btn btn-primary text-white mt-2 mb-2' onClick={limparProfessor}>Cancelar</button>
+                    </form>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
+
+            <dialog ref={modalDelete} id="modal_delete" className="modal">
+                <div className="modal-box flex flex-col justify-center items-center">
+                    <h3 className='font-bold text-lg gap-10 mb-10'>Realmente deseja excluir ?</h3>
+                    <form onSubmit={handleDeleteProfessor} className='flex flex-col justify-center gap-2 w-3/4'>
+                        <button type='submit' className='btn btn-error rounded-lg text-white'>Excluir</button>
+                        <button type='submit' className='btn btn-primary text-white'
+                            onClick={() => document.getElementById('modal_delete').close()}>Cancelar</button>
+                    </form>
+                </div>
+            </dialog>
 
             <div className="z-[-1]">
                 <svg className="fixed bottom-0 left-0 w-full h-1/3">
