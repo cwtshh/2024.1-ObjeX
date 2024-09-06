@@ -9,14 +9,19 @@ import AlunoDashboard from './pages/dashboard/AlunoDashboard'
 import PrimeiroAcessoAluno from './pages/primeiro-acesso/PrimeiroAcessoAluno'
 import AtivarContaAluno from './pages/ativar-conta/AtivarContaAluno'
 import ProfLogin from './pages/login/ProfLogin'
-import ListaGrupos from './pages/lista-grupos/lista'
+import ListaGruposAdmin from './pages/lista-grupos/lista-admin'
 import ProfessorDashboard from './pages/dashboard/ProfessorDashboard'
 import Interpretador from './pages/atividades/interpretador'
 import ImgUpload from './pages/atividades/img-upload'
 import 'react-toastify/dist/ReactToastify.css';
-// import AtividadeDeTexto from './pages/atividades/AtividadeDeTexto'
 import AtividadeDeTexto from './pages/exercicio/AtividadeDeTexto'
 import AtividadeDeImagem from './pages/exercicio/AtividadeDeImagem'
+import AlunoAtividades from './pages/lista-atividades/AlunoAtividades'
+import AlunoGrupos from './pages/lista-grupos/AlunoGrupos'
+import ListaGruposProf from './pages/lista-grupos/lista-prof'
+import AlunosParaAdmin from './pages/lista-alunos/AlunosParaAdmin'
+import AlunosParaProfessor from './pages/lista-alunos/AlunosParaProfessor'
+import Turmas from './pages/turmas/Turmas'
 import ListaDeProfessores from './pages/lista-professores/ListaDeProfessores'
 
 
@@ -29,17 +34,23 @@ function App() {
           {/* Rotas de professor */}
           <Route path='/login/professor' element={<ProfLogin />} />
           <Route path='/login/admin' element={<ProfAdminLogin />} />
-          <Route path='/professor/dashboard' element={<ProfessorDashboard />} /> // TODO mudar para ProfessorDashboard depois
+          <Route path='/professor/dashboard' element={<ProfessorDashboard />} />
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/professor/grupos' element={<ProfessorDashboard />} />
+          <Route path='/admin/alunos' element={<AlunosParaAdmin/>}/>
+          <Route path='/professor/alunos' element={<AlunosParaProfessor/>}/>
           <Route path='/admin/grupos' element={<ListaGrupos />} />
+          <Route path='/admin/turmas' element={<Turmas />} />
+          <Route path='/professor/grupos' element={<ListaGruposProf />} />
+          <Route path='/admin/grupos' element={<ListaGruposAdmin />} />
           <Route path='/admin/professores' element={<ListaDeProfessores/>}/>
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<LoginAluno />} />
           <Route path='/primeiroacesso' element={<PrimeiroAcessoAluno />} />
           <Route path='/aluno/dashboard' element={<AlunoDashboard />} />
           <Route path='/ativarconta' element={<AtivarContaAluno />} />
-          <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
+          <Route path='/aluno/grupos' element={<AlunoGrupos />} />
+          <Route path='/aluno/atividades' element={<AlunoAtividades />} />
           {/* Rotas de exercicio */}
           <Route path='/atividade/interpretador/:id' element={<Interpretador />} />
 	        <Route path='/atividade/img-upload' element={<ImgUpload />} />

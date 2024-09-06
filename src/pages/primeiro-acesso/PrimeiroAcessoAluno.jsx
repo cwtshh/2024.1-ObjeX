@@ -4,7 +4,6 @@ import Loading from '../../components/loading/Loading';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ALUNO_ENDPOINT } from '../../util/constants';
-import ErrorAlert from '../../components/alert/error/ErrorAlert';
 
 const PrimeiroAcessoAluno = () => {
     const [ matricula, setMatricula ] = useState('');
@@ -20,7 +19,6 @@ const PrimeiroAcessoAluno = () => {
             return;
         }
         setIsLoading(true);
-        // Enviar email com senha temporária     
         localStorage.setItem('matricula@primeiroAcesso', matricula);
         try {
             const res = await axios.post(`${ALUNO_ENDPOINT}/register/primeiroacesso`, {
