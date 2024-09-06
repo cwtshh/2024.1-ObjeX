@@ -22,6 +22,7 @@ import ListaGruposProf from './pages/lista-grupos/lista-prof'
 import AlunosParaAdmin from './pages/lista-alunos/AlunosParaAdmin'
 import AlunosParaProfessor from './pages/lista-alunos/AlunosParaProfessor'
 import Turmas from './pages/turmas/Turmas'
+import ListaDeProfessores from './pages/lista-professores/ListaDeProfessores'
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route path='/admin/turmas' element={<Turmas />} />
           <Route path='/professor/grupos' element={<ListaGruposProf />} />
           <Route path='/admin/grupos' element={<ListaGruposAdmin />} />
+          <Route path='/admin/professores' element={<ListaDeProfessores/>}/>
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<LoginAluno />} />
           <Route path='/primeiroacesso' element={<PrimeiroAcessoAluno />} />
