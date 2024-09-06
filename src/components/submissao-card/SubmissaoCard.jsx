@@ -7,6 +7,7 @@ import SubmissaoVerModal from './SubmissaoVerModal';
 
 const SubmissaoCard = ({ resposta, atividade }) => {
     const [ erro, setErro ] = React.useState('');
+    console.log(resposta)
 
     const notify = (status, message) => {
         if(status === 'error') {
@@ -50,7 +51,7 @@ const SubmissaoCard = ({ resposta, atividade }) => {
         const link = document.createElement('a');
         link.href = url;
 
-        link.setAttribute('download', `${atividade.nome}--${resposta.aluno_id.nome}--${formatDateTime(resposta.updatedAt)}.py`);
+        link.setAttribute('download', `${atividade.nome}--${resposta.aluno_id._id}--${formatDateTime(resposta.updatedAt)}.py`);
 
         document.body.appendChild(link);
         link.click();
@@ -69,7 +70,7 @@ const SubmissaoCard = ({ resposta, atividade }) => {
         const link = document.createElement('a');
         link.href = url;
 
-        link.setAttribute('download', `${atividade.nome}--${resposta.aluno_id.nome}--${formatDateTime(resposta.updatedAt)}.txt`);
+        link.setAttribute('download', `${atividade.nome}--${resposta.aluno_id._id}--${formatDateTime(resposta.updatedAt)}.txt`);
 
         document.body.appendChild(link);
         link.click();
@@ -94,7 +95,7 @@ const SubmissaoCard = ({ resposta, atividade }) => {
         const link = document.createElement('a');
         link.href = url;
 
-        link.setAttribute('download', `${atividade.nome}--${resposta.aluno_id.nome}--${formatDateTime(resposta.updatedAt)}.png`);
+        link.setAttribute('download', `${atividade.nome}--${resposta.aluno_id._id}--${formatDateTime(resposta.updatedAt)}.png`);
 
         document.body.appendChild(link);
         link.click();
@@ -106,7 +107,7 @@ const SubmissaoCard = ({ resposta, atividade }) => {
         <li key={resposta._id} className="p-2 m-2 bg-base-300 rounded-lg">
             <div className="flex md:flex-row flex-col justify-between md:items-center align-middle">
                 <div className='flex flex-col md:w-1/2 md:pb-0 pb-4 px-2'>
-                    <h2 className="text-xl font-bold truncate">{resposta.aluno_id.nome}</h2>
+                    <h2 className="text-xl font-bold truncate">{resposta.aluno_id == undefined ? 'ERROR' : resposta.aluno_id.nome}</h2>
                 </div>
                 <div className='flex flex-col md:w-1/4 md:pb-0 pb-4 px-2'>
                     <div className='flex flex-row gap-2 mt-1'>

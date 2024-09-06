@@ -48,7 +48,7 @@ const SubmissaoVerModal = ({ resposta, atividade }) => {
                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-error text-lg font-bold">✕</button>
             </form>
             <div className='flex flex-col bg-base-300 rounded-lg p-2 px-3 mt-2 w-full justify-center items-center'>
-                <h2 className="text-xl font-bold opacity-80">{resposta.aluno_id.nome}</h2>
+                <h2 className="text-xl font-bold opacity-80">{resposta.aluno_id == undefined ? 'ERROR' : resposta.aluno_id.nome}</h2>
             </div>
             <div className='flex flex-row w-full md:gap-x-4 gap-x-2 md:justify-between'>
                 <div className='flex flex-col bg-base-300 rounded-lg p-2 items-center justify-center align-middle w-1/2'>

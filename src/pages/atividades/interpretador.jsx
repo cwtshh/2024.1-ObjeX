@@ -7,18 +7,20 @@ import { toast, ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { API_BASE_URL, CODE_API_BASE_URL } from '../../util/constants';
 import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
 
 
 const Interpretador = () => {
   const [ code, setCode ] = useState('');
+  const { user } = useAuth();
   const [ output, setOutput ] = useState('');
   const monaco = useMonaco();
   const { id } = useParams();
   const [ atividade, setAtividade ] = useState({});
 
   const getAtividade = async() => {
-    await axios.get(`${API_BASE_URL}/atividade?id=${id}`).then((res) => {
-      setAtividade(res.data);
+    await axios.get(`${API_BASE_URL}/atividade/get/atividade/${id}`).then((res) => {
+      setAtividade(res.data[0]);
     }).catch(err => {
       console.log(err);
     });
@@ -28,9 +30,10 @@ const Interpretador = () => {
     await axios.post(`${CODE_API_BASE_URL}/interpreter`, {
       atividade_id: id,
       code: code,
-      usuario_id: '66c71c6c07f10275203ee060'
+      usuario_id: user.id
     }).then((res) => {
       setOutput(res.data.message);
+      notify('success', 'Código enviado com sucesso');
     }).catch((err) => {
       console.log(err);
     })

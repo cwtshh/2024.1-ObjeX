@@ -37,32 +37,31 @@ function App() {
           <Route path='/' element={<Navigate to='/login/aluno' />} />
           {/* Rotas de professor */}
           <Route path='/login/professor' element={<ProfLogin />} />
-          <Route path='/login/admin' element={<ProfAdminLogin />} />
           <Route path='/professor/dashboard' element={<ProfessorDashboard />} />
+          <Route path='/professor/alunos' element={<AlunosParaProfessor/>}/>
+          <Route path='/professor/atividades' element={<ListaAtividadesProfessor />} />
+          <Route path='/professor/submissoes/:id' element={<ProfessorAtvSubmetidas />} />
+          <Route path='/professor/grupos' element={<ListaGruposProf />} />
+          <Route path='/login/admin' element={<ProfAdminLogin />} />
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/admin/alunos' element={<AlunosParaAdmin/>}/>
-          <Route path='/professor/alunos' element={<AlunosParaProfessor/>}/>
-          <Route path='/admin/grupos' element={<ListaGrupos />} />
           <Route path='/admin/turmas' element={<Turmas />} />
-          <Route path='/professor/grupos' element={<ListaGruposProf />} />
           <Route path='/admin/grupos' element={<ListaGruposAdmin />} />
           <Route path='/admin/professores' element={<ListaDeProfessores/>}/>
-          <Route path='/professor/atividades' element={<ListaAtividadesProfessor />} />
           <Route path='/admin/atividades' element={<ListaAtividadesAdmin />} />
           <Route path='/admin/atividade/editar/:id' element={<EditarAtividade />} />
-          <Route path='/professor/submissoes/:id' element={<ProfessorAtvSubmetidas />} />
           {/* Rotas de aluno */}
           <Route path='/login/aluno' element={<LoginAluno />} />
           <Route path='/primeiroacesso' element={<PrimeiroAcessoAluno />} />
-          <Route path='/aluno/dashboard' element={<AlunoDashboard />} />
           <Route path='/ativarconta' element={<AtivarContaAluno />} />
+          <Route path='/aluno/dashboard' element={<AlunoDashboard />} />
           <Route path='/aluno/grupos' element={<AlunoGrupos />} />
           <Route path='/aluno/atividades' element={<AlunoAtividades />} />
           {/* Rotas de exercicio */}
           <Route path='/atividade/interpretador/:id' element={<Interpretador />} />
+          <Route path='/atividade/texto/:id' element={<AtividadeDeTexto/>}/>
+          <Route path='/atividade/imagem/:id' element={<AtividadeDeImagem/>}/>
 	        <Route path='/atividade/img-upload' element={<ImgUpload />} />
-          <Route path='/atividade/texto' element={<AtividadeDeTexto/>}/>
-          <Route path='/atividade/imagem' element={<AtividadeDeImagem/>}/>
         </Routes>
       </BrowserRouter>
     </>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useAuth } from '../../../context/AuthContext'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavBarMenu = () => {
   const { logout, user } = useAuth();
@@ -10,11 +10,11 @@ const NavBarMenu = () => {
     navigate('/');
   }
   return (
-      <div className="navbar bg-base-100 fixed z-[4]">
+      <div className="navbar bg-neutral-content fixed z-[4]">
         <div className="navbar-start">
+          <Link to={user.role === 'admin' ? '/admin/dashboard' : user.role === 'professor' ? '/professor/dashboard' : '/aluno/dashboard'} className="text-lg font-bold ml-2 hover:text-base-100"><div className='bg-base-200 px-4 py-2 rounded-xl hover:bg-neutral'>Home</div></Link>
         </div>
         <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">ObjeX</a>
         </div>
         <div className="navbar-end">
           <div onClick={() => logout_action()} role="button" className="btn btn-ghost btn-circle">

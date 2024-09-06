@@ -114,13 +114,6 @@ const SideBar = ({ user_role }) => {
                             <p className='md:pl-[20px]'>Home</p>
                             </li>
                         </Link>
-                        
-                        <Link href="">
-                            <li className='w-[15vw] md:w-auto md:pl-[30px] py-[10px] rounded-xl md:m-[10px] m-[5px] md:text-xl flex md:flex-row flex-col items-center text-[#2e3440] bg-base-100 bg-[#88c0d0] hover:bg-[#d8dee9]'>
-                            <svg fill="#88c0d0" height="24px" width="24px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xmlSpace="preserve" stroke="#88c0d0"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M502.724,381.172h-2.783V78.796c0-5.123-4.153-9.276-9.276-9.276H21.334c-5.123,0-9.276,4.153-9.276,9.276v302.375H9.276 c-5.123,0-9.276,4.153-9.276,9.276v42.758c0,5.123,4.153,9.276,9.276,9.276h493.448c5.123,0,9.276-4.153,9.276-9.276v-42.758 C512,385.325,507.847,381.172,502.724,381.172z M30.61,88.071h450.78v293.099H166.03v-12.371h293.712 c5.123,0,9.276-4.153,9.276-9.276V109.721c0-5.123-4.153-9.276-9.276-9.276H52.25c-5.123,0-9.276,4.153-9.276,9.276v249.804 c0,5.123,4.153,9.276,9.276,9.276h21.025v12.371H30.61V88.071z M82.551,335.943c-5.123,0-9.276,4.153-9.276,9.276v5.029H61.526 V118.997h388.941v231.252H166.03v-5.029c0-5.124-4.153-9.277-9.276-9.277H82.551z M147.478,354.495v26.676H91.827v-26.676H147.478 z M493.448,423.93H18.552v-24.206h474.897V423.93z"></path> </g> </g> </g></svg>
-                            <p className='md:pl-[20px]'>Turmas</p>
-                            </li>
-                        </Link>
 
                         <Link to='/professor/atividades'>
                             <li className={`${isActive(`/professor/atividades`)}`}>
@@ -135,13 +128,6 @@ const SideBar = ({ user_role }) => {
                                 <p className='md:pl-[20px]'>Alunos</p>
                             </li>
                         </Link>
-
-                        <a href="">
-                            <li className='w-[15vw] md:w-auto md:pl-[30px] py-[10px] rounded-xl md:m-[10px] m-[5px] md:text-xl flex md:flex-row flex-col items-center text-[#2e3440] bg-base-100 hover:bg-[#d8dee9]'>
-                            <svg width="24px" height="24px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" strokeWidth="3" stroke="#88c0d0" fill="none"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M43.31,37.52A11.83,11.83,0,0,1,31.25,49.35,12.1,12.1,0,0,1,19.63,37.12V20.64a.1.1,0,0,1,.08-.1,90.43,90.43,0,0,1,12.08-1,82.5,82.5,0,0,1,11.57,1,.09.09,0,0,1,.07.1Z"></path><path d="M19.63,26,9,20.47a.1.1,0,0,1,0-.18L31.49,8.86h.09L54,20.17a.1.1,0,0,1,0,.18L43.43,26"></path><path d="M19.63,32.19H17.7s-2.94,0-2.94,4.52c0,4.17,2.93,4.17,2.93,4.17l2.51-.05"></path><path d="M43.3,32.7h1.93s3,0,3,4.53c0,4.17-2.94,4.17-2.94,4.17H42.65"></path><line x1="52.72" y1="45.04" x2="52.72" y2="21.03"></line><circle cx="52.72" cy="47.36" r="2.31"></circle><polyline points="37.76 47.53 37.76 55.15 25.89 55.15 25.89 47.95"></polyline><path d="M43.43,30.13a63,63,0,0,0-11.61-1,60.25,60.25,0,0,0-12.19,1"></path></g></svg>
-                            <p className='md:pl-[20px]'>Monitores</p>
-                            </li>
-                        </a>
                         
                         <Link to='/professor/grupos'>
                             <li className={`${isActive(`/professor/grupos`)}`}>

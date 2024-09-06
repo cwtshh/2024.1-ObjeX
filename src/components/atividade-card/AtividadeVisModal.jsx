@@ -38,7 +38,7 @@ const AtividadeVisModal = ({ atividade }) => {
                     <p className="text-neutral text-sm md:text-xl font-bold text-center">{atividade.type === 'text' ? "Texto" : atividade.type === 'image' ? "Imagem" : "Código"}</p>
                 </div>
                 <div className='flex flex-col bg-base-300 rounded-lg p-2 items-center justify-center align-middle md:w-1/3 w-1/5'>
-                    <p className="font-bold text-sm md:text-xl opacity-70 text-center">{atividade.turma.nome}</p>
+                    <p className="font-bold text-sm md:text-xl opacity-70 text-center">{atividade.turma == undefined ? 'Sem turma' : atividade.turma.nome}</p>
                 </div>
             </div>
             <div className='flex flex-col w-full'>
