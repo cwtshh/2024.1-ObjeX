@@ -3,7 +3,7 @@ Neste documento, apresentamos os resultados da verificação e validação do Pr
 A metodologia utilizada foi a de Checklist de verificação e Checklist de Validação. Assim sendo o de Verificação com foco na estrutura da atividade de PBB e o de Validação mais concentrado no conteúdo do PBB. 
 
 ## Verificação e Validação (MIRO)
-<iframe width="768" height="432" src="" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
+<iframe width="768" height="432" src="https://miro.com/app/live-embed/uXjVKhlhb2s=/?moveToViewport=-461,-1724,6785,3101&embedId=189018763101" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
 
 ## Checklist de Verificação 
 Segue abaixo a tabela 1 com os resultados obtidos da verificação estrutural da atividade de PBB realizada pelo grupo Space Edge
