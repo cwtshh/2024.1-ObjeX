@@ -9,39 +9,25 @@ import AtividadeCard from '../../components/atividade-card/AtividadeCard'
 import { ToastifyNotificate } from '../../components/toast/Toastify'
 import { useAuth } from '../../context/AuthContext'
 
-const ListaAtividadesAdmin = () => {
+const ListaAtividadesProfessor = () => {
     const { user, token } = useAuth();
-    const [ turmas, setTurmas ] = useState([]);
     const [ atividades, setAtividades ] = useState([]);
     const [ filteredAtividades, setFilteredAtividades ] = useState([]);
     const [ tipoAtividade, setTipoAtividade ] = useState('');
     
     const [ nome, setNome ] = useState('');
     const [ enunciado, setEnunciado ] = useState('');
-    const [ turma, setTurma ] = useState('');
     const [ data_abertura, setDataAbertura ] = useState('');
     const [ data_encerramento, setDataEncerramento ] = useState('');
 
     const [ file, setFile ] = useState(null);
 
     const get_atividades = async() => {
-        await axios.get(`${API_BASE_URL}/atividade/get`).then((res) => {
+        await axios.get(`${API_BASE_URL}/atividade/get/${user.turma._id}`).then((res) => {
             setAtividades(res.data);
             setFilteredAtividades(res.data);
         }).catch(err => {
             ToastifyNotificate('Erro ao buscar atividades', 'error');
-        })
-    };
-
-    const get_turmas = async() => {
-        await axios.get(`${API_BASE_URL}/turma/admin`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then((res) => {
-            setTurmas(res.data.turmas);
-        }).catch(err => {
-            ToastifyNotificate('Erro ao buscar turmas', 'error');
         })
     };
 
@@ -61,14 +47,13 @@ const ListaAtividadesAdmin = () => {
 
     const handleCreateAtividade = async(e) => {
         e.preventDefault();
-        // console.log(nome, enunciado, turma, tipoAtividade, data_abertura, data_encerramento, file);
 
         if(tipoAtividade === 'code') {
             console.log('code');
             const formData = new FormData();
             formData.append('nome', nome);
             formData.append('enunciado', enunciado);
-            formData.append('turma', turma);
+            formData.append('turma', user.turma._id);
             formData.append('type', 'code');
             formData.append('data_abertura', data_abertura);
             formData.append('data_encerramento', data_encerramento);
@@ -76,9 +61,6 @@ const ListaAtividadesAdmin = () => {
             formData.append('professor', user.id);
             console.log(formData);
             await axios.post(`${API_BASE_URL}/atividade/create/code`, formData, {
-                headers: {
-                    // TODO mudar para o token do admin
-                }
             }).then(res => {
                 ToastifyNotificate('Atividade criada com sucesso', 'success');
                 get_atividades();
@@ -100,15 +82,11 @@ const ListaAtividadesAdmin = () => {
             await axios.post(`${API_BASE_URL}/atividade/create/text`, {
                 nome: nome,
                 enunciado: enunciado,
-                turma: turma,
+                turma: user.turma._id,
                 type: 'text',
                 data_abertura: data_abertura,
                 data_encerramento: data_encerramento,
                 professor: user.id
-            }, {
-                headers: {
-                    // TODO mudar para o token do admin
-                }
             }).then(res => {
                 ToastifyNotificate('Atividade criada com sucesso', 'success');
                 get_atividades();
@@ -130,15 +108,11 @@ const ListaAtividadesAdmin = () => {
             await axios.post(`${API_BASE_URL}/atividade/create/image`, {
                 nome: nome,
                 enunciado: enunciado,
-                turma: turma,
+                turma: user.turma._id,
                 type: 'image',
                 data_abertura: data_abertura,
                 data_encerramento: data_encerramento,
                 professor: user.id
-            }, {
-                headers: {
-                    // TODO mudar para o token do admin
-                }
             }).then(res => {
                 ToastifyNotificate('Atividade criada com sucesso', 'success');
                 get_atividades();
@@ -158,8 +132,6 @@ const ListaAtividadesAdmin = () => {
 
     useEffect(() => {
         get_atividades();
-        get_turmas();
-        // console.log(atividades);
     }, [])
 
     return (
@@ -168,7 +140,7 @@ const ListaAtividadesAdmin = () => {
             <div className='flex md:relative justify-center pt-[75px]'>
                 <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
                     <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
-                    <SideBar user_role={'admin'} />
+                    <SideBar user_role={'professor'} />
                     </div>
                     <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[1] rounded-xl md:mb-8 mb-20 md:mt-0 mt-8 items-center align-middle justify-center">
                         <div className="bg-[#2e3440] h-[45px] rounded-t-xl flex flex-row">
@@ -213,7 +185,7 @@ const ListaAtividadesAdmin = () => {
             <dialog id="my_modal_2" className="modal">
             <div className="modal-box flex flex-col justify-center items-center">
                 <h3 className='font-bold text-lg'>Atividades</h3>
-                <form onSubmit={handleCreateAtividade} method="dialog" className='flex flex-col justify-center gap-2 w-3/4'>
+                <form onSubmit={handleCreateAtividade} method='dialog' className='flex flex-col justify-center gap-2 w-3/4'>
                     <label className="form-control">
                         <div className="label">
                         <span className="label-text">Nome:</span>
@@ -243,16 +215,12 @@ const ListaAtividadesAdmin = () => {
                         <div className='label'>
                         <span className='label-text'>Turma:</span>
                         </div>
-                        <select 
-                            defaultValue="" 
-                            className='select select-bordered'
-                            onChange={(e) => setTurma(e.target.value)}
-                        >
-                            <option value="" disabled>Selecione uma Turma</option>
-                            {turmas.map((turma, index) => {
-                                return <option key={index} value={turma._id}>{turma.nome}</option>
-                            })}
-                        </select>
+                        <input
+                            type="text" 
+                            className="input input-bordered"
+                            value={user.turma.nome}
+                            readOnly={true}
+                        />
                     </label>
 
                     <label className='form-control'>
@@ -333,4 +301,4 @@ const ListaAtividadesAdmin = () => {
     )
 }
 
-export default ListaAtividadesAdmin
+export default ListaAtividadesProfessor

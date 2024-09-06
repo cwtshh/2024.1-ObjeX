@@ -20,6 +20,7 @@ import AtividadeDeImagem from './pages/exercicio/AtividadeDeImagem'
 import ListaAtividadesAdmin from './pages/atividades/ListaAtividadesAdmin'
 import EditarAtividade from './pages/atividades/EditarAtividade'
 import ProfessorAtvSubmetidas from './pages/atividades/ProfessorAtvSubmetidas'
+import ListaAtividadesProfessor from './pages/atividades/ListaAtividadesProfessor'
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path='/professor/dashboard' element={<ProfessorDashboard />} />
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/professor/grupos' element={<ProfessorDashboard />} />
+          <Route path='/professor/atividades' element={<ListaAtividadesProfessor />} />
           <Route path='/admin/grupos' element={<ListaGrupos />} />
           <Route path='/admin/atividades' element={<ListaAtividadesAdmin />} />
           <Route path='/admin/atividade/editar/:id' element={<EditarAtividade />} />

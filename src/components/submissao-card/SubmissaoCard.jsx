@@ -154,7 +154,7 @@ const SubmissaoCard = ({ resposta, atividade }) => {
                                     <svg
                                         fill="currentColor"
                                         viewBox="0 0 16 16"
-                                        className='bg-base-200 rounded-xl text-success md:w-16 md:h-16 w-14 h-14 mt-1 cursor-pointer hover:text-neutral'
+                                        className='rounded-xl text-success md:w-16 md:h-16 w-14 h-14 mt-1 cursor-pointer hover:text-neutral'
                                         >
                                         <path d="M10.97 4.97a.75.75 0 011.07 1.05l-3.99 4.99a.75.75 0 01-1.08.02L4.324 8.384a.75.75 0 111.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 01.02-.022z" />
                                     </svg>
@@ -164,7 +164,7 @@ const SubmissaoCard = ({ resposta, atividade }) => {
                                     <svg
                                         viewBox="0 0 24 24"
                                         fill="currentColor"
-                                        className='bg-base-200 rounded-xl text-error md:w-16 md:h-16 w-14 h-14 mt-1 cursor-pointer hover:text-neutral'
+                                        className='rounded-xl text-error md:w-16 md:h-16 w-14 h-14 mt-1 cursor-pointer hover:text-neutral'
                                         >
                                         <path d="M13.41 12l4.3-4.29a1 1 0 10-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 00-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 000 1.42 1 1 0 001.42 0l4.29-4.3 4.29 4.3a1 1 0 001.42 0 1 1 0 000-1.42z" />
                                     </svg>
