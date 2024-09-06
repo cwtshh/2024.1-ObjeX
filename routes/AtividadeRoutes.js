@@ -14,7 +14,7 @@ const create_atividade_texto = require('../services/Atividades/CreateAtividadeTe
 const get_resposta_por_atividade_texto = require('../services/Atividades/GetRespostaPorAtividade');
 const editar_atividade = require('../services/Atividades/EditAtividade');
 const delete_atividade = require('../services/Atividades/DeleteAtividade');
-const resgatar_respostas = require('../services/Atividades/GetRespostas');
+const { resgatar_respostas, resgatar_todas_respostas } = require('../services/Atividades/GetRespostas');
 
 router.get('/', (req, res) => {
     res.send('ATIVIDADES');
@@ -33,6 +33,7 @@ router.post('/responder/texto', responder_atividade_texto);
 router.get('/texto/:id_atividade', get_resposta_por_atividade_texto);
 router.patch('/update/', editar_atividade);
 router.delete('/delete/:id', delete_atividade);
+router.get('/resgatar/respostas', resgatar_todas_respostas);
 router.get('/resgatar/respostas/:id_atividade', resgatar_respostas);
 
 module.exports = router;

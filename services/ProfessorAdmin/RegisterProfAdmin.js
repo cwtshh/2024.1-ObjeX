@@ -54,7 +54,8 @@ const register_prof_admin = async(req, res) => {
             id: new_prof._id,
             nome: new_prof.nome,
             email: new_prof.email,
-            role: new_prof.role
+            role: new_prof.role,
+            turma: new_turma._id
         }
     });
 };
