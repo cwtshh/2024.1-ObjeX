@@ -21,6 +21,8 @@ import ListaAtividadesAdmin from './pages/atividades/ListaAtividadesAdmin'
 import EditarAtividade from './pages/atividades/EditarAtividade'
 import ProfessorAtvSubmetidas from './pages/atividades/ProfessorAtvSubmetidas'
 import ListaAtividadesProfessor from './pages/atividades/ListaAtividadesProfessor'
+import AlunoAtividades from './pages/lista-atividades/AlunoAtividades'
+import AlunoGrupos from './pages/lista-grupos/AlunoGrupos'
 
 
 function App() {
@@ -45,7 +47,8 @@ function App() {
           <Route path='/primeiroacesso' element={<PrimeiroAcessoAluno />} />
           <Route path='/aluno/dashboard' element={<AlunoDashboard />} />
           <Route path='/ativarconta' element={<AtivarContaAluno />} />
-          <Route path='/login/aluno' element={<h1>Login Aluno</h1>} />
+          <Route path='/aluno/grupos' element={<AlunoGrupos />} />
+          <Route path='/aluno/atividades' element={<AlunoAtividades />} />
           {/* Rotas de exercicio */}
           <Route path='/atividade/interpretador/:id' element={<Interpretador />} />
 	        <Route path='/atividade/img-upload' element={<ImgUpload />} />
