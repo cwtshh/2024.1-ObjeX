@@ -73,13 +73,17 @@ const ListaGruposAdmin = () => {
     const worksheet = workbook.addWorksheet('Grupos');
     worksheet.addRow(['Nome', 'Descrição', 'Turma', 'Capacidade', 'Membros']);
     grupos.forEach(grupo => {
-      worksheet.addRow([grupo.nome, grupo.descricao, grupo.turma.nome, grupo.capacidade, grupo.membros.map((membro) => {
-        return membro.nome + ', ';
-      })]);
+      let membros = '';
+      grupo.membros.forEach(membro => {
+        membros += `${membro.nome}, `;
+      });
+      console.log(membros);
+      worksheet.addRow([grupo.nome, grupo.descricao, grupo.turma.nome, grupo.capacidade, membros]);
     });
     worksheet.columns.forEach(column => {
       column.width = 25;
     });
+    worksheet.columns[4].width = 50;
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const url = window.URL.createObjectURL(blob);
