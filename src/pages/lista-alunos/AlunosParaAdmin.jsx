@@ -205,6 +205,7 @@ const AlunosParaAdmin = () => {
                                                     </div>
 
                                                     <div className='flex gap-4 flex-row  justify-between'>
+                                                    <button className='btn btn-error text-base-100 rounded-lg' onClick={() => selecionaAluno(aluno._id)}>Editar</button>
                                                     <button className='btn btn-error text-base-100 rounded-lg' onClick={() => selecionaAluno(aluno._id)}>Excluir</button>
                                                     </div>
                                                 </div>
@@ -325,7 +326,7 @@ const AlunosParaAdmin = () => {
                             onClick={() => document.getElementById('modal_delete').close()}>Cancelar</button>
                     </form>
                 </div>
-            </dialog>
+                </dialog>
 
             </div>
             <div className="z-[-1]">

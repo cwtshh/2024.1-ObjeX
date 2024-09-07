@@ -4,7 +4,7 @@ import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
 import axios from 'axios';
 import { API_BASE_URL } from '../../util/constants';
 import SideBar from '../../components/sidebar/SideBar';
-
+import EditarAlunoModal from '../../components/editar-aluno-modal/EditarAlunoModal';
 import ExcelJS from 'exceljs';
 import { ToastContainer } from 'react-toastify';
 
@@ -188,11 +188,12 @@ const AlunosParaProfessor = () => {
                                                     </div>
 
                                                     <div className='flex gap-4 flex-row  justify-between'>
-                                                        <button className='btn btn-error text-base-100 rounded-lg' onClick={()=> document.getElementById('modal_editar').showModal()}>Editar</button>
+                                                        <button className='btn btn-error text-base-100 rounded-lg' onClick={()=> document.getElementById(`${aluno._id}-modal`).showModal()}>Editar</button>
                                                         <button className='btn btn-error text-base-100 rounded-lg' onClick={() => selecionaAluno(aluno._id)}>Excluir</button>
                                                     </div>
                                                 </div>
                                             </li>
+                                            <EditarAlunoModal aluno={aluno} trigger_reload={get_alunos} />
                                         </ul>
                                     )
                                 }))
