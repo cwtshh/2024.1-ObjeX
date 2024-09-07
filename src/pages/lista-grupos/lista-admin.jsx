@@ -103,9 +103,9 @@ const ListaGruposAdmin = () => {
     get_turmas();
   }, [])
   return (
-    <div>
+    <div className='bg-base-200'>
       <NavBarMenu />
-      <div className='flex justify-center pt-[65px]'>
+      <div className='flex justify-center pt-[75px]'>
           <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
             <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
               <SideBar user_role={'admin'}/>
