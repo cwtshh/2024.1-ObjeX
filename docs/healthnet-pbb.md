@@ -22,3 +22,12 @@ A título de curiosidade, segue o PBB do nosso próprio projeto.
 <iframe width="768" height="432" src="https://miro.com/app/live-embed/uXjVKuUGHA8=/?moveToViewport=-114086,65674,34019,11385&embedId=948523812326" frameborder="0" scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
 
 A criação segue a mesma apresentada no PBB da atividade (HealthNet), com a diferença de que só possui dois Frames no Miro, o primeiro sendo o PBB em si, e o segundo (Pontuação VN DFD) sendo a priorização das US's seguindo o método de Priorização Dificuldade + Valor de Negócio.
+
+## Histórico de Versão
+
+| Versão | Data       | Descrição                                                         | Autor(es)       |
+|--------|------------|-------------------------------------------------------------------|-----------------|
+| 2.3   | 20/08/2024 |  USM - ComunEventos                              | Grupo   |
+|2.3|21/08/2024| PBB - HealthNet, PBB - OBJEX   | Grupo
+|2.3|23/08/2024| Revisão e video   | Grupo
+

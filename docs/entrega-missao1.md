@@ -21,3 +21,12 @@
 ## Vídeo da Entrega
 
 <iframe width="100%" height="450" src="https://www.youtube.com/embed/yg7A8HdZxQs" title="Entrega Missão 1 - REQ-2024.1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## Histórico de Versão
+
+| Versão | Data       | Descrição                                                         | Autor(es)       |
+|--------|------------|-------------------------------------------------------------------|-----------------|
+| 1.0    | 10/04/2024 | Historia da Facção    , Material de apresentação                                         | Grupo   |
+|1.1|14/04/2024| Problemas, Tecnologias, Objetivos do produto | Grupo
+| 1.1    | 16/04/2024 | Edição e ajustes do video                        | Gustavo Costa  |
+| 1.2   | 16/04/2024 | Revisão de todos os processos e envio do video                                          | Fabrício De Queiroz   |
