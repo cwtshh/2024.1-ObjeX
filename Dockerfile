@@ -1,18 +1,25 @@
+# Usa a imagem base do Node.js com Alpine
 FROM node:alpine
 
-RUN apt-get update && apt-get install -y \
+# Atualiza o repositório e instala o Python3 e o pip
+RUN apk update && apk add --no-cache \
   python3 \
-  python3-pip \
-  && rm -rf /var/lib/apt/lists/*
+  py3-pip
 
+# Define o diretório de trabalho
 WORKDIR /usr/src/app
 
-COPY package*.json .
+# Copia os arquivos de dependências (package.json e package-lock.json)
+COPY package*.json ./
 
+# Instala as dependências do Node.js
 RUN npm install
 
+# Copia todos os arquivos da aplicação para o container
 COPY . .
 
+# Expõe a porta 3009 para acessar o servidor
 EXPOSE 3009
 
+# Comando para iniciar a aplicação
 CMD ["npm", "run", "server"]
