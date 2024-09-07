@@ -4,8 +4,9 @@ import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
 import axios from 'axios';
 import { API_BASE_URL } from '../../util/constants';
 import SideBar from '../../components/sidebar/SideBar';
-import NotifyToast from '../../components/toast/NotifyToast';
+
 import ExcelJS from 'exceljs';
+import { ToastContainer } from 'react-toastify';
 
 const AlunosParaProfessor = () => {
 
@@ -13,8 +14,6 @@ const AlunosParaProfessor = () => {
     const [email, setEmail] = useState('')
     const [nome, setNome] = useState('')
     const [matricula, setMatricula] = useState('')
-    const [turmas, setTurmas] = useState([])
-    const [turmaDoAluno, setTurmaDoAluno] = useState([])
     const [alunosFiltrados, setAlunosFiltrados] = useState([])
     const modal_create = useRef(null)
     const modal_arquivo = useRef(null)
@@ -42,13 +41,12 @@ const AlunosParaProfessor = () => {
                 email: email,
                 nome: nome,
                 matricula: matricula,
-                turma: turmaDoAluno
+                turma: user.turma._id
             }
         ).then((res) => {
             setEmail('')
             setNome('')
             setMatricula('')
-            setTurmaDoAluno('')
             modal_create.current.close()
             get_alunos()
         }).catch(error => {
@@ -56,34 +54,21 @@ const AlunosParaProfessor = () => {
         })
     }
 
-    const get_turmas = async () => { // TODO - Implementar autenticação
-        await axios.get(`${API_BASE_URL}/turma/`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then(res => {
-            setTurmas(res.data.turmas);
-        }).catch(err => {
-            NotifyToast({ message: 'Erro ao buscar turmas', toast_type: 'erro' });
-            console.log(err.message)
-        })
-    };
-
     const deletar_aluno = async (id) => {
         await axios.delete(`${API_BASE_URL}/aluno/delete/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
+        }).then(res => {
+            NotifyToast({ message: 'Aluno deletado com sucesso', toast_type: 'sucesso' });
+            get_alunos();
+        }).catch(err => {
+            NotifyToast({ message: 'Erro ao deletar aluno', toast_type: 'erro' });
+            console.error(err);
         })
-            .then(res => {
-                NotifyToast({ message: 'Aluno deletado com sucesso', toast_type: 'sucesso' });
-                // Atualiza a lista de alunos após a exclusão
-                get_alunos();
-            }).catch(err => {
-                NotifyToast({ message: 'Erro ao deletar aluno', toast_type: 'erro' });
-                console.error(err);
-            })
     }
+
+
 
     const handleSearch = useCallback((e) => {
         const search = e.target.value;
@@ -119,9 +104,10 @@ const AlunosParaProfessor = () => {
             console.log("turma:", user.turma._id)
             console.log("alunos:", alunos)
             await axios.post(`${API_BASE_URL}/aluno/register/many`, {
-                
                 alunos: students,
-                turma: user.turma }).then(res => {
+                turma: user.turma._id 
+            }).then(res => {
+                NotifyToast({ message: 'Alunos cadastrados com sucesso', toast_type: 'sucesso' });
             }).catch(err => {
                 console.log(err);
             });
@@ -132,7 +118,6 @@ const AlunosParaProfessor = () => {
 
     useEffect(() => {
         get_alunos();
-        get_turmas();
     }, [])
 
     return (
@@ -198,11 +183,11 @@ const AlunosParaProfessor = () => {
                                                     </div>
 
                                                     <div className='flex gap-4 flex-row  justify-between'>
+                                                        <button className='btn btn-error text-base-100 rounded-lg' onClick={()=> document.getElementById('modal_editar').showModal()}>Editar</button>
                                                         <button className='btn btn-error text-base-100 rounded-lg' onClick={() => { deletar_aluno(aluno._id) }}>Excluir</button>
                                                     </div>
                                                 </div>
                                             </li>
-                                            {/* ))} */}
                                         </ul>
                                     )
                                 }))
@@ -217,20 +202,21 @@ const AlunosParaProfessor = () => {
                         <form onSubmit={create_alunos} className='flex flex-col justify-center gap-2 w-3/4'>
                             <label className="form-control">
                                 <div className="label">
-                                    <span className="label-text">Email do Aluno:</span>
-                                </div>
-                                <input
-                                    onChange={e => setEmail(e.target.value)}
-                                    type="text"
-                                    className="input input-bordered"
-                                />
-                            </label>
-                            <label className="form-control">
-                                <div className="label">
                                     <span className="label-text">Nome do Aluno:</span>
                                 </div>
                                 <input
                                     onChange={e => setNome(e.target.value)}
+                                    type="text"
+                                    className="input input-bordered"
+                                />
+                            </label>
+
+                            <label className="form-control">
+                                <div className="label">
+                                    <span className="label-text">Email do Aluno:</span>
+                                </div>
+                                <input
+                                    onChange={e => setEmail(e.target.value)}
                                     type="text"
                                     className="input input-bordered"
                                 />
@@ -247,22 +233,16 @@ const AlunosParaProfessor = () => {
                                 />
                             </label>
 
-                            <label className='form-control'>
+                            <label className='form-control mb-7'>
                                 <div className='label'>
-                                    <span className='label-text'>Turma:</span>
+                                <span className='label-text'>Turma:</span>
                                 </div>
-                                <select
-                                    onChange={e => setTurmaDoAluno(e.target.value)}
-                                    defaultValue=""
-                                    className='select select-bordered'
-                                >
-                                    <option value="" disabled>Selecione uma Turma</option>
-                                    {turmas.map((turma, index) => {
-                                        return (
-                                            <option key={index} value={turma._id}>{turma.nome}</option>
-                                        )
-                                    })}
-                                </select>
+                                <input
+                                    type="text" 
+                                    className="input input-bordered"
+                                    value={user.turma.nome}
+                                    readOnly={true}
+                                />
                             </label>
 
                             <button type='submit' className='btn btn-primary text-white'>Criar Aluno</button>
@@ -291,7 +271,64 @@ const AlunosParaProfessor = () => {
                         <button>close</button>
                     </form>
                 </dialog>
+                <dialog id='modal_editar' className="modal">
+                    <div className="modal-box flex flex-col justify-center items-center">
+                        <h3 className='font-bold text-lg'>Editar Aluno</h3>
+                        <form onSubmit={create_alunos} className='flex flex-col justify-center gap-2 w-3/4'>
+                            <label className="form-control">
+                                <div className="label">
+                                    <span className="label-text">Nome do Aluno:</span>
+                                </div>
+                                <input
+                                    onChange={e => setNome(e.target.value)}
+                                    type="text"
+                                    className="input input-bordered"
+                                />
+                            </label>
+
+                            <label className="form-control">
+                                <div className="label">
+                                    <span className="label-text">Email do Aluno:</span>
+                                </div>
+                                <input
+                                    onChange={e => setEmail(e.target.value)}
+                                    type="text"
+                                    className="input input-bordered"
+                                />
+                            </label>
+
+                            <label className="form-control">
+                                <div className="label">
+                                    <span className="label-text">Matricula:</span>
+                                </div>
+                                <input
+                                    onChange={e => setMatricula(e.target.value)}
+                                    type="text"
+                                    className="input input-bordered"
+                                />
+                            </label>
+
+                            <label className='form-control mb-7'>
+                                <div className='label'>
+                                <span className='label-text'>Turma:</span>
+                                </div>
+                                <input
+                                    type="text" 
+                                    className="input input-bordered"
+                                    value={user.turma.nome}
+                                    readOnly={true}
+                                />
+                            </label>
+
+                            <button type='submit' className='btn btn-primary text-white'>Criar Aluno</button>
+                        </form>
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                        <button>close</button>
+                    </form>
+                </dialog>
             </div>
+            <ToastContainer />
             <div className="z-[-1]">
                 <svg className="fixed bottom-0 left-0 w-full h-1/3">
                     <ellipse cx="50%" cy="50%" rx="50%" ry="50%" fill="#d8dee9" />
