@@ -4,17 +4,17 @@ import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL, GRUPO_ENDPOINT } from '../../util/constants';
-import GroupCard from '../../components/navbar/group-card/GroupCard';
 import SideBar from '../../components/sidebar/SideBar';
-import GrupoCard from '../../components/grupo-card/GrupoCard';
 import NotifyToast from '../../components/toast/NotifyToast';
 import ExcelJs from 'exceljs';
+import ProfessorGrupoCard from '../../components/grupo-card/ProfessorGrupoCard';
 
 const ListaGruposProf = () => {
   const { logout, user, token } = useAuth();
   const [ grupos, setGrupos ] = useState([]);
   const [ filteredGroups, setFilteredGroups ] = useState([]);
   const [ turmas, setTurmas ] = useState([]);
+  const [ turmaprof, setTurmaProf ] = useState([]);
 
   const [ nome, setNome ] = useState('');
   const [ descricao, setDescricao ] = useState('');
@@ -22,7 +22,7 @@ const ListaGruposProf = () => {
   const [ capacidade, setCapacidade ] = useState('');
 
   const get_groups = async() => {
-    await axios.get(`${GRUPO_ENDPOINT}/${user.turma}`).then((res) => {
+    await axios.get(`${GRUPO_ENDPOINT}/${user.turma._id}`).then((res) => {
       setGrupos(res.data);
       setFilteredGroups(res.data);
     }).catch(err => {
@@ -30,24 +30,27 @@ const ListaGruposProf = () => {
     });
   };
   const get_turmas = async() => { // TODO - Implementar autenticação
-    await axios.get(`${API_BASE_URL}/turma/`, {
+    await axios.get(`${API_BASE_URL}/turma/${user.turma}`, {
       headers: {
         Authorization: `Bearer ${token}`}
     }).then(res => {
-      setTurmas(res.data.turmas);
+      setTurmaProf(res.data);
     }).catch(err => {
       NotifyToast({ message: 'Erro ao buscar turmas', toast_type: 'erro' });
     })
   };
   const create_grupo = async(e) => {
     e.preventDefault();
-    await axios.post(`${API_BASE_URL}/grupo/create`, {
+    await axios.post(`${GRUPO_ENDPOINT}/create`, {
       nome: nome,
       descricao: descricao,
-      turma: turma,
+      turma: user.turma._id,
       capacidade: capacidade
     }).then(res => {
       NotifyToast({ message: 'Grupo criado com sucesso', toast_type: 'sucesso' });
+      setNome("");
+      setCapacidade("");
+      setDescricao("");
       get_groups();
     }).catch(err => {
       NotifyToast({ message: 'Erro ao criar grupo', toast_type: 'erro' });
@@ -89,9 +92,6 @@ const ListaGruposProf = () => {
     a.click();
     document.body.removeChild(a);
   };
-
-
-
   
   useEffect(() => {
     get_groups();
@@ -146,13 +146,13 @@ const ListaGruposProf = () => {
               </div>
             </div>
 
-            <div className='flex flex-col p-6 overflow-scroll h-4/5'>
+            <ul className='flex flex-col list-none p-6 overflow-scroll h-4/5'>
               {filteredGroups.map((grupo, index) => {
                 return (
-                  <GrupoCard key={index} grupo={grupo} />
+                  <ProfessorGrupoCard key={index} grupo={grupo} reload_trigger={get_groups} />
                 )
               })}
-            </div>
+            </ul>
           </div>
         </div>
         <dialog id="my_modal_2" className="modal">
@@ -185,18 +185,12 @@ const ListaGruposProf = () => {
                 <div className='label'>
                   <span className='label-text'>Turma:</span>
                 </div>
-                <select 
-                  onChange={e => setTurma(e.target.value)} 
-                  defaultValue="" 
-                  className='select select-bordered'
-                >
-                    <option value="" disabled>Selecione uma Turma</option>
-                    {turmas.map((turma, index) => {
-                      return (
-                        <option key={index} value={turma._id}>{turma.nome}</option>
-                      )
-                    })}
-                </select>
+                <input 
+                  type="text" 
+                  value={user.turma.nome} 
+                  className='input input-bordered' 
+                  readOnly={true}
+                />
               </label>
 
               <label className="form-control">
@@ -210,7 +204,64 @@ const ListaGruposProf = () => {
                 />
               </label>
 
-              <button type='submit' className='btn btn-primary text-white'>Criar Grupo</button>
+              <button type='submit' className='btn btn-primary text-white' onClick={()=>document.getElementById('my_modal_2').close()} >Criar Grupo</button>
+            </form>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
+
+        <dialog id="my_modal_3" className="modal">
+          <div className="modal-box flex flex-col justify-center items-center">
+            <h3 className='font-bold text-lg'>Criar Grupo</h3>
+            <form onSubmit={create_grupo} className='flex flex-col justify-center gap-2 w-3/4'>
+              <label className="form-control">
+                <div className="label">
+                  <span className="label-text">Nome do Grupo:</span>
+                </div>
+                <input
+                  onChange={e => setNome(e.target.value)}
+                  type="text" 
+                  className="input input-bordered" 
+                />
+              </label>
+
+              <label className="form-control">
+                <div className="label">
+                  <span className="label-text">Descrição:</span>
+                </div>
+                <input 
+                  onChange={e => setDescricao(e.target.value)}
+                  type="text" 
+                  className="input input-bordered" 
+                />
+              </label>
+
+              <label className='form-control'>
+                <div className='label'>
+                  <span className='label-text'>Turma:</span>
+                </div>
+                <input 
+                  type="text" 
+                  value={user.turma.nome} 
+                  className='input input-bordered' 
+                  readOnly={true}
+                />
+              </label>
+
+              <label className="form-control">
+                <div className="label">
+                  <span className="label-text">Capacidade:</span>
+                </div>
+                <input 
+                  onChange={e => setCapacidade(e.target.value)}
+                  type="number" 
+                  className="input input-bordered"
+                />
+              </label>
+
+              <button type='submit' className='btn btn-primary text-white' onClick={()=>document.getElementById('my_modal_2').close()} >Criar Grupo</button>
             </form>
           </div>
           <form method="dialog" className="modal-backdrop">
