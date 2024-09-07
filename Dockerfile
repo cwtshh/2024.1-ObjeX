@@ -22,4 +22,4 @@ ENV NODE_ENV=production
 
 EXPOSE 3001
 
-CMD ["pm2-runtime", "start", "ecosystem.config.js"]
+CMD ["pm2-runtime", "start", "ecosystem.config.js", "--env", "production"]
