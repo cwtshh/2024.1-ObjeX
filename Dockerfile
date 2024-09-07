@@ -1,33 +1,48 @@
-# Usa a imagem base do Node.js com Alpine
-FROM node:alpine AS builder
+# Etapa 1: Build da aplicação
+FROM node:18-alpine AS builder
 
 # Define o diretório de trabalho
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Atualiza o repositório e instala o Python3 e o pip
 RUN apk update && apk add --no-cache \
   python3 \
   py3-pip
 
-# Copia os arquivos de dependências (package.json e package-lock.json)
+# Copia os arquivos de dependências e instala apenas as dependências de produção
 COPY package*.json ./
 
-# Instala as dependências do Node.js
-RUN npm install
+# Instala as dependências de produção
+RUN npm install --only=production
 
-# Copia todos os arquivos da aplicação para o container
+# Copia o código-fonte da aplicação
 COPY . .
 
-FROM node:alpine
+# Etapa 2: Criando a imagem final para produção com PM2
+FROM node:18-alpine
 
+# Instala o PM2 globalmente
 RUN npm install pm2 -g
 
-COPY --from=builder /usr/src/app .
+# Define o diretório de trabalho na nova imagem
+WORKDIR /app
 
+# Copia apenas as dependências da etapa anterior
+COPY --from=builder /app/node_modules ./node_modules
+
+# Copia o restante do código da aplicação
+COPY --from=builder /app .
+
+# Define a variável de ambiente NODE_ENV para produção
 ENV NODE_ENV=production
 
-# Expõe a porta 3009 para acessar o servidor
+# Atualiza o repositório e instala o Python3 e o pip
+RUN apk update && apk add --no-cache \
+  python3 \
+  py3-pip
+
+# Expõe a porta que a aplicação vai rodar (se necessário)
 EXPOSE 3009
 
-# Comando para iniciar a aplicação
+# Usa o PM2 para iniciar a aplicação
 CMD ["pm2-runtime", "start", "ecosystem.config.js"]
