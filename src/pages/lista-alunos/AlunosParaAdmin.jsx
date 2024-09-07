@@ -16,8 +16,10 @@ const AlunosParaAdmin = () => {
     const [turmas, setTurmas] = useState([])
     const [turmaDoAluno, setTurmaDoAluno] = useState([])
     const [alunosFiltrados, setAlunosFiltrados] = useState([])
+    const [id,setId] = useState('')
     const modal_create = useRef(null)
     const modal_arquivo = useRef(null)
+    const modal_delete = useRef(null)
     const { token } = useAuth();
     const [file, setFile] = useState(null);
     const { user } = useAuth();
@@ -76,13 +78,18 @@ const AlunosParaAdmin = () => {
             }
         })
             .then(res => {
-                NotifyToast({ message: 'Aluno deletado com sucesso', toast_type: 'sucesso' });
+                notify({ message: 'Aluno deletado com sucesso', toast_type: 'sucesso' });
                 // Atualiza a lista de alunos após a exclusão
                 get_alunos();
             }).catch(err => {
-                NotifyToast({ message: 'Erro ao deletar aluno', toast_type: 'erro' });
+                notify({ message: 'Erro ao deletar aluno', toast_type: 'erro' });
                 console.error(err);
             })
+    }
+
+    const selecionaAluno = (id) => {
+        setId(id)
+        modal_delete.current.showModal();
     }
 
     const handleSearch = useCallback((e) => {
@@ -198,7 +205,8 @@ const AlunosParaAdmin = () => {
                                                     </div>
 
                                                     <div className='flex gap-4 flex-row  justify-between'>
-                                                        <button className='btn btn-error text-base-100 rounded-lg' onClick={() => { deletar_aluno(aluno._id) }}>Excluir</button>
+                                                    <button className='btn btn-error text-base-100 rounded-lg' onClick={() => selecionaAluno(aluno._id)}>Editar</button>
+                                                    <button className='btn btn-error text-base-100 rounded-lg' onClick={() => selecionaAluno(aluno._id)}>Excluir</button>
                                                     </div>
                                                 </div>
                                             </li>
@@ -308,6 +316,18 @@ const AlunosParaAdmin = () => {
                         <button>close</button>
                     </form>
                 </dialog>
+
+                <dialog ref={modal_delete} id="modal_delete" className="modal">
+                <div className="modal-box flex flex-col justify-center items-center">
+                    <h3 className='font-bold text-lg gap-10 mb-10'>Realmente deseja excluir ?</h3>
+                    <form onSubmit={()=>deletar_aluno(id)} className='flex flex-col justify-center gap-2 w-3/4'>
+                        <button type='submit' className='btn btn-error rounded-lg text-white'>Excluir</button>
+                        <button type='submit' className='btn btn-primary text-white'
+                            onClick={() => document.getElementById('modal_delete').close()}>Cancelar</button>
+                    </form>
+                </div>
+                </dialog>
+
             </div>
             <div className="z-[-1]">
                 <svg className="fixed bottom-0 left-0 w-full h-1/3">
