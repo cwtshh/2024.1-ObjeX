@@ -14,9 +14,9 @@ RUN npm install pm2 -g
 
 WORKDIR /usr/src/app
 
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-
 COPY --from=builder /usr/src/app .
+
+RUN mkdir -p /root/.pm2
 
 ENV NODE_ENV=production
 
