@@ -26,8 +26,10 @@ const Interpretador = () => {
     });
   };
 
+  const interpreter_route = 'https://objex-code.ftbpws.easypanel.host'
+
   const runCode = async() => {
-    await axios.post(`${CODE_API_BASE_URL}/interpreter`, {
+    await axios.post(`${interpreter_route}/interpreter`, {
       atividade_id: id,
       code: code,
       usuario_id: user.id

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { ALUNO_ENDPOINT, PROFESSOR_ENDPOINT } from "../util/constants";
+import { ALUNO_ENDPOINT, API_BASE_URL, PROFESSOR_ENDPOINT } from "../util/constants";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
         switch(user_type) {
             case 'admin': {
                 try {
-                    const res = await axios.post(`${PROFESSOR_ENDPOINT}/admin/login`, userData);
+                    const res = await axios.post(`${API_BASE_URL}/professor/admin/login`, userData);
                     setUser(res.data.user);
                     setToken(res.data.token);
                     localStorage.setItem('objex@auth_user', JSON.stringify(res.data.user));
