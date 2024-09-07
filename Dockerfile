@@ -24,4 +24,4 @@ COPY . .
 EXPOSE 3009
 
 # Comando para iniciar a aplicação
-CMD ["pm2-runtime", "start", "server.js"]
+CMD ["pm2-runtime", "start", "app.js"]
