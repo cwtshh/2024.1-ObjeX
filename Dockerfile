@@ -6,6 +6,8 @@ RUN apk update && apk add --no-cache \
   python3 \
   py3-pip
 
+RUN npm install pm2 -g
+
 # Define o diretório de trabalho
 WORKDIR /usr/src/app
 
@@ -22,4 +24,4 @@ COPY . .
 EXPOSE 3009
 
 # Comando para iniciar a aplicação
-CMD ["npm", "run", "server"]
+CMD ["pm2-runtime", "start", "server.js"]
