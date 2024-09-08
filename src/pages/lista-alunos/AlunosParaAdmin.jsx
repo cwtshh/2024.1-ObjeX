@@ -7,6 +7,8 @@ import SideBar from '../../components/sidebar/SideBar';
 import NotifyToast from '../../components/toast/NotifyToast';
 import ExcelJS from 'exceljs';
 import AlunoCard from '../../components/aluno-card/AlunoCard';
+import { ToastifyNotificate } from '../../components/toast/Toastify';
+import { ToastContainer } from 'react-toastify';
 
 const AlunosParaAdmin = () => {
 
@@ -17,6 +19,7 @@ const AlunosParaAdmin = () => {
     const [turmas, setTurmas] = useState([])
     const [turmaDoAluno, setTurmaDoAluno] = useState([])
     const [alunosFiltrados, setAlunosFiltrados] = useState([])
+    const [ error, setError ] = useState(false);
     const [id,setId] = useState('')
     const modal_create = useRef(null)
     const modal_arquivo = useRef(null)
@@ -34,12 +37,23 @@ const AlunosParaAdmin = () => {
             setAlunos(res.data);
             setAlunosFiltrados(res.data);
         }).catch(err => {
-            NotifyToast({ message: 'Erro ao buscar Alunos', toast_type: 'erro' });
+            ToastifyNotificate({ message: 'Erro ao buscar Alunos', toast_type: 'erro' });
         });
     };
 
     const create_alunos = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        if(nome === '' || matricula === '' || turmaDoAluno === ''){
+            ToastifyNotificate({ message: 'Preencha todos os campos', toast_type: 'error' });
+            setError(true);
+            return;
+        }
+
+        if(matricula.length < 9){
+            ToastifyNotificate({ message: 'Matricula inválida', toast_type: 'error' });
+            return;
+        }
+
         await axios.post(`${API_BASE_URL}/aluno/register/`,
             {
                 email: email,
@@ -54,6 +68,7 @@ const AlunosParaAdmin = () => {
             setTurmaDoAluno('')
             modal_create.current.close()
             get_alunos()
+            setError(false);
         }).catch(error => {
             console.log(error)
         })
@@ -152,8 +167,9 @@ const AlunosParaAdmin = () => {
                         <SideBar user_role={'admin'} />
                     </div>
                     <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[5] rounded-xl">
+                        <ToastContainer />
                         <div className="bg-[#2e3440] md:h-[45px] rounded-t-xl flex flex-col items-center justify-center">
-                            <h2 className='text-2xl font-medium text-base-100'>Grupos</h2>
+                            <h2 className='text-2xl font-medium text-base-100'>Alunos</h2>
                         </div>
                         <div className='flex items-center justify-between pr-12 pl-6'>
                             <div>
@@ -204,17 +220,7 @@ const AlunosParaAdmin = () => {
                 <dialog ref={modal_create} className="modal">
                     <div className="modal-box flex flex-col justify-center items-center">
                         <h3 className='font-bold text-lg'>Criar Aluno</h3>
-                        <form onSubmit={create_alunos} className='flex flex-col justify-center gap-2 w-3/4'>
-                            <label className="form-control">
-                                <div className="label">
-                                    <span className="label-text">Email do Aluno:</span>
-                                </div>
-                                <input
-                                    onChange={e => setEmail(e.target.value)}
-                                    type="text"
-                                    className="input input-bordered"
-                                />
-                            </label>
+                        <form onSubmit={create_alunos} className='flex flex-col justify-center gap-6 w-3/4'>
                             <label className="form-control">
                                 <div className="label">
                                     <span className="label-text">Nome do Aluno:</span>
@@ -222,8 +228,9 @@ const AlunosParaAdmin = () => {
                                 <input
                                     onChange={e => setNome(e.target.value)}
                                     type="text"
-                                    className="input input-bordered"
+                                    className={`input ${error ? 'input-error' : 'input-bordered'}`}
                                 />
+                                {error ? <p className='text-sm text-red-500'>Campo Obrigatório</p> : <></>}
                             </label>
 
                             <label className="form-control">
@@ -233,8 +240,9 @@ const AlunosParaAdmin = () => {
                                 <input
                                     onChange={e => setMatricula(e.target.value)}
                                     type="text"
-                                    className="input input-bordered"
+                                    className={`input ${error ? 'input-error' : 'input-bordered'}`}
                                 />
+                                {error ? <p className='text-sm text-red-500'>Campo Obrigatório</p> : <></>}
                             </label>
 
                             <label className='form-control'>
@@ -244,7 +252,7 @@ const AlunosParaAdmin = () => {
                                 <select
                                     onChange={e => setTurmaDoAluno(e.target.value)}
                                     defaultValue=""
-                                    className='select select-bordered'
+                                    className={`select ${error ? 'input-error' : 'input-bordered'}`}
                                 >
                                     <option value="" disabled>Selecione uma Turma</option>
                                     {turmas.map((turma, index) => {
@@ -253,6 +261,7 @@ const AlunosParaAdmin = () => {
                                         )
                                     })}
                                 </select>
+                                {error ? <p className='text-sm text-red-500'>Campo Obrigatório</p> : <></>}
                             </label>
 
                             <button type='submit' className='btn btn-primary text-white'>Criar Aluno</button>
@@ -317,7 +326,7 @@ const AlunosParaAdmin = () => {
                     <rect x="0" y="50%" width="100%" height="50%" fill="#d8dee9" />
                 </svg>
             </div>
-
+            
         </div>
     )
 }

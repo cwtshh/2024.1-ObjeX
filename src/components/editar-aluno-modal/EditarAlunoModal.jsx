@@ -2,6 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import { API_BASE_URL } from '../../util/constants'
 import { useState } from 'react'
+import { ToastifyNotificate } from '../toast/Toastify'
+import { ToastContainer } from 'react-toastify'
 
 
 const EditarAlunoModal = ({ aluno, trigger_reload }) => {
@@ -9,10 +11,15 @@ const EditarAlunoModal = ({ aluno, trigger_reload }) => {
     const [nome,setNome] = useState('')
     const [email,setEmail] = useState('')
     const [matricula,setMatricula] = useState('')
+    const [ error, setError ] = useState('')
 
     const update_aluno = async(e) => {
         e.preventDefault();
-        console.log(nome + ` ` + email + ` ` + matricula)
+        if(nome === '' || email === '' || matricula === '') {
+            setError('Preencha todos os campos')
+            ToastifyNotificate('error', 'Preencha todos os campos', 'erro')
+            return;
+        }
         await axios.put(`${API_BASE_URL}/aluno/update`, {
             id: aluno._id,
             nome: nome,
@@ -30,25 +37,31 @@ const EditarAlunoModal = ({ aluno, trigger_reload }) => {
         <dialog id={`${aluno._id}-modal`} className="modal">
             <div className="modal-box flex flex-col justify-center items-center">
                 <h3 className='font-bold text-lg'>Editar Aluno</h3>
-                    <form onSubmit={update_aluno} className='flex flex-col justify-center gap-2 w-3/4'>
+                    <form onSubmit={update_aluno} className='flex flex-col justify-center gap-10 w-3/4'>
                     <label className="form-control">
                                 <div className="label">
                                     <span className="label-text">Email do Aluno:</span>
                                 </div>
                                 {aluno.active ? (
-                                    <input
-                                        onChange={e => setEmail(e.target.value)}
-                                        type="text"
-                                        className="input input-bordered"
-                                        placeholder={aluno.email}
-                                    />
+                                    <>
+                                        <input
+                                            onChange={e => setEmail(e.target.value)}
+                                            type="text"
+                                            className={`input ${error ? 'input-error text-red-500' : 'input-bordered'}`}
+                                            placeholder={aluno.email}
+                                        />
+                                        {error ? <p className="text-sm text-red-500">Preencha todos os campos</p> : <></>}
+                                    </>
+                                    
                                 ) : (
                                     <>
                                         <input 
                                             readOnly
-                                            className='input input-error text-red-500'
+                                            disabled
+                                            className='input input-warning text-red-500'
                                             placeholder='Aluno inativo'
                                         />
+                                        <p className='text-sm text-info'>Aluno ainda não logou no sistema.</p>
                                     </>
                                 )}
                             </label>
@@ -60,8 +73,9 @@ const EditarAlunoModal = ({ aluno, trigger_reload }) => {
                                     onChange={e => setNome(e.target.value)}
                                     placeholder={aluno.nome}
                                     type="text"
-                                    className="input input-bordered"
+                                    className={`input ${error ? 'input-error text-red-500' : 'input-bordered'}`}
                                 />
+                                {error ? <p className="text-sm text-red-500">Preencha todos os campos</p> : <></>}
                             </label>
 
                             <label className="form-control">
@@ -72,12 +86,15 @@ const EditarAlunoModal = ({ aluno, trigger_reload }) => {
                                     onChange={e => setMatricula(e.target.value)}
                                     placeholder={aluno.matricula}
                                     type="text"
-                                    className="input input-bordered"
+                                    className={`input ${error ? 'input-error text-red-500' : 'input-bordered'}`}
                                 />
+                                {error ? <p className="text-sm text-red-500">Preencha todos os campos</p> : <></>}
                             </label>
-                            <button type='submit' className='btn btn-secondary rounded-lg text-white'>Atualizar</button>
-                            <button type='submit' className='btn btn-primary text-white'
-                            onClick={() => document.getElementById(`${aluno._id}-modal`).close()}>Cancelar</button>
+                            <div className='flex flex-col gap-3'>
+                                <button type='submit' className='btn btn-secondary text-white'>Atualizar</button>
+                                <button type='submit' className='btn btn-primary text-white'
+                                onClick={() => document.getElementById(`${aluno._id}-modal`).close()}>Cancelar</button>
+                            </div>
                     </form>
             </div>
             <form method="dialog" className="modal-backdrop">
