@@ -6,6 +6,10 @@ import { API_BASE_URL } from '../../util/constants';
 import SideBar from '../../components/sidebar/SideBar';
 import NotifyToast from '../../components/toast/NotifyToast';
 import ExcelJS from 'exceljs';
+import { ToastifyNotificate } from '../../components/toast/Toastify';
+import { ToastContainer } from 'react-toastify';
+import DeleteTurmaModal from '../../components/delete-turma-modal/DeleteTurmaModal';
+import TurmaCard from '../../components/turma-card/TurmaCard';
 
 const Turmas = () => {
 
@@ -33,6 +37,7 @@ const Turmas = () => {
             setHorario('')
             modal_create.current.close()
             get_turmas()
+            ToastifyNotificate({ message: 'Turma criada com sucesso', type: 'success' });
         }).catch(err=>{
             NotifyToast({ message: 'Erro ao criar turma', toast_type: 'erro' });
             console.log(err.message)
@@ -58,11 +63,12 @@ const Turmas = () => {
         headers: {
             Authorization: `Bearer ${token}`
         }
-       }).then(res=>{
-        NotifyToast({ message: 'Turma deletado com sucesso', toast_type: 'sucesso' });
+        }).then(res=>{
+        ToastifyNotificate({ message: 'Turma deletada com sucesso', type: 'success' });
         get_turmas()
+        
        }).catch(err =>{
-        NotifyToast({ message: 'Erro ao deletar turma', toast_type: 'erro' });
+            ToastifyNotificate({ message: 'Erro ao deletar turma', type: 'error' });
             console.log(err.message)
        })
     }
@@ -130,24 +136,27 @@ const Turmas = () => {
                                 {/* <!-- Card --> */}
                                 {turmasFiltradas.map((turma,index) => {
                                     return (
-                                        <ul key={index} className="list-none bg-base-100 pl-4 pr-4">
-                                            <li className="p-4 m-2 bg-base-300 rounded-lg">
-                                                <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
-                                                    <div className='flex flex-col md:w-[19vw] pb-4'>
-                                                        <h2 className="text-xl font-bold truncate">{turma.nome}</h2>
-                                                    </div>
-                                                    <div className='flex flex-col md:w-[30vw] pb-4'>
+                                        // <ul key={index} className="list-none bg-base-100 pl-4 pr-4">
+                                        //     <li className="p-4 m-2 bg-base-300 rounded-lg">
+                                        //         <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
+                                        //             <div className='flex flex-col md:w-[19vw] pb-4'>
+                                        //                 <h2 className="text-xl font-bold truncate">{turma.nome}</h2>
+                                        //                 <h2>{turma.professor !== null ? (<>Professor Responsável: <strong>{turma.professor.nome}</strong></>): (<p className='font-bold text-red-500'>Turma sem professor, favor adicionar!</p>)}</h2>
+                                        //                 <p>Total de alunos: {qtd_alunos}</p>
+                                        //             </div>
+                                        //             <div className='flex flex-col md:w-[30vw] pb-4'>
+                                        //                 <h1 className="truncate">{turma.horario === '0' ? (<p>Horário indisponivel</p>) : (<>{turma.horario}</>)}</h1>
+                                        //             </div>
 
-                                                        <p className="truncate">{turma.horario}</p>
-                                                    </div>
-
-                                                    <div className='flex gap-4 flex-row  justify-between'>
-                                                        <button className='btn btn-error text-base-100 rounded-lg' onClick={() => { deletar_turma(turma._id) }}>Excluir</button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            {/* ))} */}
-                                        </ul>
+                                        //             <div className='flex gap-4 flex-row  justify-between'>
+                                        //                 <button disabled={user.turma._id === turma._id} className='btn btn-error text-base-100 rounded-lg' onClick={() => document.getElementById(`${turma._id}-modal`).showModal()}>Excluir</button>
+                                        //             </div>
+                                        //         </div>
+                                        //     </li>
+                                        //     <DeleteTurmaModal turma={turma} trigger_reload={get_turmas}/>
+                                        //     {/* ))} */}
+                                        // </ul>
+                                        <TurmaCard key={index} turma={turma} trigger_reload={get_turmas} />
                                     )
                                 })}
                             </div>
@@ -194,7 +203,7 @@ const Turmas = () => {
                     <rect x="0" y="50%" width="100%" height="50%" fill="#d8dee9" />
                 </svg>
             </div>
-
+            <ToastContainer />
         </div>
     )
 };
