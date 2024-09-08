@@ -3,7 +3,10 @@ const Turma = require("../../models/Turma");
 const get_turmas = async (req,res) => {
 
     try{
-        const turmas = await Turma.find()
+        const turmas = await Turma.find().populate({
+            path : 'professor',
+            select : 'nome'
+        })
 
         if(turmas){
             return res.status(201).json({

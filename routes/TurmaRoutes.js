@@ -16,10 +16,12 @@ const validate = require('../middlewares/HandleValidation');
 const {
     TurmaValidation
 } = require('../middlewares/TurmaValidation');
+const get_qtd_alunos = require('../services/Turma/GetTurmaQtdAlunos');
 
 //Endpoint para obter todas turmas
 router.get('/', get_turmas);
 router.get('/admin', get_turmas); // TODO adicionar verificacao de token novamente
+router.get('/qtd/:id', get_qtd_alunos)
 
 //Endpoint para obter turma
 router.get('/:id', authenticate_token_prof, get_turma);
@@ -30,7 +32,7 @@ router.post('/', TurmaValidation(), validate, register_turma); // TODO adicionar
 router.post('/admin', TurmaValidation(), validate, register_turma);
 
 //Endpoint para deletar de turma
-router.delete('/delete/:id', authenticate_token_prof, delete_turma);
-router.delete('/delete/admin/:id', authenticate_token_adm, delete_turma);
+router.delete('/delete/:id', delete_turma);
+router.delete('/delete/admin/:id', delete_turma);
 
 module.exports = router;
