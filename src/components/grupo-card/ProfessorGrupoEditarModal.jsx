@@ -7,6 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 const ProfessorGrupoEditarModal = ({ grupo, reload_trigger }) => {
     const [nome , setNome] = React.useState('');
     const [capacidade, setCapacidade] = React.useState('');
+    const [descricao, setDescricao] = React.useState('');
 
     const { token } = useAuth();
 
@@ -14,10 +15,10 @@ const ProfessorGrupoEditarModal = ({ grupo, reload_trigger }) => {
         e.preventDefault();
     
         try {
-            await axios.put(`${API_BASE_URL}/grupo/`, 
+            await axios.put(`${API_BASE_URL}/grupo/${grupo._id}`, 
                 {
-                    id: grupo._id,
                     nome: nome,
+                    descricao: descricao,
                     capacidade: capacidade
                 },
                 {
@@ -31,7 +32,8 @@ const ProfessorGrupoEditarModal = ({ grupo, reload_trigger }) => {
             ToastifyNotificate({ message: 'Grupo atualizado com sucesso!', type: 'success' });
         } catch (error) {
             document.getElementById(`${grupo._id}_editar`).close()
-            ToastifyNotificate({ message: 'Erro ao atualizar grupo!', type: 'error' });
+            console.log(error)
+            ToastifyNotificate({ message: error.response.data.message, type: 'error' });
         }
     };
     
@@ -50,6 +52,20 @@ const ProfessorGrupoEditarModal = ({ grupo, reload_trigger }) => {
                         <input
                         onChange={e => setNome(e.target.value)}
                         placeholder={grupo.nome}
+                        type="text" 
+                        className="input input-bordered" 
+                        required={true}
+                        minLength={3}
+                        />
+                    </label>
+
+                    <label className="form-control">
+                        <div className="label">
+                        <span className="label-text">Descrição:</span>
+                        </div>
+                        <input
+                        onChange={e => setDescricao(e.target.value)}
+                        placeholder={grupo.descricao}
                         type="text" 
                         className="input input-bordered" 
                         required={true}
