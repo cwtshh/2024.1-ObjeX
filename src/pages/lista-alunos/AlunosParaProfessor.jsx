@@ -122,6 +122,27 @@ const AlunosParaProfessor = () => {
             get_alunos()
     };
 
+    const export_excel = async() => {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet(`Alunos - Turma ${user.turma.nome}`);
+        worksheet.addRow(['Matrícula', 'Nome', 'Email']);
+        alunos.forEach(aluno => {
+          worksheet.addRow([aluno.matricula, aluno.nome, aluno.email]);
+        });
+        worksheet.columns.forEach(column => {
+          column.width = 25;
+        });
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.setAttribute('download', `Turma-${user.turma.nome}.xlsx`);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+
     useEffect(() => {
         get_alunos();
     }, [])
@@ -155,10 +176,23 @@ const AlunosParaProfessor = () => {
                                 </label>
                             </div>
                             <div className='flex gap-4'>
+                                <button onClick={() => export_excel()} className='btn btn-primary text-white'>
+                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M17.5 3.75V8.75C17.5 9.08152 17.6317 9.39946 17.8661 9.63388C18.1005 9.8683 18.4185 10 18.75 10H23.75" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M21.25 26.25H8.75C8.08696 26.25 7.45107 25.9866 6.98223 25.5178C6.51339 25.0489 6.25 24.413 6.25 23.75V6.25C6.25 5.58696 6.51339 4.95107 6.98223 4.48223C7.45107 4.01339 8.08696 3.75 8.75 3.75H17.5L23.75 10V23.75C23.75 24.413 23.4866 25.0489 23.0178 25.5178C22.5489 25.9866 21.913 26.25 21.25 26.25Z" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M10 13.75H20V22.5H10V13.75Z" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M10 18.75H20" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M13.75 13.75V22.5" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                    Exportar Alunos
+                                </button>
                                 <button onClick={() => modal_arquivo.current.showModal()} className='btn btn-primary text-white'>
                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M17.5 3.75V8.75C17.5 9.08152 17.6317 9.39946 17.8661 9.63388C18.1005 9.8683 18.4185 10 18.75 10H23.75" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
-                                        <path d="M21.25 26.25H8.75C8.08696 26.25 7.45107 25.9866 6.98223 25.5178C6.51339 25.0489 6.25 24.413 6.25 23.75V6.25C6.25 5.58696 6.51339 4.95107 6.98223 4.48223C7.45107 4.01339 8.08696 3.75 8.75 3.75H17.5L23.75 10V23.75C23.75 24.413 23.4866 25.0489 23.0178 25.5178C22.5489 25.9866 21.913 26.25 21.25 26.25Z" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M17.5 3.75V8.75C17.5 9.08152 17.6317 9.39946 17.8661 9.63388C18.1005 9.8683 18.4185 10 18.75 10H23.75" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M21.25 26.25H8.75C8.08696 26.25 7.45107 25.9866 6.98223 25.5178C6.51339 25.0489 6.25 24.413 6.25 23.75V6.25C6.25 5.58696 6.51339 4.95107 6.98223 4.48223C7.45107 4.01339 8.08696 3.75 8.75 3.75H17.5L23.75 10V23.75C23.75 24.413 23.4866 25.0489 23.0178 25.5178C22.5489 25.9866 21.913 26.25 21.25 26.25Z" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M10 13.75H20V22.5H10V13.75Z" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M10 18.75H20" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M13.75 13.75V22.5" stroke="white" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
                                     Importar Alunos
                                 </button>
