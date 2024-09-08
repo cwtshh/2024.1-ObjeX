@@ -5,7 +5,7 @@ const edit_group = async(req, res) => {
     const { nome, descricao, capacidade } = req.body;
 
     try{
-        grupo = await Grupo.findById(id);
+        const grupo = await Grupo.findById(id);
 
         if ( capacidade < grupo.membros.length ) {
             return res.status(400).json({
