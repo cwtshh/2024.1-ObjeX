@@ -1,46 +1,15 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import { Icons, toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthContext';
 import { GRUPO_ENDPOINT, API_BASE_URL } from '../../util/constants';
+import { ToastifyNotificate } from '../../components/toast/Toastify';
 import axios from 'axios';
 import ProfessorConfirmacaoModal from './ProfessorConfirmacaoModal';
 import ProfessorGrupoVerModal from './ProfessorGrupoVerModal';
+import ProfessorGrupoEditarModal from './ProfessorGrupoEditarModal';
 
 const ProfessorGrupoCard = ({ grupo, reload_trigger }) => {
     const { token } = useAuth();
-    console.log(grupo._id)
-
-    const notify = (status, message) => {
-        if(status === 'error') {
-          toast.warning(`${message}`, {
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            className: 'bg-base-100 md:w-[15vw] w-[75vw]',
-            bodyClassName: 'font-bold text-warning-content opacity-60',
-            closeButton: false,
-            progressClassName: 'bg-warning',
-            icon: Icons.info,
-          });
-        }
-        if(status === 'success') {
-            toast.success(`${message}`, {
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              className: 'bg-base-100 md:w-[15vw] w-[75vw]',
-              bodyClassName: 'font-bold text-warning-content opacity-60',
-              closeButton: false,
-              progressClassName: 'bg-success',
-              icon: Icons.success,
-            });
-        }
-    }
 
     const delete_grupo = async() => {
         await axios.delete(`${API_BASE_URL}/grupo/`, {
@@ -52,10 +21,15 @@ const ProfessorGrupoCard = ({ grupo, reload_trigger }) => {
             }
         }).then(res => {
             reload_trigger();
+            ToastifyNotificate({message:'Grupo excluído com sucesso!', type:'success'});
         }).catch(err => {
-            console.log(res);
+            ToastifyNotificate({message:'Erro ao excluir grupo!', type:'error'});
         })
     };
+
+    const reload = () => {
+        reload_trigger();
+    }
 
     return (
         <li key={grupo._id} className="p-4 m-2 bg-base-300 rounded-lg">
@@ -83,13 +57,14 @@ const ProfessorGrupoCard = ({ grupo, reload_trigger }) => {
                         </svg>
                     </Link>
 
-                    <button onClick={()=>showModal()} className="btn btn-primary text-base-100 rounded-lg w-20">Editar</button>
+                    <button onClick={()=>document.getElementById(`${grupo._id}_editar`).showModal()} className="btn btn-primary text-base-100 rounded-lg w-20">Editar</button>
                     <button onClick={()=>document.getElementById(`${grupo._id}_confirmation`).showModal()} className="btn btn-error text-base-100 rounded-lg w-20">Excluir</button>
                 
                     
                 </div>
             </div>
             <ProfessorGrupoVerModal grupo={grupo} />
+            <ProfessorGrupoEditarModal grupo={grupo} reload_trigger={reload} />
             <ProfessorConfirmacaoModal grupo={grupo} cb={delete_grupo} msg='Realmente deseja excluir o Grupo?' />
         </li>
     )
