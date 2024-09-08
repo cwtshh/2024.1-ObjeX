@@ -17,12 +17,19 @@ const Turmas = () => {
     const [horario, setHorario] = useState('')
     const [turmas, setTurmas] = useState([])
     const [turmasFiltradas, setTurmasFiltradas] = useState([])
+    const [ error, setError ] = useState(false);
     const modal_create = useRef(null)
     const { token } = useAuth();
     const { user } = useAuth();
 
     const create_turma = async (e) => {
         e.preventDefault()
+
+        if(nome === '' || horario === '') {
+            setError(true);
+            ToastifyNotificate({ message: 'Preencha todos os campos', type: 'error' });
+            return;
+        }
 
         await axios.post(`${API_BASE_URL}/turma/admin`, {
             nome: nome,
@@ -166,29 +173,29 @@ const Turmas = () => {
                 <dialog ref={modal_create} className="modal">
                     <div className="modal-box flex flex-col justify-center items-center">
                         <h3 className='font-bold text-lg'>Criar Turma</h3>
-                        <form onSubmit={create_turma} className='flex flex-col justify-center gap-2 w-3/4'>
-                            <label className="form-control">
+                        <form onSubmit={create_turma} className='flex flex-col justify-center gap-5 w-3/4'>
+                            <label className="form-control h-28">
                                 <div className="label">
                                     <span className="label-text">Nome:</span>
                                 </div>
                                 <input
                                     onChange={e => setNome(e.target.value)}
                                     type="text"
-                                    className="input input-bordered"
+                                    className={`input ${error ? 'input-error' : 'input-bordered '}`}
                                 />
+                                {error && <p className='text-red-500 text-sm'>Campo obrigatório</p>}
                             </label>
-                            <label className="form-control">
+                            <label className="form-control h-28">
                                 <div className="label">
                                     <span className="label-text">Horario:</span>
                                 </div>
                                 <input
                                     onChange={e => setHorario(e.target.value)}
                                     type="text"
-                                    className="input input-bordered"
+                                    className={`input ${error ? 'input-error' : 'input-bordered '}`}
                                 />
+                                {error && <p className='text-red-500 text-sm'>Campo obrigatório</p>}
                             </label>
-
-
                             <button type='submit' className='btn btn-primary text-white'>Criar Turma</button>
                         </form>
                     </div>
