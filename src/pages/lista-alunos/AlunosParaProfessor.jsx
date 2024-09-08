@@ -7,6 +7,7 @@ import SideBar from '../../components/sidebar/SideBar';
 import EditarAlunoModal from '../../components/editar-aluno-modal/EditarAlunoModal';
 import ExcelJS from 'exceljs';
 import { ToastContainer } from 'react-toastify';
+import { ToastifyNotificate } from '../../components/toast/Toastify';
 
 const AlunosParaProfessor = () => {
 
@@ -32,12 +33,13 @@ const AlunosParaProfessor = () => {
             setAlunos(res.data);
             setAlunosFiltrados(res.data);
         }).catch(err => {
-            NotifyToast({ message: 'Erro ao buscar Alunos', toast_type: 'erro' });
+            ToastifyNotificate({type:'warning', message:'Error ao buscar alunos!'})
         });
     };
 
     const create_alunos = async (e) => {
         e.preventDefault()
+
         await axios.post(`${API_BASE_URL}/aluno/register/`,
             {
                 email: email,
@@ -46,13 +48,14 @@ const AlunosParaProfessor = () => {
                 turma: user.turma._id
             }
         ).then((res) => {
-            setEmail('')
-            setNome('')
-            setMatricula('')
+            setEmail("")
+            setNome("")
+            setMatricula("")
             modal_create.current.close()
             get_alunos()
+            ToastifyNotificate({type:'success', message:'Aluno cadastrado com sucesso!'})
         }).catch(error => {
-            console.log(error)
+            ToastifyNotificate({type:'error', message:'Error ao cadastrar aluno!'})
         })
     }
 
@@ -62,11 +65,10 @@ const AlunosParaProfessor = () => {
                 Authorization: `Bearer ${token}`
             }
         }).then(res => {
-            notify({ message: 'Aluno deletado com sucesso', toast_type: 'sucesso' });
             get_alunos();
+            ToastifyNotificate({type:'success', message:'Aluno deletado com sucesso!'})
         }).catch(err => {
-            notify({ message: 'Erro ao deletar aluno', toast_type: 'erro' });
-            console.error(err);
+            ToastifyNotificate({type:'error', message:'Error ao deletar aluno!'})
         })
     }
 
@@ -106,15 +108,14 @@ const AlunosParaProfessor = () => {
                     });
                 }
             });
-            console.log("turma:", user.turma._id)
-            console.log("alunos:", alunos)
+            
             await axios.post(`${API_BASE_URL}/aluno/register/many`, {
                 alunos: students,
                 turma: user.turma._id 
             }).then(res => {
-                NotifyToast({ message: 'Alunos cadastrados com sucesso', toast_type: 'sucesso' });
+                ToastifyNotificate({type:'success', message:'Alunos cadastrados com sucesso!'})
             }).catch(err => {
-                console.log(err);
+                ToastifyNotificate({type:'error', message:'Error ao cadastrar alunos!'})
             });
 
             modal_arquivo.current.close()
@@ -130,12 +131,12 @@ const AlunosParaProfessor = () => {
             <NavBarMenu />
             <div className='flex justify-center pt-[75px]'>
                 <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
-                    <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
+                    <div className='z-[1] md:absolute md:left-0 md:ml-[62px] mb-6'>
                         <SideBar user_role={'professor'} />
                     </div>
-                    <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[5] rounded-xl">
-                        <div className="bg-[#2e3440] md:h-[45px] rounded-t-xl flex flex-col items-center justify-center">
-                            <h2 className='text-2xl font-medium text-base-100'>Grupos</h2>
+                    <div className="bg-base-100 md:ml-[280px] w-[85vw] h-[85vh] shadow z-[1] rounded-xl md:mb-8 mb-20 items-center align-middle justify-center">
+                        <div className="bg-[#2e3440] h-[45px] rounded-t-xl flex flex-row">
+                            <h2 className='md:text-2xl text-xl font-medium text-base-100 m-auto md:clip truncate md:px-2 px-4'>Grupos</h2>
                         </div>
                         <div className='flex items-center justify-between pr-12 pl-6'>
                             <div>
@@ -169,42 +170,39 @@ const AlunosParaProfessor = () => {
                                 </button>
                             </div>
                         </div>
+                        
+                        <ul className="list-none overflow-y-auto h-[68vh] bg-base-100 md:pl-4 md:pr-2 pl-4 pr-4 rounded-lg">
+                            {/* <!-- Card --> */}
+                            {alunosFiltrados.length === 0 ? (<div className='flex justify-center items-center'><p className='md:text-2xl md:mt-16 text-lg mt-6 text-primary font-bold opacity-80'>Nenhum aluno encontrado...</p></div>) : (alunosFiltrados.map((aluno, index) => {
+                                return (
+                                    <li key={index} className="p-4 m-2 bg-base-300 rounded-lg">
+                                        <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
+                                            <div className='flex flex-col md:w-[19vw] pb-4'>
+                                                <h2 className="text-xl font-bold truncate">{aluno.nome}</h2>
+                                                <p className="opacity-70">Aluno</p>
+                                            </div>
+                                            <div className='flex flex-col md:w-[30vw] pb-4'>
+                                                <p className="truncate md:text-lg font-bold opacity-80">{aluno.email == "" ? 'Aluno Desativado' : aluno.email}</p>
+                                                <p className="truncate">{aluno.matricula}</p>
+                                            </div>
 
-                        <div className='flex flex-col p-6 overflow-scroll h-4/5'>
-                            <div>
-                                {/* <!-- Card --> */}
-                                {alunosFiltrados.length === 0 ? (<><h1>Nenhum aluno encontrado</h1></>) : (alunosFiltrados.map((aluno, index) => {
-                                    return (
-                                        <ul key={index} className="list-none bg-base-100 pl-4 pr-4">
-                                            <li className="p-4 m-2 bg-base-300 rounded-lg">
-                                                <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
-                                                    <div className='flex flex-col md:w-[19vw] pb-4'>
-                                                        <h2 className="text-xl font-bold truncate">{aluno.nome}</h2>
-                                                        <p className="opacity-70">Aluno</p>
-                                                    </div>
-                                                    <div className='flex flex-col md:w-[30vw] pb-4'>
-                                                        <p className="truncate">{aluno.email}</p>
-                                                        <p className="truncate">{aluno.matricula}</p>
-                                                    </div>
-
-                                                    <div className='flex gap-4 flex-row  justify-between'>
-                                                        <button className='btn btn-error text-base-100 rounded-lg' onClick={()=> document.getElementById(`${aluno._id}-modal`).showModal()}>Editar</button>
-                                                        <button className='btn btn-error text-base-100 rounded-lg' onClick={() => selecionaAluno(aluno._id)}>Excluir</button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <EditarAlunoModal aluno={aluno} trigger_reload={get_alunos} />
-                                        </ul>
-                                    )
-                                }))
-                                }
-                            </div>
-                        </div>
+                                            <div className='flex gap-4 flex-row  justify-between'>
+                                                <button className='btn btn-primary text-base-100 rounded-lg' onClick={()=> document.getElementById(`${aluno._id}-modal`).showModal()}>Editar</button>
+                                                <button className='btn btn-error text-base-100 rounded-lg' onClick={() => selecionaAluno(aluno._id)}>Excluir</button>
+                                            </div>
+                                        </div>
+                                        <EditarAlunoModal aluno={aluno} trigger_reload={get_alunos} />
+                                    </li>
+                                )
+                            }))
+                            }
+                        </ul>
+                        
                     </div>
                 </div>
                 <dialog ref={modal_create} className="modal">
                     <div className="modal-box flex flex-col justify-center items-center">
-                        <h3 className='font-bold text-lg'>Criar Aluno</h3>
+                        <h3 className='font-bold text-lg'>Cadastrar Aluno</h3>
                         <form onSubmit={create_alunos} className='flex flex-col justify-center gap-2 w-3/4'>
                             <label className="form-control">
                                 <div className="label">
@@ -214,6 +212,8 @@ const AlunosParaProfessor = () => {
                                     onChange={e => setNome(e.target.value)}
                                     type="text"
                                     className="input input-bordered"
+                                    minLength={3}
+                                    required={true}
                                 />
                             </label>
 
@@ -223,8 +223,9 @@ const AlunosParaProfessor = () => {
                                 </div>
                                 <input
                                     onChange={e => setEmail(e.target.value)}
-                                    type="text"
+                                    type="email"
                                     className="input input-bordered"
+                                    required={true}
                                 />
                             </label>
 
@@ -236,6 +237,8 @@ const AlunosParaProfessor = () => {
                                     onChange={e => setMatricula(e.target.value)}
                                     type="text"
                                     className="input input-bordered"
+                                    required={true}
+                                    minLength={9}
                                 />
                             </label>
 
@@ -248,10 +251,11 @@ const AlunosParaProfessor = () => {
                                     className="input input-bordered"
                                     value={user.turma.nome}
                                     readOnly={true}
+                                    required={true}
                                 />
                             </label>
 
-                            <button type='submit' className='btn btn-primary text-white'>Criar Aluno</button>
+                            <button type='submit' className='btn btn-primary text-white'>Cadastrar Aluno</button>
                         </form>
                     </div>
                     <form method="dialog" className="modal-backdrop">
@@ -277,62 +281,6 @@ const AlunosParaProfessor = () => {
                         <button>close</button>
                     </form>
                 </dialog>
-                <dialog id='modal_editar' className="modal">
-                    <div className="modal-box flex flex-col justify-center items-center">
-                        <h3 className='font-bold text-lg'>Editar Aluno</h3>
-                        <form onSubmit={create_alunos} className='flex flex-col justify-center gap-2 w-3/4'>
-                            <label className="form-control">
-                                <div className="label">
-                                    <span className="label-text">Nome do Aluno:</span>
-                                </div>
-                                <input
-                                    onChange={e => setNome(e.target.value)}
-                                    type="text"
-                                    className="input input-bordered"
-                                />
-                            </label>
-
-                            <label className="form-control">
-                                <div className="label">
-                                    <span className="label-text">Email do Aluno:</span>
-                                </div>
-                                <input
-                                    onChange={e => setEmail(e.target.value)}
-                                    type="text"
-                                    className="input input-bordered"
-                                />
-                            </label>
-
-                            <label className="form-control">
-                                <div className="label">
-                                    <span className="label-text">Matricula:</span>
-                                </div>
-                                <input
-                                    onChange={e => setMatricula(e.target.value)}
-                                    type="text"
-                                    className="input input-bordered"
-                                />
-                            </label>
-
-                            <label className='form-control mb-7'>
-                                <div className='label'>
-                                <span className='label-text'>Turma:</span>
-                                </div>
-                                <input
-                                    type="text" 
-                                    className="input input-bordered"
-                                    value={user.turma.nome}
-                                    readOnly={true}
-                                />
-                            </label>
-
-                            <button type='submit' className='btn btn-primary text-white'>Criar Aluno</button>
-                        </form>
-                    </div>
-                    <form method="dialog" className="modal-backdrop">
-                        <button>close</button>
-                    </form>
-                </dialog>
 
                 <dialog ref={modal_delete} id="modal_delete" className="modal">
                 <div className="modal-box flex flex-col justify-center items-center">
@@ -343,16 +291,17 @@ const AlunosParaProfessor = () => {
                             onClick={() => document.getElementById('modal_delete').close()}>Cancelar</button>
                     </form>
                 </div>
+                
             </dialog>
             </div>
-            <ToastContainer />
+            
             <div className="z-[-1]">
                 <svg className="fixed bottom-0 left-0 w-full h-1/3">
                     <ellipse cx="50%" cy="50%" rx="50%" ry="50%" fill="#d8dee9" />
                     <rect x="0" y="50%" width="100%" height="50%" fill="#d8dee9" />
                 </svg>
-            </div>
-
+            </div>   
+            <ToastContainer />
         </div>
     )
 }
