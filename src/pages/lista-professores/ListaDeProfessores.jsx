@@ -4,6 +4,11 @@ import SideBar from '../../components/sidebar/SideBar';
 import axios from 'axios'
 import { API_BASE_URL } from '../../util/constants';
 import { useAuth } from '../../context/AuthContext';
+import EditarProfessorModal from '../../components/editar-professor-modal/EditarProfessorModal';
+import { ToastContainer } from 'react-toastify';
+import { ToastifyNotificate } from '../../components/toast/Toastify';
+import CriarProfessorModal from '../../components/criar-professor-modal/CriarProfessorModal';
+import DeleteProfessorModal from '../../components/delete-professor-modal/DeleteProfessorModal';
 
 
 
@@ -17,6 +22,7 @@ const ListaDeProfessores = () => {
     const [email, setEmail] = useState('')
     const [ turma, setTurma ] = useState('');
     const [filteredProfessores,setFilteredProfessores] = useState([])
+    const [ loading, setLoading ] = useState(false);
     const modalRef = useRef(null);
     const modalEdicao = useRef(null)
     const modalDelete = useRef(null)
@@ -68,14 +74,14 @@ const ListaDeProfessores = () => {
                 'Authorization': `Bearer ${token}`
             }
         }).then(res => {
-            console.log('Professor criado com sucesso')
             setNome('')
             setEmail('')
             setTurma('')
             modalRef.current.close()
             getProfessores()
+            ToastifyNotificate('Professor criado com sucesso', 'success')
         }).catch(error => {
-            console.log('Falha ao criar Professor', error.response.data);
+            ToastifyNotificate('Erro ao criar professor', 'error')
         })
     }
 
@@ -206,7 +212,7 @@ const ListaDeProfessores = () => {
                                 <input onChange={handleSearch} type="text" className="grow" placeholder="Pesquisar..." />
                             </label>
                             <div className='flex gap-4 md:mb-0 mb-4 md:w-auto w-full'>
-                                <button onClick={() => document.getElementById('my_modal_3').showModal()} className='btn btn-primary text-white md:w-auto w-full'>
+                                <button onClick={() => document.getElementById('create-professor-modal').showModal()} className='btn btn-primary text-white md:w-auto w-full'>
                                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 7C10 6.44772 10.4477 6 11 6C11.5523 6 12 6.44772 12 7V10H15C15.5523 10 16 10.4477 16 11C16 11.5523 15.5523 12 15 12H12V15C12 15.5523 11.5523 16 11 16C10.4477 16 10 15.5523 10 15V12H7C6.44771 12 6 11.5523 6 11C6 10.4477 6.44772 10 7 10H10V7Z" fill="#E5E9F0"/>
                                     <path fillRule="evenodd" clipRule="evenodd" d="M22 11C22 17.0751 17.0751 22 11 22C4.92487 22 0 17.0751 0 11C0 4.92487 4.92487 0 11 0C17.0751 0 22 4.92487 22 11ZM2.00683 11C2.00683 15.9668 6.03321 19.9932 11 19.9932C15.9668 19.9932 19.9932 15.9668 19.9932 11C19.9932 6.03321 15.9668 2.00683 11 2.00683C6.03321 2.00683 2.00683 6.03321 2.00683 11Z" fill="#E5E9F0"/>
@@ -220,135 +226,39 @@ const ListaDeProfessores = () => {
                             {filteredProfessores.map((professor) => (
                                 <li key={professor._id} className="list-none p-4 m-2 bg-base-300 rounded-lg">
                                     <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
-                                        <div className="w-14 h-14 rounded-full overflow-hidden md:pb-0 mb-4">
-                                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="Professor" />
-                                        </div>
-                                        <div className='flex flex-col md:w-[10vw] md:pb-0 pb-4'>
-                                            <p className="truncate">{professor.nome}</p>
-                                            <p className="truncate opacity-70">{professor.role == 'admin' ? 'Admin' : 'Professor'}</p>
+                                        <div className='flex md:w-[40%] h-full md:pb-0 pb-4'>
+                                            <div className="w-14 h-14 rounded-full overflow-hidden md:pb-0 mb-4">
+                                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="Professor" />
+                                            </div>
+                                            <div className='ml-5'>
+                                                <p className="text-xl font-bo">{professor.nome}</p>
+                                                <p className="truncate opacity-70">{professor.role == 'admin' ? 'Admin' : 'Professor'}</p>
+                                            </div>
                                         </div>
                                         <div className='flex flex-col md:w-[30vw] md:pb-0 pb-4'>
-                                            <p className="truncate">{professor.email}</p>
+                                            <p className="font-bold">{professor.email}</p>
+                                            <p class>{professor.turma.nome}</p>
                                         </div>
                                         <div className='flex md:flex-row flex-col md:w-[10vw] justify-between'>
                                             <div className='flex flex-row justify-between md:gap-x-7'>
-                                                <div className='btn btn-neutral text-base-100 rounded-lg' onClick={() => handleEditarProfessor(professor)}>Editar</div>
-                                                <div className='btn btn-error text-base-100 rounded-lg' onClick={() => selecionaProfessor(professor)}>Excluir</div>
+                                                <button disabled={user.id === professor._id} className='btn btn-neutral text-base-100 rounded-lg' onClick={() => document.getElementById(`${professor._id}-edit`).showModal()}>Editar</button>
+                                                <button className='btn btn-error text-base-100 rounded-lg' onClick={() => document.getElementById(`${professor._id}-delete`).showModal()}>Excluir</button>
                                             </div>
                                         </div>
                                     </div>
+                                    <EditarProfessorModal professor={professor} trigger_reload={getProfessores} turmas={turmas} />
+                                    <DeleteProfessorModal professor={professor} trigger_reload={getProfessores} />
                                 </li>
                             ))}
                         </ul>
                     </div>
                 </div>
+
+                <CriarProfessorModal turmas={turmas} trigger_reload={getProfessores} />
+                <ToastContainer />
             </div>
-            {/* You can open the modal using document.getElementById('ID').showModal() method */}
-            <dialog ref={modalRef} id="my_modal_3" className="modal">
-                <div className="modal-box flex flex-col justify-center items-center">
-                    <h3 className='font-bold text-lg'>Professor</h3>
-                    <form onSubmit={handleCriarProfessor} className='flex flex-col justify-center gap-2 w-3/4'>
-                        <label className="form-control">
-                            <div className="label">
-                                <span className="label-text">Nome:</span>
-                            </div>
-                            <input
-                                type="text"
-                                className="input input-bordered"
-                                value={nome}
-                                onChange={(e) => setNome(e.target.value)}
-                            />
-                        </label>
-
-                        <label className='form-control'>
-                            <div className='label'>
-                            <span className='label-text'>Turma:</span>
-                            </div>
-                            <select 
-                                defaultValue="" 
-                                className='select select-bordered'
-                                onChange={(e) => setTurma(e.target.value)}
-                            >
-                                <option value="" disabled>Selecione uma Turma</option>
-                                {turmas.map((turma, index) => {
-                                    return <option key={index} value={turma._id}>{turma.nome}</option>
-                                })}
-                            </select>
-                        </label>
-
-                        <label className="form-control">
-                            <div className="label">
-                                <span className="label-text">Email:</span>
-                            </div>
-                            <input
-                                type="email"
-                                className="input input-bordered"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </label>
-
-                        <button type='submit' className='btn btn-primary text-white'>Criar Professor</button>
-                    </form>
-                </div>
-                <form method="dialog" className="modal-backdrop">
-                    <button>close</button>
-                </form>
-            </dialog>
-
-            <dialog ref={modalEdicao} id="modal_edicao" className="modal">
-                <div className="modal-box flex flex-col justify-center items-center">
-                    <h3 className='font-bold text-lg'>Professor</h3>
-                    <form onSubmit={handleAtualizarProfessor} className='flex flex-col justify-center gap-2 w-3/4'>
-                        <label className="form-control">
-                            <div className="label">
-                                <span className="label-text">Nome:</span>
-                            </div>
-                            <input
-                                type="text"
-                                className="input input-bordered"
-                                value={nome}
-                                onChange={(e) => setNome(e.target.value)}
-                            />
-                        </label>
-
-                        <label className='form-control'>
-                            <div className='label'>
-                            <span className='label-text'>Turma:</span>
-                            </div>
-                            <select 
-                                defaultValue="" 
-                                className='select select-bordered'
-                                onChange={(e) => setTurma(e.target.value)}
-                            >
-                                <option value="" disabled>Selecione uma Turma</option>
-                                {turmas.map((turma, index) => {
-                                    return <option key={index} value={turma._id}>{turma.nome}</option>
-                                })}
-                            </select>
-                        </label>
-
-                        <label className="form-control">
-                            <div className="label">
-                                <span className="label-text">Email:</span>
-                            </div>
-                            <input
-                                type="email"
-                                className="input input-bordered"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </label>
-
-                        <button type='submit' className='btn btn-primary text-white mt-2 mb-2'>Atualizar Professor</button>
-                        <button className='btn btn-primary text-white mt-2 mb-2' onClick={limparProfessor}>Cancelar</button>
-                    </form>
-                </div>
-                <form method="dialog" className="modal-backdrop">
-                    <button>close</button>
-                </form>
-            </dialog>
-
+            
+            
             <dialog ref={modalDelete} id="modal_delete" className="modal">
                 <div className="modal-box flex flex-col justify-center items-center">
                     <h3 className='font-bold text-lg gap-10 mb-10'>Realmente deseja excluir ?</h3>
