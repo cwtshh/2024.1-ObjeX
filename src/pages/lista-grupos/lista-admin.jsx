@@ -73,13 +73,17 @@ const ListaGruposAdmin = () => {
     const worksheet = workbook.addWorksheet('Grupos');
     worksheet.addRow(['Nome', 'Descrição', 'Turma', 'Capacidade', 'Membros']);
     grupos.forEach(grupo => {
-      worksheet.addRow([grupo.nome, grupo.descricao, grupo.turma.nome, grupo.capacidade, grupo.membros.map((membro) => {
-        return membro.nome + ', ';
-      })]);
+      let membros = '';
+      grupo.membros.forEach(membro => {
+        membros += `${membro.nome}, `;
+      });
+      console.log(membros);
+      worksheet.addRow([grupo.nome, grupo.descricao, grupo.turma.nome, grupo.capacidade, membros]);
     });
     worksheet.columns.forEach(column => {
       column.width = 25;
     });
+    worksheet.columns[4].width = 50;
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const url = window.URL.createObjectURL(blob);
@@ -99,9 +103,9 @@ const ListaGruposAdmin = () => {
     get_turmas();
   }, [])
   return (
-    <div>
+    <div className='bg-base-200'>
       <NavBarMenu />
-      <div className='flex justify-center pt-[65px]'>
+      <div className='flex justify-center pt-[75px]'>
           <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
             <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
               <SideBar user_role={'admin'}/>

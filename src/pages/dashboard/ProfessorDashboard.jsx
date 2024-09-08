@@ -1,84 +1,78 @@
 import React, { useEffect, useState } from 'react'
 import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
 import SideBar from '../../components/sidebar/SideBar';
-import { ALUNO_ENDPOINT, GRUPO_ENDPOINT, MONITOR_ENDPOINT, TURMA_ENDPOINT, PROFESSOR_ENDPOINT } from "../../util/constants";
+import { ALUNO_ENDPOINT, GRUPO_ENDPOINT, ATIVIDADE_ENDPOINT } from "../../util/constants";
 import axios from "axios";
 import { useAuth } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 const ProfessorDashboard = () => {
-  const { token } = useAuth();
+  const { user } = useAuth();
 
   const [alunos, setAlunos] = useState([]);
-  const [turma, setTurma] = useState([]);
   const [grupos, setGrupos] = useState([]);
-  const [monitores, setMonitores] = useState([]);
+  const [atividades, setAtividades] = useState([]);
 
   useEffect(() => {
-    // Pegando alunos do banco de dados
-    axios.get(`${ALUNO_ENDPOINT}/`, {
-      headers: {
-        'Authorization': `Bearer ${token}` // TODO api Alunos tá aceitando só token aluno, arrumar no backend
+    axios.get(`${ALUNO_ENDPOINT}/turma`, {
+      params: {
+        turma_id: user.turma._id
       }
     }).then((response) => {
-      console.log(response.data);
       setAlunos(response.data);
     }).catch((error) => {
       console.error(error);
     });
 
-    // Pegando turmas do banco de dados
-    axios.get(`${TURMA_ENDPOINT}/`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+    axios.get(`${GRUPO_ENDPOINT}/${user.turma._id}`, {
     }).then((response) => {
-      console.log(response.data);
-      setTurma(response.data.turmas);
-    }).catch((error) => {
-      console.error(error);
-    });
-
-    // Pegando grupos do banco de dados
-    axios.get(`${GRUPO_ENDPOINT}/`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then((response) => {
-      console.log(response.data);
       setGrupos(response.data);
     }).catch((error) => {
       console.error(error);
     });
 
-    // Pegando monitores do banco de dados // TODO fazer endpoints de monitores
-    axios.get(`${MONITOR_ENDPOINT}/`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then((response) => {
-      console.log(response.data);
-      setMonitores(response.data);
-    }).catch((error) => {
-      console.error(error);
-    });
+    axios.get(`${ATIVIDADE_ENDPOINT}/get/${user.turma._id}`)
+    .then((res) => {
+        setAtividades(res.data);
+    }).catch(err => {
+      console.error(err);
+    })
+  
   }, []);
 
   return (
-    <div>
+    <div className='bg-base-200'>
 
       <NavBarMenu />
-      <div className='flex md:relative justify-center pt-[65px]'>
+      <div className='flex md:relative justify-center pt-[75px]'>
           <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
             <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
-              <SideBar page={'/professor'} />
+              <SideBar user_role={'professor'} />
             </div>
 
-            <div className='z-[1] md:absolute md:right-0 md:mr-[62px] lg:mr-[0px]  xl:mr-[0px] lg:relative xl:relative lg:center xl:center flex justify-center pt-[20px] md:h-[85vh] overflow-y-2'>
-              {/* colocar o resto do conteúdo aqui */}
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 z-[1] gap-x-12 gap-y-6 p-4'>
-                
+            <div className='z-[1] md:absolute md:right-0 md:mr-[62px] lg:mr-[0px]  xl:mr-[0px] lg:relative xl:relative lg:center xl:center flex justify-center md:h-[60vh] overflow-y-2'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 z-[1] gap-x-12 md:gap-y-0 gap-y-12 md:mt-0 mt-12'>
 
-                <a href="" className='h-[200px]'>
+                <Link to="/professor/atividades" className='h-[200px]'>
+                    <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
+                    <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
+                    </div>
+                    
+                    <div className="ml-[20px] mt-[20px]">
+                      <svg height="100px" width="100px" viewBox="0 0 64 64"> <path fill="none" stroke={`#5e81ac`} strokeMiterlimit={10} strokeWidth={4} d="M11 1h42v62H11zM41 1v61M15 16H7M15 8H7M15 24H7M15 32H7M15 40H7M15 48H7M15 56H7" /> </svg>
+                    </div>
+                    
+
+
+                    <div className="flex justify-between ml-[25px]">
+                      <p className="text-2xl mt-[10px]">Atividades</p>
+                      <p className="text-5xl mr-[10px]">{atividades.length}</p>
+      
+                    </div>
+                  </div>
+                </Link>                
+
+                <Link to="/professor/alunos" className='h-[200px]'>
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
                     </div>
@@ -96,66 +90,16 @@ const ProfessorDashboard = () => {
                     </div>
                     
 
-
                     <div className="flex justify-between ml-[25px]">
                       <p className="text-2xl mt-[10px]">Alunos</p>
                       <p className="text-5xl mr-[10px]">{alunos.length}</p>
       
                     </div>
                   </div>
-                </a>
+                </Link>
 
-                <a href="" className='h-[200px]'>
-                    <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
-                    <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
-                    </div>
-                    
-                    <div className="ml-[20px] mt-[20px]">
-                      <svg fill="#5e81ac" height="100px" width="100px" version="1.1" id="Layer_1" 
-                        xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xmlSpace="preserve" stroke="#5e81ac">
-                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier"> <g> 
-                        <g> <path d="M502.724,381.172h-2.783V78.796c0-5.123-4.153-9.276-9.276-9.276H21.334c-5.123,0-9.276,4.153-9.276,9.276v302.375H9.276 c-5.123,0-9.276,4.153-9.276,9.276v42.758c0,5.123,4.153,9.276,9.276,9.276h493.448c5.123,0,9.276-4.153,9.276-9.276v-42.758 C512,385.325,507.847,381.172,502.724,381.172z M30.61,88.071h450.78v293.099H166.03v-12.371h293.712 c5.123,0,9.276-4.153,9.276-9.276V109.721c0-5.123-4.153-9.276-9.276-9.276H52.25c-5.123,0-9.276,4.153-9.276,9.276v249.804 c0,5.123,4.153,9.276,9.276,9.276h21.025v12.371H30.61V88.071z M82.551,335.943c-5.123,0-9.276,4.153-9.276,9.276v5.029H61.526 V118.997h388.941v231.252H166.03v-5.029c0-5.124-4.153-9.277-9.276-9.277H82.551z M147.478,354.495v26.676H91.827v-26.676H147.478 z M493.448,423.93H18.552v-24.206h474.897V423.93z"></path> </g> </g> </g>
-                      </svg>
-                      
-                    </div>
-                    
-
-
-                    <div className="flex justify-between ml-[25px]">
-                      <p className="text-2xl mt-[10px]">Turmas</p>
-                      <p className="text-5xl mr-[10px]">{turma.length}</p>
-      
-                    </div>
-                  </div>
-                </a>
-
-                <a href="" className='h-[200px]'>
-                    <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
-                    <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
-                    </div>
-                    
-                    <div className="ml-[20px] mt-[20px]">
-                      <svg width="100px" height="100px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" strokeWidth="3" stroke="#5e81ac" fill="none">
-                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier"><path d="M43.31,37.52A11.83,11.83,0,0,1,31.25,49.35,12.1,12.1,0,0,1,19.63,37.12V20.64a.1.1,0,0,1,.08-.1,90.43,90.43,0,0,1,12.08-1,82.5,82.5,0,0,1,11.57,1,.09.09,0,0,1,.07.1Z"></path><path d="M19.63,26,9,20.47a.1.1,0,0,1,0-.18L31.49,8.86h.09L54,20.17a.1.1,0,0,1,0,.18L43.43,26"></path><path d="M19.63,32.19H17.7s-2.94,0-2.94,4.52c0,4.17,2.93,4.17,2.93,4.17l2.51-.05"></path><path d="M43.3,32.7h1.93s3,0,3,4.53c0,4.17-2.94,4.17-2.94,4.17H42.65"></path><line x1="52.72" y1="45.04" x2="52.72" y2="21.03"></line><circle cx="52.72" cy="47.36" r="2.31"></circle><polyline points="37.76 47.53 37.76 55.15 25.89 55.15 25.89 47.95"></polyline><path d="M43.43,30.13a63,63,0,0,0-11.61-1,60.25,60.25,0,0,0-12.19,1"></path></g>
-                      </svg>
-                      
-                    </div>
-                    
-
-
-                    <div className="flex justify-between ml-[25px]">
-                      <p className="text-2xl mt-[10px]">Monitores</p>
-                      <p className="text-5xl mr-[10px]">{monitores.length}</p>
-      
-                    </div>
-                  </div>
-                </a>
-
-                <a href='' className='h-[200px]'>
+                
+                <Link to="/professor/grupos" className='h-[200px]'>
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
                     </div>
@@ -176,24 +120,13 @@ const ProfessorDashboard = () => {
       
                     </div>
                   </div>
-                </a>
-
-
-                
-
-
-
+                </Link>
               </div>
-
             </div>
-          
         </div>
-
       </div>
-
-      
       <div className="z-[-1]">
-        <svg className="fixed bottom-0 left-0 w-full h-1/3">
+        <svg className="fixed bottom-0 left-0 w-full h-1/3 bg-base-200">
           <ellipse cx="50%" cy="50%" rx="50%" ry="50%" fill="#d8dee9"/>
           <rect x="0" y="50%" width="100%" height="50%" fill="#d8dee9"/>
         </svg>

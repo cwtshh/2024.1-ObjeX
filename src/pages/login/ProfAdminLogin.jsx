@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import NavBarLoginAdmin from '../../components/navbar/navbar-login/NavBarLoginAdmin'
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { ToastifyNotificate } from '../../components/toast/Toastify';
 
 const ProfAdminLogin = () => {
   // variaveis para armazenar email e senha digitados
@@ -13,17 +15,20 @@ const ProfAdminLogin = () => {
 
   const handleSubmit = async(e) => {
     // previne a página de recarregar ao enviar o formulário
+    console.log("Estou logado")
+    
     e.preventDefault();
     if(!email || !senha) {
       alert('Preencha todos os campos');
       return;
     }
-    // 
-    if(await login({ email, senha }, 'admin')) {
+    const login_action = await login({ email, senha }, 'admin');
+    console.log(login_action.passou)
+    if(login_action.passou === true) {
       navigate('/admin/dashboard');
       return;
     }
-    alert('Email ou senha incorretos');
+    ToastifyNotificate({ message: login_action.retorno, type: 'error' });
   }
 
   const handleForgot = async(e) => {
@@ -83,7 +88,7 @@ const ProfAdminLogin = () => {
           </div>
         </div>
       </div>
-        
+      <ToastContainer />
     </div>
   )
 }

@@ -3,6 +3,8 @@ import NavBarLoginAdmin from '../../components/navbar/navbar-login/NavBarLoginAd
 import Loading from '../../components/loading/Loading';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { ToastifyNotificate } from '../../components/toast/Toastify';
+import { ToastContainer } from 'react-toastify';
 
 const LoginAluno = () => {
     const [ matricula, setMatricula ] = useState('');
@@ -25,6 +27,7 @@ const LoginAluno = () => {
             return;
         }
         setIsLoading(false);
+        ToastifyNotificate({ message: logar.retorno, type: 'error' });
         setError(`${logar.retorno.response.data.message}!`);
     }
 
@@ -90,7 +93,7 @@ const LoginAluno = () => {
                     </div>
                 </div>
             </div>
-            
+            <ToastContainer />
         </div>
     )
 }
