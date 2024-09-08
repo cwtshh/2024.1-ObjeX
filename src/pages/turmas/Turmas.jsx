@@ -6,6 +6,10 @@ import { API_BASE_URL } from '../../util/constants';
 import SideBar from '../../components/sidebar/SideBar';
 import NotifyToast from '../../components/toast/NotifyToast';
 import ExcelJS from 'exceljs';
+import { ToastifyNotificate } from '../../components/toast/Toastify';
+import { ToastContainer } from 'react-toastify';
+import DeleteTurmaModal from '../../components/delete-turma-modal/DeleteTurmaModal';
+import TurmaCard from '../../components/turma-card/TurmaCard';
 
 const Turmas = () => {
 
@@ -13,12 +17,19 @@ const Turmas = () => {
     const [horario, setHorario] = useState('')
     const [turmas, setTurmas] = useState([])
     const [turmasFiltradas, setTurmasFiltradas] = useState([])
+    const [ error, setError ] = useState(false);
     const modal_create = useRef(null)
     const { token } = useAuth();
     const { user } = useAuth();
 
     const create_turma = async (e) => {
         e.preventDefault()
+
+        if(nome === '' || horario === '') {
+            setError(true);
+            ToastifyNotificate({ message: 'Preencha todos os campos', type: 'error' });
+            return;
+        }
 
         await axios.post(`${API_BASE_URL}/turma/admin`, {
             nome: nome,
@@ -33,6 +44,7 @@ const Turmas = () => {
             setHorario('')
             modal_create.current.close()
             get_turmas()
+            ToastifyNotificate({ message: 'Turma criada com sucesso', type: 'success' });
         }).catch(err=>{
             NotifyToast({ message: 'Erro ao criar turma', toast_type: 'erro' });
             console.log(err.message)
@@ -58,11 +70,12 @@ const Turmas = () => {
         headers: {
             Authorization: `Bearer ${token}`
         }
-       }).then(res=>{
-        NotifyToast({ message: 'Turma deletado com sucesso', toast_type: 'sucesso' });
+        }).then(res=>{
+        ToastifyNotificate({ message: 'Turma deletada com sucesso', type: 'success' });
         get_turmas()
+        
        }).catch(err =>{
-        NotifyToast({ message: 'Erro ao deletar turma', toast_type: 'erro' });
+            ToastifyNotificate({ message: 'Erro ao deletar turma', type: 'error' });
             console.log(err.message)
        })
     }
@@ -88,9 +101,9 @@ const Turmas = () => {
     }, [])
 
     return (
-        <div>
+        <div className='bg-base-200'>
             <NavBarMenu />
-            <div className='flex justify-center pt-[65px]'>
+            <div className='flex justify-center pt-[75px]'>
                 <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
                     <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
                         <SideBar user_role={'admin'} />
@@ -130,24 +143,27 @@ const Turmas = () => {
                                 {/* <!-- Card --> */}
                                 {turmasFiltradas.map((turma,index) => {
                                     return (
-                                        <ul key={index} className="list-none bg-base-100 pl-4 pr-4">
-                                            <li className="p-4 m-2 bg-base-300 rounded-lg">
-                                                <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
-                                                    <div className='flex flex-col md:w-[19vw] pb-4'>
-                                                        <h2 className="text-xl font-bold truncate">{turma.nome}</h2>
-                                                    </div>
-                                                    <div className='flex flex-col md:w-[30vw] pb-4'>
+                                        // <ul key={index} className="list-none bg-base-100 pl-4 pr-4">
+                                        //     <li className="p-4 m-2 bg-base-300 rounded-lg">
+                                        //         <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
+                                        //             <div className='flex flex-col md:w-[19vw] pb-4'>
+                                        //                 <h2 className="text-xl font-bold truncate">{turma.nome}</h2>
+                                        //                 <h2>{turma.professor !== null ? (<>Professor Responsável: <strong>{turma.professor.nome}</strong></>): (<p className='font-bold text-red-500'>Turma sem professor, favor adicionar!</p>)}</h2>
+                                        //                 <p>Total de alunos: {qtd_alunos}</p>
+                                        //             </div>
+                                        //             <div className='flex flex-col md:w-[30vw] pb-4'>
+                                        //                 <h1 className="truncate">{turma.horario === '0' ? (<p>Horário indisponivel</p>) : (<>{turma.horario}</>)}</h1>
+                                        //             </div>
 
-                                                        <p className="truncate">{turma.horario}</p>
-                                                    </div>
-
-                                                    <div className='flex gap-4 flex-row  justify-between'>
-                                                        <button className='btn btn-error text-base-100 rounded-lg' onClick={() => { deletar_turma(turma._id) }}>Excluir</button>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            {/* ))} */}
-                                        </ul>
+                                        //             <div className='flex gap-4 flex-row  justify-between'>
+                                        //                 <button disabled={user.turma._id === turma._id} className='btn btn-error text-base-100 rounded-lg' onClick={() => document.getElementById(`${turma._id}-modal`).showModal()}>Excluir</button>
+                                        //             </div>
+                                        //         </div>
+                                        //     </li>
+                                        //     <DeleteTurmaModal turma={turma} trigger_reload={get_turmas}/>
+                                        //     {/* ))} */}
+                                        // </ul>
+                                        <TurmaCard key={index} turma={turma} trigger_reload={get_turmas} />
                                     )
                                 })}
                             </div>
@@ -157,29 +173,29 @@ const Turmas = () => {
                 <dialog ref={modal_create} className="modal">
                     <div className="modal-box flex flex-col justify-center items-center">
                         <h3 className='font-bold text-lg'>Criar Turma</h3>
-                        <form onSubmit={create_turma} className='flex flex-col justify-center gap-2 w-3/4'>
-                            <label className="form-control">
+                        <form onSubmit={create_turma} className='flex flex-col justify-center gap-5 w-3/4'>
+                            <label className="form-control h-28">
                                 <div className="label">
                                     <span className="label-text">Nome:</span>
                                 </div>
                                 <input
                                     onChange={e => setNome(e.target.value)}
                                     type="text"
-                                    className="input input-bordered"
+                                    className={`input ${error ? 'input-error' : 'input-bordered '}`}
                                 />
+                                {error && <p className='text-red-500 text-sm'>Campo obrigatório</p>}
                             </label>
-                            <label className="form-control">
+                            <label className="form-control h-28">
                                 <div className="label">
                                     <span className="label-text">Horario:</span>
                                 </div>
                                 <input
                                     onChange={e => setHorario(e.target.value)}
                                     type="text"
-                                    className="input input-bordered"
+                                    className={`input ${error ? 'input-error' : 'input-bordered '}`}
                                 />
+                                {error && <p className='text-red-500 text-sm'>Campo obrigatório</p>}
                             </label>
-
-
                             <button type='submit' className='btn btn-primary text-white'>Criar Turma</button>
                         </form>
                     </div>
@@ -194,7 +210,7 @@ const Turmas = () => {
                     <rect x="0" y="50%" width="100%" height="50%" fill="#d8dee9" />
                 </svg>
             </div>
-
+            <ToastContainer />
         </div>
     )
 };

@@ -1,45 +1,153 @@
 import React from 'react'
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu'
 import { Link } from 'react-router-dom';
 import SideBar from '../../components/sidebar/SideBar';
+import { PROFESSOR_ENDPOINT, ALUNO_ENDPOINT, GRUPO_ENDPOINT, API_BASE_URL, ATIVIDADE_ENDPOINT } from '../../util/constants';
+import axios from 'axios';
 
 const AdminDashboard = () => {
-  const { logout, user } = useAuth();
+  const { user, token } = useAuth();
+
+  const [todasTurmas, setTodasTurmas] = useState([]);
+  const [professores, setProfessores] = useState([]);
+  const [alunos, setAlunos] = useState([]);
+  const [grupos, setGrupos] = useState([]);
+  const [atividades, setAtividades] = useState([]);
+
+  
+  const get_turmas = async () => {
+    await axios.get(`${API_BASE_URL}/turma/admin`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response) => {
+      setTodasTurmas(response.data.turmas);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  const get_professores = async () => {
+    await axios.get(`${PROFESSOR_ENDPOINT}/admin/get`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response) => {
+      setProfessores(response.data);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  const get_alunos = async () => {
+    await axios.get(`${ALUNO_ENDPOINT}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response) => {
+      setAlunos(response.data);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  const get_grupos = async () => {
+    await axios.get(`${GRUPO_ENDPOINT}/`, {
+    }).then((response) => {
+      setGrupos(response.data);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  const get_atividades = async () => {
+    await axios.get(`${ATIVIDADE_ENDPOINT}/get`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then((response) => {
+      setAtividades(response.data);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+  
+  useEffect(() => {
+    get_alunos();
+    get_atividades();
+    get_grupos();
+    get_professores();
+    get_turmas();
+  }, []);
+
   return (
-    <div>
+    <div className='bg-base-200'>
 
       <NavBarMenu />
-      <div className='flex justify-center pt-[65px]'>
+        <div className='flex md:relative justify-center pt-[75px]'>
           <div className='flex justify-center items-center md:items-stretch flex-col md:flex-row md:left-[50px] md:w-[92vw]'>
             <div className='z-[1] md:absolute md:left-0 md:ml-[62px]'>
               <SideBar user_role={'admin'} />
             </div>
-            <div className='z-[1] flex justify-center pt-[10px] md:h-[85vh] overflow-y-auto'>
-              {/* colocar o resto do conteúdo aqui */}
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 z-[1] gap-x-12 gap-y-6 p-4'>
-                <Link to='#'>
-                  <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
-                  <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
+
+            <div className='z-[1] md:absolute md:right-0 md:mr-[62px] lg:mr-[0px]  xl:mr-[0px] lg:relative xl:relative lg:center xl:center flex justify-center md:h-[60vh] overflow-y-2'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 z-[1] gap-x-12 md:gap-y-12 gap-y-12 md:mt-0 mt-12'>
+              <Link to="/admin/professores" className='h-[200px]'>
+                    <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
+                    <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
+                    </div>
+                    
+                    <div className="ml-[20px] mt-[20px]">
+                      <svg
+                        viewBox="0 0 448 512"
+                        fill="#5e81ac"
+                        height="100px"
+                        width="100px"
+                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#5e81ac"
+                        >
+                        <path d="M219.3.5c3.1-.6 6.3-.6 9.4 0l200 40C439.9 42.7 448 52.6 448 64s-8.1 21.3-19.3 23.5L352 102.9V160c0 70.7-57.3 128-128 128S96 230.7 96 160v-57.1l-48-9.6v65.1l15.7 78.4c.9 4.7-.3 9.6-3.3 13.3S52.8 256 48 256H16c-4.8 0-9.3-2.1-12.4-5.9s-4.3-8.6-3.3-13.3L16 158.4V86.6C6.5 83.3 0 74.3 0 64c0-11.4 8.1-21.3 19.3-23.5l200-40zm-90.2 322.7l83.2 88.4c6.3 6.7 17 6.7 23.3 0l83.2-88.4c73.7 14.9 129.1 80 129.1 158.1 0 17-13.8 30.7-30.7 30.7H30.7C13.8 512 0 498.2 0 481.3c0-78.1 55.5-143.2 129.1-158.1z" />
+                      </svg>
+                    </div>
+                    
+
+                    <div className="flex justify-between ml-[25px]">
+                      <p className="text-2xl mt-[10px]">Professores</p>
+                      <p className="text-5xl mr-[10px]">{professores.length}</p>
+      
+                    </div>
                   </div>
-                  <div className="ml-[20px] mt-[20px]">
-                    <svg width="100px" height="100px" viewBox="0 0 1024 1024" className="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                </Link>
+
+                <Link to="/admin/alunos" className='h-[200px]'>
+                    <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
+                    <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
+                    </div>
+                    
+                    <div className="ml-[20px] mt-[20px]">
+                      <svg width="100px" height="100px" viewBox="0 0 1024 1024" className="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
                       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                       <g id="SVGRepo_iconCarrier">
                       <path d="M512 480a224 224 0 1 0-224-224 224 224 0 0 0 224 224z m0-384a160 160 0 1 1-160 160 160 160 0 0 1 160-160zM989.44 947.84a32 32 0 0 0-6.72-10.56 37.12 37.12 0 0 0-10.56-6.72 32 32 0 0 0-34.88 6.72 36.8 36.8 0 0 0-6.72 10.56 26.56 26.56 0 0 0-2.56 12.16 32 32 0 0 0 2.24 12.16 39.04 39.04 0 0 0 7.04 10.56 32 32 0 0 0 34.88 6.72 37.12 37.12 0 0 0 10.56-6.72 32 32 0 0 0 6.72-34.88zM832 928h-160a32 32 0 0 0 0 64h160a32 32 0 0 0 0-64z" 
-                        fill="#5e81ac"></path>
+                      fill="#5e81ac"></path>
                       <path d="M941.44 862.08a32 32 0 0 0 18.56-41.6 480 480 0 0 0-926.4 137.28 32 32 0 0 0 32 34.24H544a32 32 0 0 0 0-64H101.44a416 416 0 0 1 800-84.48 32 32 0 0 0 40 18.56z" 
-                        fill="#5e81ac"></path></g>
-                        </svg>
+                      fill="#5e81ac"></path></g>
+                      </svg>
                     </div>
+                    
+
                     <div className="flex justify-between ml-[25px]">
                       <p className="text-2xl mt-[10px]">Alunos</p>
-                      <p className="text-5xl mr-[10px]">364</p>
+                      <p className="text-5xl mr-[10px]">{alunos.length}</p>
+      
                     </div>
                   </div>
                 </Link>
-                <a href="">
+
+                <Link to="/admin/turmas">
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
                     </div>
@@ -55,29 +163,12 @@ const AdminDashboard = () => {
                     </div>
                     <div className="flex justify-between ml-[25px]">
                       <p className="text-2xl mt-[10px]">Turmas</p>
-                      <p className="text-5xl mr-[10px]">26</p>
+                      <p className="text-5xl mr-[10px]">{todasTurmas.length}</p>
                     </div>
                   </div>
-                </a>
-                <a href="">
-                    <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
-                    <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
-                    </div>
-                    
-                    <div className="ml-[20px] mt-[20px]">
-                      <svg width="100px" height="100px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" strokeWidth="3" stroke="#5e81ac" fill="none">
-                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier"><path d="M43.31,37.52A11.83,11.83,0,0,1,31.25,49.35,12.1,12.1,0,0,1,19.63,37.12V20.64a.1.1,0,0,1,.08-.1,90.43,90.43,0,0,1,12.08-1,82.5,82.5,0,0,1,11.57,1,.09.09,0,0,1,.07.1Z"></path><path d="M19.63,26,9,20.47a.1.1,0,0,1,0-.18L31.49,8.86h.09L54,20.17a.1.1,0,0,1,0,.18L43.43,26"></path><path d="M19.63,32.19H17.7s-2.94,0-2.94,4.52c0,4.17,2.93,4.17,2.93,4.17l2.51-.05"></path><path d="M43.3,32.7h1.93s3,0,3,4.53c0,4.17-2.94,4.17-2.94,4.17H42.65"></path><line x1="52.72" y1="45.04" x2="52.72" y2="21.03"></line><circle cx="52.72" cy="47.36" r="2.31"></circle><polyline points="37.76 47.53 37.76 55.15 25.89 55.15 25.89 47.95"></polyline><path d="M43.43,30.13a63,63,0,0,0-11.61-1,60.25,60.25,0,0,0-12.19,1"></path></g>
-                      </svg>  
-                    </div>
-                    <div className="flex justify-between ml-[25px]">
-                      <p className="text-2xl mt-[10px]">Monitores</p>
-                      <p className="text-5xl mr-[10px]">4</p>
-                    </div>
-                  </div>
-                </a>
-                <a href="">
+                </Link>
+
+                <Link to="/admin/grupos">
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
                     </div>
@@ -89,10 +180,29 @@ const AdminDashboard = () => {
                     </div>
                     <div className="flex justify-between ml-[25px]">
                       <p className="text-2xl mt-[10px]">Grupos</p>
-                      <p className="text-5xl mr-[10px]">6</p>
+                      <p className="text-5xl mr-[10px]">{grupos.length}</p>
                     </div>
                   </div>
-                </a>
+                </Link>
+
+                <Link to="/admin/atividades" className='h-[200px]'>
+                    <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
+                    <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
+                    </div>
+                    
+                    <div className="ml-[20px] mt-[20px]">
+                      <svg height="100px" width="100px" viewBox="0 0 64 64"> <path fill="none" stroke={`#5e81ac`} strokeMiterlimit={10} strokeWidth={4} d="M11 1h42v62H11zM41 1v61M15 16H7M15 8H7M15 24H7M15 32H7M15 40H7M15 48H7M15 56H7" /> </svg>
+                    </div>
+                    
+
+
+                    <div className="flex justify-between ml-[25px]">
+                      <p className="text-2xl mt-[10px]">Atividades</p>
+                      <p className="text-5xl mr-[10px]">{atividades.length}</p>
+      
+                    </div>
+                  </div>
+                </Link>
               </div>
             </div>
         </div>

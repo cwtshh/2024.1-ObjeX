@@ -22,7 +22,7 @@ const ListaGruposProf = () => {
   const [ capacidade, setCapacidade ] = useState('');
 
   const get_groups = async() => {
-    await axios.get(`${GRUPO_ENDPOINT}/${user.turma}`).then((res) => {
+    await axios.get(`${GRUPO_ENDPOINT}/${user.turma._id}`).then((res) => {
       setGrupos(res.data);
       setFilteredGroups(res.data);
     }).catch(err => {
