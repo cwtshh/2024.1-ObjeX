@@ -5,7 +5,10 @@ const get_turma = async (req,res)=>{
 
     try{
         //Econtra uma turma por id
-        const turma = await Turma.findById(id)
+        const turma = await Turma.findById(id).populate({
+            path: 'professor',
+            select: 'nome'
+        })
 
         //Caso a turma exista 
         if(turma){

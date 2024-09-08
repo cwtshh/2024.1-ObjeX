@@ -24,8 +24,8 @@ router.get('/admin', get_turmas); // TODO adicionar verificacao de token novamen
 router.get('/qtd/:id', get_qtd_alunos)
 
 //Endpoint para obter turma
-router.get('/:id', authenticate_token_prof, get_turma);
-router.get('/admin/:id', authenticate_token_adm, get_turma);
+router.get('/:id', get_turma);
+router.get('/admin/:id', get_turma);
 
 //Endpoint para registro de turma
 router.post('/', TurmaValidation(), validate, register_turma); // TODO adicionar validacao de token novamente

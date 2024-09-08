@@ -2,7 +2,7 @@ const Aluno = require("../../models/Aluno");
 
 const get_alunos = async (req, res) => {
     try {
-        const alunos = await Aluno.find().select('nome email matricula turma');
+        const alunos = await Aluno.find().select('nome email matricula turma active');
 
         if (alunos.length > 0) {
             return res.status(200).json(alunos);
