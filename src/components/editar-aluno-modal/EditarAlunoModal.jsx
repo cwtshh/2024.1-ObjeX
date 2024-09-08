@@ -23,24 +23,34 @@ const EditarAlunoModal = ({ aluno, trigger_reload }) => {
             trigger_reload()
             document.getElementById(`${aluno._id}-modal`).close()
         }).catch(err => {
-            console.log('deu ruim')
+            // console.log('deu ruim')
         })
     }
-
     return (
         <dialog id={`${aluno._id}-modal`} className="modal">
             <div className="modal-box flex flex-col justify-center items-center">
-                <h3 className='font-bold text-lg'>Editar ALuno</h3>
+                <h3 className='font-bold text-lg'>Editar Aluno</h3>
                     <form onSubmit={update_aluno} className='flex flex-col justify-center gap-2 w-3/4'>
                     <label className="form-control">
                                 <div className="label">
                                     <span className="label-text">Email do Aluno:</span>
                                 </div>
-                                <input
-                                    onChange={e => setEmail(e.target.value)}
-                                    type="text"
-                                    className="input input-bordered"
-                                />
+                                {aluno.active ? (
+                                    <input
+                                        onChange={e => setEmail(e.target.value)}
+                                        type="text"
+                                        className="input input-bordered"
+                                        placeholder={aluno.email}
+                                    />
+                                ) : (
+                                    <>
+                                        <input 
+                                            readOnly
+                                            className='input input-error text-red-500'
+                                            placeholder='Aluno inativo'
+                                        />
+                                    </>
+                                )}
                             </label>
                             <label className="form-control">
                                 <div className="label">
@@ -48,6 +58,7 @@ const EditarAlunoModal = ({ aluno, trigger_reload }) => {
                                 </div>
                                 <input
                                     onChange={e => setNome(e.target.value)}
+                                    placeholder={aluno.nome}
                                     type="text"
                                     className="input input-bordered"
                                 />
@@ -59,6 +70,7 @@ const EditarAlunoModal = ({ aluno, trigger_reload }) => {
                                 </div>
                                 <input
                                     onChange={e => setMatricula(e.target.value)}
+                                    placeholder={aluno.matricula}
                                     type="text"
                                     className="input input-bordered"
                                 />
