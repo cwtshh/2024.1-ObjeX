@@ -14,23 +14,21 @@ const ProfLogin = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async(e) => {
-    // previne a página de recarregar ao enviar o formulário
     e.preventDefault();
     if(!email || !senha) {
       ToastifyNotificate({ message: 'Preencha todos os campos!', type: 'error' });
       return;
     }
     const login_action = await login({ email, senha }, 'professor');
-    console.log(login_action.retorno)
     if(login_action.passou) {
       navigate('/professor/dashboard');
       return;
     }
-    ToastifyNotificate({ message: login_action.retorno, type: 'error' });
+    ToastifyNotificate({ message: login_action.retorno.error, type: 'error' });
   }
 
   const handleForgot = async() => {
-    alert('Esqueceu a senha?');
+    ToastifyNotificate({ message: "Recuperar", type: 'error' });
   }
 
   return (

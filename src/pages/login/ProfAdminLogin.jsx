@@ -14,7 +14,6 @@ const ProfAdminLogin = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async(e) => {
-    // previne a página de recarregar ao enviar o formulário
     e.preventDefault();
     if(!email || !senha) {
       ToastifyNotificate({ message: 'Preencha todos os campos!', type: 'warning' });

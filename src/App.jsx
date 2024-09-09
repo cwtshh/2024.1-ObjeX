@@ -46,7 +46,7 @@ function App() {
           <Route path='/admin/dashboard' element={<ProtectedRoute roles={['admin']} element={AdminDashboard} />} />
           <Route path='/admin/alunos' element={<ProtectedRoute roles={['admin']} element={AlunosParaAdmin} />}/>
           <Route path='/admin/turmas' element={<ProtectedRoute roles={['admin']} element={Turmas} />} />
-          <Route path='/admin/grupos' element={<ProtectedRoute roles={['admin']} element={ListaGruposAdmin} />} />
+          {/* <Route path='/admin/grupos' element={<ProtectedRoute roles={['admin']} element={ListaGruposAdmin} />} /> */}
           <Route path='/admin/professores' element={<ProtectedRoute roles={['admin']} element={ListaDeProfessores} />}/>
           <Route path='/admin/atividades' element={<ProtectedRoute roles={['admin']} element={ListaAtividadesAdmin} />} />
           <Route path='/admin/atividade/editar/:id' element={<ProtectedRoute roles={['admin']} element={EditarAtividade} />} />

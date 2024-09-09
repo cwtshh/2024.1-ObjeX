@@ -94,6 +94,27 @@ const AdminDashboard = () => {
 
             <div className='z-[1] md:absolute md:right-0 md:mr-[62px] lg:mr-[0px]  xl:mr-[0px] lg:relative xl:relative lg:center xl:center flex justify-center md:h-[60vh] overflow-y-2'>
               <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 z-[1] gap-x-12 md:gap-y-12 gap-y-12 md:mt-0 mt-12'>
+              <Link to="/admin/turmas">
+                  <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
+                  <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
+                  </div>
+                  
+                  <div className="ml-[20px] mt-[20px]">
+                    <svg fill="#5e81ac" height="100px" width="100px" version="1.1" id="Layer_1" 
+                      xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xmlSpace="preserve" stroke="#5e81ac">
+                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                      <g id="SVGRepo_iconCarrier"> <g> 
+                      <g> <path d="M502.724,381.172h-2.783V78.796c0-5.123-4.153-9.276-9.276-9.276H21.334c-5.123,0-9.276,4.153-9.276,9.276v302.375H9.276 c-5.123,0-9.276,4.153-9.276,9.276v42.758c0,5.123,4.153,9.276,9.276,9.276h493.448c5.123,0,9.276-4.153,9.276-9.276v-42.758 C512,385.325,507.847,381.172,502.724,381.172z M30.61,88.071h450.78v293.099H166.03v-12.371h293.712 c5.123,0,9.276-4.153,9.276-9.276V109.721c0-5.123-4.153-9.276-9.276-9.276H52.25c-5.123,0-9.276,4.153-9.276,9.276v249.804 c0,5.123,4.153,9.276,9.276,9.276h21.025v12.371H30.61V88.071z M82.551,335.943c-5.123,0-9.276,4.153-9.276,9.276v5.029H61.526 V118.997h388.941v231.252H166.03v-5.029c0-5.124-4.153-9.277-9.276-9.277H82.551z M147.478,354.495v26.676H91.827v-26.676H147.478 z M493.448,423.93H18.552v-24.206h474.897V423.93z"></path> </g> </g> </g>
+                    </svg>
+                  </div>
+                  <div className="flex justify-between ml-[25px]">
+                    <p className="text-2xl mt-[10px]">Turmas</p>
+                    <p className="text-5xl mr-[10px]">{todasTurmas.length}</p>
+                  </div>
+                </div>
+              </Link>
+              
               <Link to="/admin/professores" className='h-[200px]'>
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
@@ -147,28 +168,7 @@ const AdminDashboard = () => {
                   </div>
                 </Link>
 
-                <Link to="/admin/turmas">
-                    <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
-                    <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
-                    </div>
-                    
-                    <div className="ml-[20px] mt-[20px]">
-                      <svg fill="#5e81ac" height="100px" width="100px" version="1.1" id="Layer_1" 
-                        xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xmlSpace="preserve" stroke="#5e81ac">
-                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier"> <g> 
-                        <g> <path d="M502.724,381.172h-2.783V78.796c0-5.123-4.153-9.276-9.276-9.276H21.334c-5.123,0-9.276,4.153-9.276,9.276v302.375H9.276 c-5.123,0-9.276,4.153-9.276,9.276v42.758c0,5.123,4.153,9.276,9.276,9.276h493.448c5.123,0,9.276-4.153,9.276-9.276v-42.758 C512,385.325,507.847,381.172,502.724,381.172z M30.61,88.071h450.78v293.099H166.03v-12.371h293.712 c5.123,0,9.276-4.153,9.276-9.276V109.721c0-5.123-4.153-9.276-9.276-9.276H52.25c-5.123,0-9.276,4.153-9.276,9.276v249.804 c0,5.123,4.153,9.276,9.276,9.276h21.025v12.371H30.61V88.071z M82.551,335.943c-5.123,0-9.276,4.153-9.276,9.276v5.029H61.526 V118.997h388.941v231.252H166.03v-5.029c0-5.124-4.153-9.277-9.276-9.277H82.551z M147.478,354.495v26.676H91.827v-26.676H147.478 z M493.448,423.93H18.552v-24.206h474.897V423.93z"></path> </g> </g> </g>
-                      </svg>
-                    </div>
-                    <div className="flex justify-between ml-[25px]">
-                      <p className="text-2xl mt-[10px]">Turmas</p>
-                      <p className="text-5xl mr-[10px]">{todasTurmas.length}</p>
-                    </div>
-                  </div>
-                </Link>
-
-                <Link to="/admin/grupos">
+                {/* <Link to="/admin/grupos">
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">
                     <div className="bg-[#2e3440] h-[25px] rounded-t-xl">
                     </div>
@@ -183,7 +183,7 @@ const AdminDashboard = () => {
                       <p className="text-5xl mr-[10px]">{grupos.length}</p>
                     </div>
                   </div>
-                </Link>
+                </Link> */}
 
                 <Link to="/admin/atividades" className='h-[200px]'>
                     <div className="bg-base-100 shadow h-[200px] w-[300px] rounded-xl hover:bg-[#d8dee9]">

@@ -1,7 +1,25 @@
 import React from "react"
 import { formatDateTime } from "../../util/date-util/ConverterData"
+import Loading from "../loading/Loading"
 
 const AtividadeVisModal = ({ atividade }) => {
+
+    const formatarTexto = (texto) => {
+        return texto.split('\n').map((linha, index) => {
+          if(linha === '') {
+            return (<br key={index}/>)
+          } 
+          else if(linha === '\r') {
+            return (<br key={index}/>)
+          }
+            return (
+                <p key={index}>
+                    {linha}
+                </p>
+            )
+        });
+    };
+
     return (
         <dialog id={`${atividade._id}_ver`} className="modal">
           <div className="modal-box flex flex-col md:gap-y-4 gap-y-3 max-w-screen-2xl max-h-[88vh] bg-base-200">
@@ -44,7 +62,7 @@ const AtividadeVisModal = ({ atividade }) => {
             <div className='flex flex-col w-full'>
                 <p className="text-lg font-extrabold opacity-70 pb-0.5 pt-1">Enunciado:</p>
                 <div className='flex flex-col bg-base-300 rounded-lg p-2 px-4 w-full h-[30vh] overflow-y-auto'>
-                    <p className="text-justify md:text-lg">{atividade.enunciado}</p>
+                    <p className="text-justify md:text-lg">{atividade.enunciado == undefined ? <Loading /> : formatarTexto(atividade.enunciado)}</p>
                 </div>
             </div>
           </div>

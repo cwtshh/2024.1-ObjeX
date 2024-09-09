@@ -27,7 +27,6 @@ const LoginAluno = () => {
             return;
         }
         setIsLoading(false);
-        console.log(logar)
         ToastifyNotificate({ message: logar.retorno.message, type: 'error' });
         setError(`${logar.retorno.message}!`);
     }

@@ -12,7 +12,7 @@ const NavBarMenu = () => {
   return (
       <div className="navbar bg-neutral-content fixed z-[4]">
         <div className="navbar-start">
-          <Link to={user.role === 'admin' ? '/admin/dashboard' : user.role === 'professor' ? '/professor/dashboard' : '/aluno/dashboard'} className="text-lg font-bold ml-2 hover:text-base-100"><div className='bg-base-200 px-4 py-2 rounded-xl hover:bg-neutral ml-12'>Home</div></Link>
+          <Link to={user.role === 'admin' ? '/admin/dashboard' : user.role === 'professor' ? '/professor/dashboard' : '/aluno/dashboard'} className="text-lg font-bold ml-14 hover:text-base-100"><div className='bg-base-200 px-4 py-2 rounded-xl hover:bg-neutral'>Home</div></Link>
         </div>
         <div className="navbar-center">
         </div>

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import NavBar from '../../components/navbar/navbar-login/NavBarLoginAdmin';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../util/constants';
 import { useAuth } from '../../context/AuthContext';
 import { ToastContainer, Icons, toast } from 'react-toastify';
+import Loading from '../../components/loading/Loading';
+import NavBarMenu from '../../components/navbar/navbar-menu/NavBarMenu';
 
 const AtividadeDeTexto = () => {
 
@@ -77,30 +78,45 @@ const AtividadeDeTexto = () => {
     })
   }
 
+  const formatarTexto = (texto) => {
+    return texto.split('\n').map((linha, index) => {
+      if(linha === '') {
+        return (<br key={index}/>)
+      } 
+      else if(linha === '\r') {
+        return (<br key={index}/>)
+      }
+        return (
+            <p key={index}>
+                {linha}
+            </p>
+        )
+    });
+  };
+
   useEffect(() => {
     get_atividade()
   }, [])
 
   return (
-    <div>
-      <NavBar/>
+    <div className='bg-base-200'>
+      <NavBarMenu />
         <div className='flex justify-center'>
-          <div className='w-full p-4 flex flex-col lg:flex-row gap-4 justify-center'>
-            <div className='bg-base-100 h-[720px] lg:w-[650px] w-full rounded-xl shadow'>
+          <div className='w-full p-4 flex flex-col lg:flex-row gap-4 justify-center pt-20'>
+            <div className='bg-base-100 h-[83vh] lg:w-[650px] w-full rounded-xl shadow'>
               <div className="bg-[#2e3440] h-[25px] rounded-t-xl"></div>
               <div className="bg-[#d8dee9] h-[75px] text-4xl flex items-center justify-center">
                 <h1>{atividade.nome}</h1>
               </div>
               <div className='flex justify-center'>
-                <div className='overflow-y-scroll w-full pt-[20px] pl-[20px] h-[600px]'>
-                  <p className="h-[500px]">{atividade.enunciado}</p>
-
+                <div className='overflow-y-scroll w-full pt-[20px] pl-[20px] h-[70vh]'>
+                  <span className="h-[65vh]">{atividade.enunciado == undefined ? <Loading /> : formatarTexto(atividade.enunciado)}</span>
                 </div>
               </div>
             </div>
 
-            <div className='h-[720px] lg:w-[650px] w-full rounded-xl flex flex-col gap-4'>
-            <div className='bg-base-100 h-[740px] w-full rounded-xl shadow relative flex'>
+            <div className='h-[83vh] lg:w-[650px] w-full rounded-xl flex flex-col gap-4'>
+            <div className='bg-base-100 h-[83vh] w-full rounded-xl shadow relative flex'>
               <div className='bg-[#2e3440] w-[25px] h-full rounded-l-xl'>
               </div>
               
@@ -116,7 +132,7 @@ const AtividadeDeTexto = () => {
                   </textarea>
 
               <div className='absolute bottom-0 right-0 m-4'>
-                <button onClick={() => responder_atividade()} className='w-[90px] h-[24px] bg-[#5e81ac] text-base-100 rounded-xl'>Enviar</button>
+                <button onClick={() => responder_atividade()} className='w-[110px] h-[38px] bg-[#5e81ac] text-base-100 rounded-lg'>Enviar</button>
               </div>
             </div>
           </div>

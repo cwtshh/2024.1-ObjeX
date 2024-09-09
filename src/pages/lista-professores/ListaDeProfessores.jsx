@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import { ToastifyNotificate } from '../../components/toast/Toastify';
 import CriarProfessorModal from '../../components/criar-professor-modal/CriarProfessorModal';
 import DeleteProfessorModal from '../../components/delete-professor-modal/DeleteProfessorModal';
-
+import placeholder from '../../assets/avatar-placeholder.png';
 
 
 const ListaDeProfessores = () => {
@@ -228,8 +228,8 @@ const ListaDeProfessores = () => {
                                 <li key={professor._id} className="list-none p-4 m-2 bg-base-300 rounded-lg">
                                     <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
                                         <div className='flex md:w-[40%] h-full md:pb-0 pb-4'>
-                                            <div className="w-14 h-14 rounded-full overflow-hidden md:pb-0 mb-4">
-                                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="Professor" />
+                                            <div className="w-12 h-12 rounded-full overflow-hidden md:pb-0 mb-4 ring-neutral ring-offset-base-300 ring ring-offset-1">
+                                                <img src={placeholder} alt={`Imagem Professor ${professor.nome}`} />
                                             </div>
                                             <div className='ml-5'>
                                                 <p className="text-xl font-bo">{professor.nome}</p>

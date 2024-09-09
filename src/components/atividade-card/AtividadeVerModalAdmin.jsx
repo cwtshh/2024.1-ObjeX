@@ -8,13 +8,18 @@ const AtividadeVerModalAdmin = ({ atividade, trigger_reload }) => {
     const [ data_abertura, setDataAbertura ] = useState(atividade.data_abertura)
     const [ data_encerramento, setDataEncerramento ] = useState(atividade.data_encerramento)
 
+    const format_datetime = (datetime) => {
+        const date = new Date(datetime);
+        return date;
+      }
+
     const update_atividade = async() => {
         await axios.patch(`${API_BASE_URL}/atividade/update`, {
             id: atividade._id,
             nome: nome,
             enunciado: enunciado,
-            data_abertura: data_abertura,
-            data_encerramento: data_encerramento
+            data_abertura: format_datetime(data_abertura),
+            data_encerramento: format_datetime(data_encerramento)
         }).then((res) => {
             trigger_reload();
             document.getElementById(atividade._id).close()

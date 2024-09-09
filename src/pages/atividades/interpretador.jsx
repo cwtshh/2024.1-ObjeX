@@ -8,7 +8,8 @@ import { useParams } from 'react-router-dom';
 import { API_BASE_URL, CODE_API_BASE_URL } from '../../util/constants';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
-
+import { ToastifyNotificate } from '../../components/toast/Toastify';
+import Loading from '../../components/loading/Loading';
 
 const Interpretador = () => {
   const [ code, setCode ] = useState('');
@@ -17,6 +18,22 @@ const Interpretador = () => {
   const monaco = useMonaco();
   const { id } = useParams();
   const [ atividade, setAtividade ] = useState({});
+
+  const formatarTexto = (texto) => {
+    return texto.split('\n').map((linha, index) => {
+      if(linha === '') {
+        return (<br key={index}/>)
+      } 
+      else if(linha === '\r') {
+        return (<br key={index}/>)
+      }
+        return (
+            <p key={index}>
+                {linha}
+            </p>
+        )
+    });
+  };
 
   const getAtividade = async() => {
     await axios.get(`${API_BASE_URL}/atividade/get/atividade/${id}`).then((res) => {
@@ -35,9 +52,13 @@ const Interpretador = () => {
       usuario_id: user.id
     }).then((res) => {
       setOutput(res.data.message);
-      notify('success', 'Código enviado com sucesso');
+      if(res.data.status === 'error') {
+        ToastifyNotificate({type:'warning', message:'O código não passou! Verifique o Output.'});
+      } else {
+        ToastifyNotificate({type:'success', message:'O código passou!'});
+      }
     }).catch((err) => {
-      console.log(err);
+      ToastifyNotificate({type:'error', message:"Erro ao enviar o código!"});
     })
   }
 
@@ -149,31 +170,27 @@ const Interpretador = () => {
   }, [monaco, code]);
 
   return (
-    <div className='flex justify-center'>
+    <div className='flex justify-center bg-base-200'>
       <NavBarMenu />
       <div className='w-full p-4 flex flex-col lg:flex-row gap-4 justify-center'>
-        <div className='bg-base-100 h-[720px] lg:w-[650px] w-full rounded-xl mt-[65px] shadow'>
+        <div className='bg-base-100 h-[83vh] lg:w-[650px] w-full rounded-xl mt-[65px] shadow'>
           <div className="bg-[#2e3440] h-[25px] rounded-t-xl"></div>
           <div className="bg-[#d8dee9] h-[75px] text-4xl flex items-center justify-center">
             <h1>{atividade.nome}</h1>
           </div>
           <div className='flex justify-center'>
-            <div className='overflow-y-scroll w-full pt-[20px] p-[20px] h-[600px]'>
-            	<p className="h-[500px]">{atividade.enunciado}</p>
+            <div className='overflow-y-scroll w-full pt-[20px] p-[20px] h-[70vh]'>
+            	<span className="h-[70vh]">{atividade.enunciado == undefined ? <Loading /> : formatarTexto(atividade.enunciado)}</span>
             </div>
           </div>
         </div>
-        <div className='h-[690px] lg:w-[650px] w-full rounded-xl lg:mt-[90px] flex flex-col gap-4'>
-          <div className='bg-base-100 h-[450px] w-full rounded-xl shadow flex'>
+        <div className='h-[83vh] lg:w-[650px] w-full rounded-xl lg:mt-[65px] flex flex-col gap-4'>
+          <div className='bg-base-100 h-[53vh] w-full rounded-xl shadow flex'>
             <div className='bg-[#2e3440] w-[25px] h-full rounded-l-xl'>
               
             </div>
 	          <div className="w-full flex flex-col">
-            	<div className='bg-[#d8dee9] h-[30px] w-full rounded-tr-lg flex justify-end items-center pr-[10px]'>
-              	<button onClick={() => runCode()} className='w-[90px] h-[24px] bg-[#5e81ac] text-base-100 rounded-xl'>Enviar</button>
-
-            	</div>
-              <div className="h-[600px] w-full">
+              <div className="h-full w-full">
                 <Editor
                   height='100%'
                   defaultLanguage='python'
@@ -184,7 +201,8 @@ const Interpretador = () => {
               </div>
 	          </div>
           </div>
-          <div className='bg-base-100 h-[240px] w-full rounded-xl shadow flex items-center p-[10px]'>
+          <div className='bg-base-100 h-[30vh] w-full rounded-xl shadow flex flex-col items-center p-[10px]'>
+            <button onClick={() => runCode()} className='w-full h-[48px] bg-[#5e81ac] text-base-100 rounded-lg m-1'>Enviar</button>
             <div className='h-full w-full p-2 rounded-xl bg-[#2e3440]'>
               <p className='text-base-100'>output/: {output}</p>
             </div>
