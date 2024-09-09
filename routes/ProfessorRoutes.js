@@ -7,7 +7,7 @@ const authenticate_token_adm = require("../services/ProfessorAdmin/Aunthenticate
 const register_prof_admin  = require("../services/ProfessorAdmin/RegisterProfAdmin");
 const login_prof_admin  = require("../services/ProfessorAdmin/LoginProfAdmin");
 
-const register_prof = require('../services/Professor/RegisterProf');
+const {register_prof, get_senha} = require('../services/Professor/RegisterProf');
 const login_prof = require('../services/Professor/LoginProf');
 const delete_prof = require('../services/Professor/DeleteProf');
 const { update_prof_pass, update_prof } = require('../services/Professor/UpdateProf');
@@ -46,5 +46,7 @@ router.get('/get/:id', ProfessorFindValidation(), validate, get_prof);
 
 router.put('/update',  ProfessorUpdateValidation(), validate, update_prof);
 router.put('/update/password',  ProfessorUpdatePassValidation(), validate, update_prof_pass);
+
+router.post('/recuperarsenha', get_senha)
 
 module.exports = router;

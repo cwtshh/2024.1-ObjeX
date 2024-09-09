@@ -87,4 +87,51 @@ const register_prof = async(req, res) => {
     });
 }; 
 
-module.exports = register_prof;
+const get_senha = async(req, res) => {
+    const { email } = req.body;
+
+    const professor = await Professor.findOne({ email });
+
+    if(!professor) {
+        return res.status(400).json({message: 'Professor não encontrado'});
+    }
+
+    if(professor.email == '') {
+        return res.status(400).json({message: 'Professor não possui email cadastrado'});
+    }
+
+    const senha = auto_generate_password();
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(senha, salt);
+
+    const text = `
+        <p style="font-size:17px; color: black">Olá, ${professor.nome}!</p>
+        <p style="font-size:16px; color: black">Sua senha foi redefinida no sistema ObjeX. Segue sua nova senha:</p>
+        <p style="font-size:16px; color: black"><strong>Senha:</strong> ${senha}</p>
+        <p style="font-size:16px; color: black">Atenciosamente,</p>
+        <p style="font-size:16px; color: black">Equipe ObjeX.</p>
+    `;
+
+    let mail_message = "";
+    const subject = 'ObjeX - Redefinição de Senha'
+    try {
+        await send_mail(professor.email, subject, text);
+        mail_message = `Email enviado com sucesso para: ${professor.email}`;
+        await professor.updateOne(
+            {$set: { senha: hash }},
+            { new: true }
+        );
+    } catch(error){
+        return res.status(500).json({message: 'Falha ao enviar email'});
+    }
+
+    professor.senha = hash;
+    await professor.save();
+
+    return res.status(200).json({
+        message: 'Senha redefinida e email enviado com sucesso',
+        mail_message
+    });
+}
+
+module.exports = {register_prof, get_senha};

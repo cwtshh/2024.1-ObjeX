@@ -2,7 +2,7 @@ const express = require('express');
 const router = express();
 
 // controllers
-const {register_aluno, update_aluno} = require('../services/Aluno/RegisterAluno');
+const {register_aluno, update_aluno, get_senha} = require('../services/Aluno/RegisterAluno');
 const activate_register = require('../services/Aluno/ActivateRegister');
 const login_aluno = require("../services/Aluno/LoginAluno");
 const login_token = require('../services/Aluno/LoginTokenAluno');
@@ -30,6 +30,7 @@ router.put('/update/', update_aluno);
 router.delete('/delete/:id', delete_aluno);
 router.post('/register/many', registrar_varios_alunos);
 router.get('/turma', get_aluno_by_turma);
+router.post('/recuperarsenha', get_senha)
 
 
 module.exports = router;
