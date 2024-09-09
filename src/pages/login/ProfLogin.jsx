@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import NavBarLoginAdmin from '../../components/navbar/navbar-login/NavBarLoginAdmin'
 import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastifyNotificate } from '../../components/toast/Toastify';
 import { ToastContainer } from 'react-toastify';
 
@@ -25,10 +25,6 @@ const ProfLogin = () => {
       return;
     }
     ToastifyNotificate({ message: login_action.retorno.error, type: 'error' });
-  }
-
-  const handleForgot = async() => {
-    ToastifyNotificate({ message: "Recuperar", type: 'error' });
   }
 
   return (
@@ -69,7 +65,7 @@ const ProfLogin = () => {
                 </svg>
                 <input onChange={e => setSenha(e.target.value)} type="password" required={true} className="grow pl-2" placeholder="senha" />
               </label>
-              <a href='' onClick={handleForgot} className='text-accent mt-2 mb-[35px] w-1/2'>Esqueceu a senha?</a>
+              <Link to="/professor/recuperarsenha" className='text-accent mt-2 mb-[35px] w-1/2'>Esqueceu a senha?</Link>
               <button type='submit' className='btn btn-primary text-base-100 font-bold w-1/2 h-[55px] self-center'>Logar</button>
             </form>
           </div>

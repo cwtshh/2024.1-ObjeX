@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import NavBarLoginAdmin from '../../components/navbar/navbar-login/NavBarLoginAdmin'
 import Loading from '../../components/loading/Loading';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { ToastifyNotificate } from '../../components/toast/Toastify';
 import { ToastContainer } from 'react-toastify';
@@ -68,7 +68,7 @@ const LoginAluno = () => {
                             </svg>
                             <input onChange={e => setSenha(e.target.value)} type="password" required={true} className="grow pl-2" placeholder="senha" />
                         </label>
-                        <a href='' className='text-accent mt-2 mb-3 w-1/2'>Esqueceu a senha?</a>
+                        <Link to="/aluno/recuperarsenha" className='text-accent mt-2 mb-3 w-1/2'>Esqueceu a senha?</Link>
                         <div className='flex items-center justify-start'>
                           {error !== '' ? <p className='text-error text-base font-bold mb-2'>{error}</p> : <div className="mb-8"></div>}
                         </div>

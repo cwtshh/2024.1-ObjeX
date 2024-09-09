@@ -26,6 +26,8 @@ import AlunosParaAdmin from './pages/lista-alunos/AlunosParaAdmin'
 import AlunosParaProfessor from './pages/lista-alunos/AlunosParaProfessor'
 import Turmas from './pages/turmas/Turmas'
 import ListaDeProfessores from './pages/lista-professores/ListaDeProfessores'
+import AlunoRecuperar from './pages/recuperar-senha/AlunoRecuperar'
+import ProfessorRecuperar from './pages/recuperar-senha/ProfessorRecuperar'
 
 
 function App() {
@@ -41,6 +43,7 @@ function App() {
           <Route path='/professor/atividades' element={<ProtectedRoute roles={['professor']} element={ListaAtividadesProfessor} />} />
           <Route path='/professor/submissoes/:id' element={<ProtectedRoute roles={['professor']} element={ProfessorAtvSubmetidas} />} />
           <Route path='/professor/grupos' element={<ProtectedRoute roles={['professor']} element={ListaGruposProf} />} />
+          <Route path='/professor/recuperarsenha' element={<ProfessorRecuperar />} />
           {/* Rotas de admin */}
           <Route path='/login/admin' element={<ProfAdminLogin />} />
           <Route path='/admin/dashboard' element={<ProtectedRoute roles={['admin']} element={AdminDashboard} />} />
@@ -57,6 +60,7 @@ function App() {
           <Route path='/aluno/dashboard' element={<ProtectedRoute roles={['aluno']} element={AlunoDashboard} />} />
           <Route path='/aluno/grupos' element={<ProtectedRoute roles={['aluno']} element={AlunoGrupos} />} />
           <Route path='/aluno/atividades' element={<ProtectedRoute roles={['aluno']} element={AlunoAtividades} />} />
+          <Route path='/aluno/recuperarsenha' element={<AlunoRecuperar />} />
           {/* Rotas de exercicio */}
           <Route path='/atividade/interpretador/:id' element={<ProtectedRoute roles={['aluno']} element={Interpretador} />} />
           <Route path='/atividade/texto/:id' element={<ProtectedRoute roles={['aluno']} element={AtividadeDeTexto} />}/>

@@ -21,7 +21,7 @@ const SideBar = ({ user_role }) => {
             {user_role === 'aluno' ? (
                 <div className="bg-[#2e3440] md:h-[270px] rounded-t-xl flex flex-col items-center pt-[10px]">
                     <div className='avatar'>
-                        <div className='rounded-full w-[150px] h-[150px]'>
+                        <div className='rounded-full w-[150px] h-[150px] ring-neutral-content ring-offset-neutral ring ring-offset-2'>
                             {/* Deixa o EasterEgg do homi aqui */}
                             <img src={user.nome === 'Fabricio' ? "https://i.pinimg.com/736x/0a/a1/83/0aa183677a5cef59d35fcc051a23395f.jpg" : user_img} />
                         </div>
@@ -34,7 +34,7 @@ const SideBar = ({ user_role }) => {
                     </div>
                 </div>
             ) : (
-                <div className="bg-[#2e3440] md:h-[250px] rounded-t-xl flex flex-col items-center pt-[10px]">
+                <div className="bg-[#2e3440] md:h-[270px] rounded-t-xl flex flex-col items-center pt-[20px]">
                     <div className='avatar'>
                         <div className='rounded-full w-[150px] h-[150px] ring-neutral-content ring-offset-neutral ring ring-offset-2'>
                             <img src={placeholder} alt='Imagem do Usuário' />

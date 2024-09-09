@@ -65,13 +65,7 @@ const AtivarContaAluno = () => {
     return (
       <div>
             <NavBarLoginAdmin />
-            <div>
-                <svg className="absolute bottom-0 z-[-5] inset-y-0 right-0 w-full h-full">
-                <ellipse cx="65%" cy="50%" rx="20%" ry="50%" fill="#d8dee9"/>
-                <rect x="65%" width="50%" height="100%" fill="#d8dee9"/>
-                </svg>
-            </div>
-            <div className='pl-20 pr-20 pt-[100px] mb-[100px] flex items-center justify-center'>
+            <div className='pl-20 pr-20 md:pt-[100px] pt-[10px] mb-[100px] flex items-center justify-center'>
                 <div className="card bg-base-100 shadow-2xl">
                     <div className="card-body rounded-t-xl w-full h-[74px] items-center justify-center bg-base-content ">
                         <h2 className='text-2xl font-medium text-base-100'>Primeiro Acesso</h2>
