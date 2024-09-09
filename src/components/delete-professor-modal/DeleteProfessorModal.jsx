@@ -26,13 +26,13 @@ const DeleteProfessorModal = ({ professor, trigger_reload}) => {
     }
   return (
     <dialog id={`${professor._id}-delete`} className="modal">
-        <div className="modal-box flex flex-col justify-center items-center gap-6">
-            <h2 className='font-bold text-xl'>Excluir Professor</h2>
-            <h3 className=' text-lg'>Realmente deseja excluir <strong>{professor.nome}</strong> ?</h3>
-            <p className='text-red-500'>Esta ação é irreversível</p>
-            <div className='flex gap-6 w-full items-center justify-center'>
-                <button onClick={() => delete_professor()} type='submit' className='btn btn-error  text-white'>Excluir</button>
-                <button type='submit' className='btn btn-primary text-white'
+        <div className="modal-box flex flex-col gap-4">
+            <h2 className='font-bold text-xl flex justify-center items-center'>Excluir Professor</h2>
+            <h3 className='text-lg mt-3'>Realmente deseja excluir <strong>{professor.nome}</strong> ?</h3>
+            <p className='text-error font-bold mt-2'>Esta ação é irreversível</p>
+            <div className='flex items-center justify-between'>
+                <button onClick={() => delete_professor()} type='submit' className='btn btn-error text-white mt-4 w-5/12 rounded'>Excluir</button>
+                <button className='btn btn-primary text-white mt-4 w-5/12 rounded'
                     onClick={() => document.getElementById(`${professor._id}-delete`).close()}>Cancelar</button>
             </div>
         </div>

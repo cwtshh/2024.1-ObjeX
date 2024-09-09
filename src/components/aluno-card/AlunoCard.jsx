@@ -11,7 +11,6 @@ const AlunoCard = ({ aluno, trigger_reload}) => {
         await axios.get(`${API_BASE_URL}/turma/${aluno.turma}`).then(res => {
             // setProfessor(res.data);
             setProfessor(res.data.turma.professor.nome || 'Sem professor')
-            console.log(res.data.turma.professor.nome || 'Sem professor')
         }).catch(err => {
             ToastifyNotificate('error', 'Erro ao buscar professor', 'erro')
         })
@@ -21,8 +20,7 @@ const AlunoCard = ({ aluno, trigger_reload}) => {
         get_professor()
     }, [])
   return (
-    <ul className="list-none bg-base-100 pl-4 pr-4">
-        <li className="p-4 m-2 bg-base-300 rounded-lg">
+        <li key={aluno._id} className="p-4 m-2 bg-base-300 rounded-lg">
             <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
                 <div className='flex flex-col md:w-[19vw] pb-4'>
                     <h2 className="text-xl font-bold truncate">{aluno.nome}</h2>
@@ -39,15 +37,13 @@ const AlunoCard = ({ aluno, trigger_reload}) => {
                     <p>Professor: <strong>{professor ?  (professor) : (<>Sem professor</>)}</strong></p>
                 </div>
                 <div className='flex gap-4 flex-row  justify-between'>
-                    <button className='btn btn-accent text-base-100 rounded-lg' onClick={() => document.getElementById(`${aluno._id}-modal`).showModal()}>Editar</button>
+                    <button className='btn btn-neutral text-base-100 rounded-lg' onClick={() => document.getElementById(`${aluno._id}-modal`).showModal()}>Editar</button>
                     <button className='btn btn-error text-base-100 rounded-lg' onClick={() => document.getElementById(`${aluno._id}-delete`).showModal()}>Excluir</button>
                 </div>
                 <ExcluitAlunoModal aluno={aluno} trigger_reload={trigger_reload}/>
                 <EditarAlunoModal aluno={aluno} trigger_reload={trigger_reload}/>
             </div>
         </li>
-
-    </ul>
   )
 }
 

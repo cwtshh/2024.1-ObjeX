@@ -24,7 +24,7 @@ const TurmaCard = ({ turma, trigger_reload }) => {
             <div className="flex md:flex-row flex-col md:justify-between justify-between md:items-center items-middle">
                 <div className='flex flex-col md:w-[19vw] pb-4'>
                     <h2 className="text-xl font-bold truncate">{turma.nome}</h2>
-                    <h2>{turma.professor !== null ? (<>Professor Responsável: <strong>{turma.professor.nome}</strong></>): (<p className='font-bold text-red-500'>Turma sem professor, favor adicionar!</p>)}</h2>
+                    <h2>{turma.professor !== null ? (<>Responsável: <strong>{turma.professor.nome}</strong></>): (<p className='font-bold text-red-500'>Turma sem professor, favor adicionar!</p>)}</h2>
                     <p>Total de alunos: {qtd_alunos}</p>
                 </div>
                 <div className='flex flex-col md:w-[30vw] pb-4'>

@@ -42,6 +42,7 @@ function App() {
           <Route path='/professor/atividades' element={<ListaAtividadesProfessor />} />
           <Route path='/professor/submissoes/:id' element={<ProfessorAtvSubmetidas />} />
           <Route path='/professor/grupos' element={<ListaGruposProf />} />
+          {/* Rotas de admin */}
           <Route path='/login/admin' element={<ProfAdminLogin />} />
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/admin/alunos' element={<AlunosParaAdmin/>}/>

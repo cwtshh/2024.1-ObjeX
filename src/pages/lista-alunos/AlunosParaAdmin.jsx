@@ -205,15 +205,15 @@ const AlunosParaAdmin = () => {
                         </div>
 
                         <div className='flex flex-col p-6 overflow-scroll h-4/5'>
-                            <div>
+                            <ul className="list-none bg-base-100 pl-4 pr-4">
                                 {/* <!-- Card --> */}
                                 {alunosFiltrados.length === 0 ? (<><h1>Nenhum aluno encontrado</h1></>) : (alunosFiltrados.map((aluno, index) => {
                                     return (
-                                        <AlunoCard aluno={aluno} trigger_reload={get_alunos} />
+                                        <AlunoCard key={index} aluno={aluno} trigger_reload={get_alunos} />
                                     )
                                 }))
                                 }
-                            </div>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -313,7 +313,7 @@ const AlunosParaAdmin = () => {
                     <h3 className='font-bold text-lg gap-10 mb-10'>Realmente deseja excluir ?</h3>
                     <form onSubmit={()=>deletar_aluno(id)} className='flex flex-col justify-center gap-2 w-3/4'>
                         <button type='submit' className='btn btn-error rounded-lg text-white'>Excluir</button>
-                        <button type='submit' className='btn btn-primary text-white'
+                        <button className='btn btn-primary text-white'
                             onClick={() => document.getElementById('modal_delete').close()}>Cancelar</button>
                     </form>
                 </div>
