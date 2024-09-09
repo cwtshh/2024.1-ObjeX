@@ -7,6 +7,7 @@ const SideBar = ({ user_role }) => {
     const { user } = useAuth();
     const role = user.role;
     let result = role.charAt(0).toUpperCase() + role.slice(1);
+    const user_img = placeholder;
 
     const location = useLocation();
     const isActive = (path) => {
