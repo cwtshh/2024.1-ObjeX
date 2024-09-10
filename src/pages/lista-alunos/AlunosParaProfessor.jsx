@@ -67,6 +67,7 @@ const AlunosParaProfessor = () => {
         }).then(res => {
             get_alunos();
             ToastifyNotificate({type:'success', message:'Aluno deletado com sucesso!'})
+            document.getElementById('modal_delete').close()
         }).catch(err => {
             ToastifyNotificate({type:'error', message:'Error ao deletar aluno!'})
         })
@@ -320,9 +321,11 @@ const AlunosParaProfessor = () => {
                 <div className="modal-box flex flex-col justify-center items-center">
                     <h3 className='font-bold text-lg gap-10 mb-10'>Realmente deseja excluir ?</h3>
                     {/* <form onSubmit={deletar_aluno}> */}
+                    <div className='flex flex-row gap-5'>
                         <button onClick={() => deletar_aluno(id)} className='btn btn-error rounded-lg text-white'>Excluir</button>
                         <button className='btn btn-primary text-white'
                             onClick={() => document.getElementById('modal_delete').close()}>Cancelar</button>
+                    </div>
                     {/* </form> */}
                 </div>
                 
