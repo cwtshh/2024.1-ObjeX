@@ -337,11 +337,11 @@ const AlunosParaProfessor = () => {
                 <dialog ref={modal_delete} id="modal_delete" className="modal">
                 <div className="modal-box flex flex-col justify-center items-center">
                     <h3 className='font-bold text-lg gap-10 mb-10'>Realmente deseja excluir ?</h3>
-                    <form onSubmit={()=>deletar_aluno(id)} className='flex flex-col justify-center gap-2 w-3/4'>
-                        <button type='submit' className='btn btn-error rounded-lg text-white'>Excluir</button>
-                        <button type='submit' className='btn btn-primary text-white'
+                    {/* <form onSubmit={()=>deletar_aluno(id)} className='flex flex-col justify-center gap-2 w-3/4'> */}
+                        <button onClick={() => deletar_aluno(id)} className='btn btn-error rounded-lg text-white'>Excluir</button>
+                        <button className='btn btn-primary text-white'
                             onClick={() => document.getElementById('modal_delete').close()}>Cancelar</button>
-                    </form>
+                    {/* </form> */}
                 </div>
             </dialog>
             </div>
