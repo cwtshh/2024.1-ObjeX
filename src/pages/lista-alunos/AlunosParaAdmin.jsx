@@ -94,9 +94,10 @@ const AlunosParaAdmin = () => {
             }
         })
             .then(res => {
+                get_alunos();
                 notify({ message: 'Aluno deletado com sucesso', toast_type: 'sucesso' });
                 // Atualiza a lista de alunos após a exclusão
-                get_alunos();
+                document.getElementById('modal_delete').close()
             }).catch(err => {
                 notify({ message: 'Erro ao deletar aluno', toast_type: 'erro' });
                 console.error(err);
@@ -311,11 +312,11 @@ const AlunosParaAdmin = () => {
                 <dialog ref={modal_delete} id="modal_delete" className="modal">
                 <div className="modal-box flex flex-col justify-center items-center">
                     <h3 className='font-bold text-lg gap-10 mb-10'>Realmente deseja excluir ?</h3>
-                    <form onSubmit={()=>deletar_aluno(id)} className='flex flex-col justify-center gap-2 w-3/4'>
-                        <button type='submit' className='btn btn-error rounded-lg text-white'>Excluir</button>
-                        <button className='btn btn-primary text-white'
+                    <div className='flex flex-row gap-5'>
+                        <button onClick={() => deletar_aluno(id)} className='btn btn-error rounded text-white'>Excluir</button>
+                        <button className='btn btn-primary text-white rounded'
                             onClick={() => document.getElementById('modal_delete').close()}>Cancelar</button>
-                    </form>
+                    </div>
                 </div>
                 </dialog>
 

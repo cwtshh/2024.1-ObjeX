@@ -322,8 +322,8 @@ const AlunosParaProfessor = () => {
                     <h3 className='font-bold text-lg gap-10 mb-10'>Realmente deseja excluir ?</h3>
                     {/* <form onSubmit={deletar_aluno}> */}
                     <div className='flex flex-row gap-5'>
-                        <button onClick={() => deletar_aluno(id)} className='btn btn-error rounded-lg text-white'>Excluir</button>
-                        <button className='btn btn-primary text-white'
+                        <button onClick={() => deletar_aluno(id)} className='btn btn-error rounded text-white'>Excluir</button>
+                        <button className='btn btn-primary text-white rounded'
                             onClick={() => document.getElementById('modal_delete').close()}>Cancelar</button>
                     </div>
                     {/* </form> */}
