@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
                 } catch(err) {
                     return {
                         passou: false,
-                        retorno: err.response.data.error
+                        retorno: err.response.data
                     }
                 }
             }
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
                 } catch(err) {
                     return {
                         passou: false,
-                        retorno: err.response.data.error
+                        retorno: err.response.data
                     }
                 }
             }
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }) => {
                 } catch(err) {
                     return {
                         passou: false,
-                        retorno: err.response.data.error
+                        retorno: err.response.data
                     }
                 }
             }

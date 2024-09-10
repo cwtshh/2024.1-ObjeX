@@ -182,6 +182,8 @@ const Turmas = () => {
                                     onChange={e => setNome(e.target.value)}
                                     type="text"
                                     className={`input ${error ? 'input-error' : 'input-bordered '}`}
+                                    required={true}
+                                    minLength={3}
                                 />
                                 {error && <p className='text-red-500 text-sm'>Campo obrigatório</p>}
                             </label>
@@ -193,6 +195,8 @@ const Turmas = () => {
                                     onChange={e => setHorario(e.target.value)}
                                     type="text"
                                     className={`input ${error ? 'input-error' : 'input-bordered '}`}
+                                    required={true}
+                                    minLength={3}
                                 />
                                 {error && <p className='text-red-500 text-sm'>Campo obrigatório</p>}
                             </label>

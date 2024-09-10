@@ -19,7 +19,7 @@ const SubmissaoVerModal = ({ resposta, atividade }) => {
                 </p>
             )
         });
-    };    
+    };
 
     const getImagem = async () => {
         setIsLoading(true);
